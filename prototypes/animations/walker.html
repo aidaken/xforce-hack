@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Addy wanders — Study Remix prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #f4efe4; --ink: #1b2430; --rule: #c9bba3; --accent: #0f6b4c;
+    --plum: #4a1a3a; --teal: #2ebfb0; --sun: #f2b632; --lilac: #b48cf0;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: "Atkinson Hyperlegible", system-ui, sans-serif;
+    line-height: 1.55; padding: 32px 16px 64px;
+  }
+  h1, h2 { font-family: Lexend, sans-serif; letter-spacing: -0.01em; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; }
+  .sub { color: #5a6270; margin: 0 0 28px; max-width: 60ch; }
+  /* above the pet, but the wrapper itself lets clicks through to her; the cards catch their own */
+  .page { max-width: 880px; margin: 0 auto; position: relative; z-index: 1; pointer-events: none; }
+  .page > * { pointer-events: auto; }
+  .card {
+    background: #fffdf8; border: 1px solid var(--rule); border-radius: 14px;
+    padding: 20px 22px; margin-bottom: 18px;
+  }
+  .card h2 { font-size: 1.05rem; margin: 0 0 10px; }
+  .card p { margin: 0 0 10px; }
+  ol { padding-left: 22px; margin: 0; }
+  li { margin: 4px 0; }
+  .tools {
+    display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center;
+    font-size: 0.92rem; color: #5a6270;
+  }
+  .tools label { display: inline-flex; gap: 8px; align-items: center; cursor: pointer; }
+  .tools input[type=range] { width: 120px; accent-color: var(--accent); }
+  .btn {
+    font: inherit; padding: 6px 12px; border-radius: 8px; cursor: pointer;
+    border: 1px solid var(--rule); background: #fff; color: var(--ink);
+  }
+  .btn:hover { border-color: var(--accent); }
+  .btn input { display: none; }
+  code { background: #eee7d9; padding: 1px 5px; border-radius: 4px; font-size: 0.9em; }
+  .status { font-variant-numeric: tabular-nums; min-width: 9ch; }
+</style>
+</head>
+<body>
+<main class="page">
+  <h1>Addy wanders</h1>
+  <p class="sub">A screen companion that roams behind the page on its own. Grab it where it peeks out and drop it anywhere — it carries on from there. This page is just filler so you can see it moving under real content.</p>
+
+  <div class="card">
+    <h2>Controls</h2>
+    <div class="tools">
+      <label>Speed <input id="speed" type="range" min="20" max="200" value="70" /> <span id="speedv">70</span> px/s</label>
+      <button class="btn" id="pause">Pause</button>
+      <button class="btn" id="layer">Bring to front</button>
+      <label class="btn">Change character <input id="file" type="file" accept="image/*" /></label>
+      <span class="status" id="state">idle</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Cellular respiration — checklist</h2>
+    <ol>
+      <li>Glucose enters the cell and is split in the cytoplasm (glycolysis).</li>
+      <li>Pyruvate moves into the mitochondria.</li>
+      <li>The citric acid cycle strips off electrons and releases CO₂.</li>
+      <li>The electron transport chain pumps protons across the membrane.</li>
+      <li>ATP synthase uses that gradient to make ATP.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>Why it matters</h2>
+    <p>Every cell in your body runs this loop constantly. When you sprint, your muscle cells burn through glucose faster than oxygen can arrive, so they fall back on fermentation and you feel the burn.</p>
+    <p>Think of the mitochondrion as a tiny hydroelectric dam: the electron transport chain pumps water (protons) uphill, and ATP synthase is the turbine that spins as it flows back down.</p>
+  </div>
+
+  <div class="card">
+    <h2>Using it on another page</h2>
+    <p><code>&lt;script src="pet.js"&gt;&lt;/script&gt;</code> then <code>Pet.create({ image: "assets/addy.png", crop: 0.66 })</code>. When the art arrives, pass a <code>sprites</code> map instead — see the header of <code>pet.js</code>.</p>
+  </div>
+</main>
+
+<script src="pet.js"></script>
+<script>
+  const addy = Pet.create({
+    image: "assets/addy.png",
+    crop: 0.66,          // Addy's PNG has a wordmark under her; show only the top two thirds
+    facing: "right",
+    size: 120,
+    speed: 70,
+    layer: "behind",     // lives under the page; grab it where it peeks out
+  });
+
+  // --- demo controls -------------------------------------------------------
+  const speed = document.getElementById("speed"), speedv = document.getElementById("speedv");
+  speed.addEventListener("input", () => { addy.setSpeed(+speed.value); speedv.textContent = speed.value; });
+
+  const pauseBtn = document.getElementById("pause");
+  pauseBtn.addEventListener("click", () => {
+    if (addy.paused) { addy.resume(); pauseBtn.textContent = "Pause"; }
+    else { addy.pause(); pauseBtn.textContent = "Resume"; }
+  });
+
+  const layerBtn = document.getElementById("layer");
+  layerBtn.addEventListener("click", () => {
+    const behind = addy.el.classList.contains("behind");
+    addy.setLayer(behind ? "front" : "behind");
+    layerBtn.textContent = behind ? "Send to back" : "Bring to front";
+  });
+
+  document.getElementById("file").addEventListener("change", (e) => {
+    const f = e.target.files[0];
+    if (f) addy.setImage(URL.createObjectURL(f), { crop: 1 });
+  });
+
+  const state = document.getElementById("state");
+  setInterval(() => { state.textContent = addy.state; }, 120);
+</script>
+</body>
+</html>
