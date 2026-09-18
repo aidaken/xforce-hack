@@ -1,0 +1,20 @@
+---
+description: Shared Vercel project wiring — do not create a second project
+globs: "{vercel.json,config/vercel.json,docs/vercel.md,.vercel/**,public/**}"
+alwaysApply: false
+---
+
+# Shared Vercel
+
+This repo has a single Vercel project. All git branches deploy here.
+
+- Name: `xforce-hack`
+- Project ID: `prj_GXZ75tI8NCSyxSXNFiHanqcIp1Zc`
+- Team: `team_XS9LEdNQcwp4cYraijcCL30b` (slug `aidars-projects-c6143ce8`)
+- Dashboard: https://vercel.com/aidars-projects-c6143ce8/xforce-hack
+- Production: https://xforce-hack.vercel.app
+- GitHub: `aidaken/xforce-hack` (already linked)
+- Pinned IDs: `config/vercel.json`
+- Guide: `docs/vercel.md`
+
+Do not create a second Vercel project. Do not push to `main` to get a deploy — PR to `dev`. Never put `SUPABASE_SERVICE_ROLE_KEY` in Vercel env.
