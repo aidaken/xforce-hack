@@ -1,28 +1,22 @@
 {
-  "pages": [
-    { "id": "page-1", "name": "Pitch deck" },
-    { "id": "page-2", "name": "Product" }
-  ],
   "artboards": [
-    { "file": "Main.dc.html",       "x": 0,    "y": 0,    "w": 1440, "h": 900, "page": "page-1", "title": "01 · Rechapter" },
-    { "file": "Problem.dc.html",    "x": 1560, "y": 0,    "w": 1440, "h": 900, "page": "page-1", "title": "02 · The problem" },
-    { "file": "TwoReaders.dc.html", "x": 3120, "y": 0,    "w": 1440, "h": 900, "page": "page-1", "title": "03 · Two learners, two shapes" },
-    { "file": "AgentLoop.dc.html",  "x": 0,    "y": 1080, "w": 1440, "h": 900, "page": "page-1", "title": "04 · The agent loop" },
-    { "file": "SelfCheck.dc.html",  "x": 1560, "y": 1080, "w": 1440, "h": 900, "page": "page-1", "title": "05 · Nothing lost, nothing invented" },
-    { "file": "NotWorking.dc.html", "x": 3120, "y": 1080, "w": 1440, "h": 900, "page": "page-1", "title": "06 · When it isn't working" },
-    { "file": "Build.dc.html",      "x": 0,    "y": 2160, "w": 1440, "h": 900, "page": "page-1", "title": "07 · What we built" },
-    { "file": "Impact.dc.html",     "x": 1560, "y": 2160, "w": 1440, "h": 900, "page": "page-1", "title": "08 · Why it matters" },
-    { "file": "Team.dc.html",       "x": 3120, "y": 2160, "w": 1440, "h": 900, "page": "page-1", "title": "09 · Team & next" },
-
-    { "file": "Reader.dc.html",     "x": 0,    "y": 0,    "w": 1440, "h": 900, "page": "page-2", "title": "Reader — switch learner, switch shape", "is_interactive": true },
-    { "file": "Trace.dc.html",      "x": 1560, "y": 0,    "w": 1440, "h": 900, "page": "page-2", "title": "Fidelity check — trace every claim", "is_interactive": true },
-    { "file": "AdaptFlow.dc.html",  "x": 3120, "y": 0,    "w": 1440, "h": 900, "page": "page-2", "title": "Adaptation — three complaints, three repairs", "is_interactive": true }
+    { "file": "Main.dc.html",        "x": 0,    "y": 0,    "w": 1440, "h": 900, "title": "01 · ADDY" },
+    { "file": "Problem.dc.html",     "x": 1560, "y": 0,    "w": 1440, "h": 900, "title": "02 · The problem" },
+    { "file": "TwoReaders.dc.html",  "x": 3120, "y": 0,    "w": 1440, "h": 900, "title": "03 · Two learners, two shapes" },
+    { "file": "AgentLoop.dc.html",   "x": 0,    "y": 1080, "w": 1440, "h": 900, "title": "04 · The agent loop" },
+    { "file": "SelfCheck.dc.html",   "x": 1560, "y": 1080, "w": 1440, "h": 900, "title": "05 · Nothing lost, nothing invented" },
+    { "file": "NotWorking.dc.html",  "x": 3120, "y": 1080, "w": 1440, "h": 900, "title": "06 · Adapt is not simplify" },
+    { "file": "Workspace.dc.html",   "x": 0,    "y": 2160, "w": 1440, "h": 900, "title": "07 · The workspace" },
+    { "file": "Build.dc.html",       "x": 1560, "y": 2160, "w": 1440, "h": 900, "title": "08 · What we built" },
+    { "file": "Assumptions.dc.html", "x": 3120, "y": 2160, "w": 1440, "h": 900, "title": "09 · What we assumed" },
+    { "file": "Impact.dc.html",      "x": 0,    "y": 3240, "w": 1440, "h": 900, "title": "10 · Why it matters" },
+    { "file": "Team.dc.html",        "x": 1560, "y": 3240, "w": 1440, "h": 900, "title": "11 · Team & next" }
   ],
   "annotations": [
-    { "id": "running-order", "page": "page-1", "x": 0,    "y": -210, "w": 420, "text": "Running order, left to right, top to bottom. Roughly 20s a slide gets you to 3 minutes with time to demo.\n\nAnything in [SQUARE BRACKETS] is a blank for you: team names, stack, demo URL, what is real vs. stubbed on slide 07." },
-    { "id": "verify-stats",  "page": "page-1", "x": 1560, "y": -210, "w": 420, "text": "Both figures on this slide are marked [verify]. Confirm them against the IDA and CDC pages and drop the marker — a judge who knows the number and catches it wrong will not trust anything after it." },
-    { "id": "centerpiece",   "page": "page-1", "x": 3120, "y": -210, "w": 420, "text": "This is the slide your prompt asks for by name: the same passage rendered two ways for two learners. Slide 05 is the other one — the side-by-side check against the source." },
-    { "id": "clickable",     "page": "page-2", "x": 0,    "y": -210, "w": 520, "text": "These three are live, not pictures. Click the learner chips and the format tabs on the Reader; click any output line on the Fidelity check to trace it back; click each complaint on Adaptation to see a different repair.\n\nThe passage is real college physiology. Devon and Mara are composites — say so if a judge asks." }
+    { "id": "running-order", "x": 0,    "y": -210, "w": 420, "text": "Running order, left to right, top to bottom. Eleven slides.\n\nThe live demo screens are gone — slide 07 is the still that stands in for the video.\n\nRemaining blanks: team names (01, 11), reviewer name (05), and the end-to-end timing on 08." },
+    { "id": "verify-stats",  "x": 1560, "y": -210, "w": 420, "text": "Both figures here are marked [verify]. Confirm them against the IDA and CDC pages and drop the marker — a judge who knows the number and catches it wrong will not trust anything after it." },
+    { "id": "centerpiece",   "x": 3120, "y": -210, "w": 420, "text": "The slide the brief asks for by name: one passage, two learners, two shapes. Slide 05 is the other required one — the side-by-side check against the source.\n\nThe passage is the real preloaded sample from server/ingest/samples.js, so the deck and the demo video show the same text." },
+    { "id": "cut-first",     "x": 0,    "y": 3030, "w": 420, "text": "If you run over time, slide 10 is the first cut — its opening column makes the same argument as card 3 on slide 09." }
   ],
-  "launch": { "view": "canvas", "page": "page-1" }
+  "launch": { "view": "canvas" }
 }

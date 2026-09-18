@@ -1,0 +1,1185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ADDY &mdash; Tapia 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #17140F; }
+  body { font-family: 'Atkinson Hyperlegible', Verdana, sans-serif; -webkit-font-smoothing: antialiased; }
+
+  #stage { position: fixed; inset: 0; display: grid; place-items: center; }
+  #deck { width: 1440px; height: 900px; position: relative; transform-origin: center center;
+          box-shadow: 0 24px 80px rgba(0,0,0,.55); }
+  .slide { position: absolute; inset: 0; width: 1440px; height: 900px; display: none; }
+  .slide.on { display: block; }
+  .slide > div, .mount > div { width: 1440px; height: 900px; }
+
+  #bar { position: fixed; left: 0; bottom: 0; height: 3px; background: #C1643C; width: 0;
+         transition: width .18s ease; z-index: 5; }
+
+  #hud { position: fixed; right: 18px; bottom: 16px; z-index: 6; display: flex; align-items: center; gap: 14px;
+         font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; color: #8C8071;
+         background: rgba(23,20,15,.82); padding: 8px 14px; border-radius: 20px;
+         opacity: 0; transition: opacity .25s ease; pointer-events: none; }
+  #hud.show { opacity: 1; }
+  #hud b { color: #F7F2E9; font-weight: 600; }
+  #hud .live { color: #E0906C; }
+
+  #menu { position: fixed; inset: 0; z-index: 10; background: rgba(23,20,15,.97); display: none;
+          padding: 56px 64px; overflow-y: auto; }
+  #menu.on { display: block; }
+  #menu h2 { font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600;
+             letter-spacing: .18em; text-transform: uppercase; color: #8C8071; margin: 0 0 28px; }
+  #menu ol { list-style: none; margin: 0; padding: 0; display: grid;
+             grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 48px; }
+  #menu li { display: flex; align-items: baseline; gap: 16px; padding: 11px 16px; border-radius: 6px;
+             cursor: pointer; color: #C9BCA7; font-size: 17px; line-height: 1.5; }
+  #menu li:hover { background: #241F19; color: #F7F2E9; }
+  #menu li.cur { background: #241F19; color: #F7F2E9; box-shadow: inset 3px 0 0 #C1643C; }
+  #menu li .n { font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600;
+                color: #6B6155; width: 22px; flex-shrink: 0; }
+  #menu li .tag { font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600;
+                  letter-spacing: .1em; color: #C1643C; margin-left: auto; flex-shrink: 0; }
+  #menu .keys { margin-top: 40px; padding-top: 24px; border-top: 1px solid #332C24;
+                color: #6B6155; font-size: 15px; line-height: 2; }
+  #menu .keys kbd { font-family: ui-monospace, Menlo, monospace; font-size: 13px; color: #C9BCA7;
+                    background: #241F19; border: 1px solid #3A322A; border-radius: 4px; padding: 2px 7px; }
+</style>
+</head>
+<body>
+
+<div id="stage"><div id="deck">
+<section class="slide" data-i="0" data-title="01 · ADDY">
+<div style="width: 1440px; height: 900px; background: #F7F1E3; color: #2B2A26; font-family: 'Atkinson Hyperlegible', Verdana, sans-serif; padding: 62px 88px; display: flex; flex-direction: column; justify-content: space-between;">
+
+  <div style="display: flex; justify-content: space-between; align-items: baseline;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #5C574E;">Capital One &times; Tapia 2026 &middot; Team XForce</div>
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.16em; color: #8E8877;">01 / 11</div>
+  </div>
+
+  <div style="display: flex; align-items: center; justify-content: space-between; gap: 72px;">
+
+    <div style="display: flex; flex-direction: column; gap: 26px; max-width: 660px;">
+      <div style="display: flex; align-items: center; gap: 18px;">
+        <svg width="96" height="96" style="flex-shrink:0" viewBox="9 2 52 52" class="buddy" role="img" aria-label="Addy, the study buddy"><g transform="translate(20.5 22) rotate(-9) translate(-20.5 -22)"><path d="M20.5 30 C16.4 21.6 15.6 13.4 18.2 8.2 C21.6 10.6 24.4 19.4 25.2 29 Z" fill="#FBF0DB" stroke="#F0DFC0" stroke-width="1"></path><path d="M20.9 27.6 C18.4 21.4 18.1 15.6 19.6 12 C21.6 13.9 23.2 20.3 23.7 27.1 Z" fill="#F7B9A6"></path></g><g transform="translate(43.5 22) rotate(9) translate(-43.5 -22)"><path d="M43.5 30 C47.6 21.6 48.4 13.4 45.8 8.2 C42.4 10.6 39.6 19.4 38.8 29 Z" fill="#FBF0DB" stroke="#F0DFC0" stroke-width="1"></path><path d="M43.1 27.6 C45.6 21.4 45.9 15.6 44.4 12 C42.4 13.9 40.8 20.3 40.3 27.1 Z" fill="#F7B9A6"></path></g><g fill="#FBF0DB"><circle cx="27.4" cy="20.6" r="4.3"></circle><circle cx="36.6" cy="20.6" r="4.3"></circle><circle cx="32" cy="17.4" r="5.1"></circle></g><path d="M32 20.2 A7.24 7.24 0 0 1 42.16 23.9 A7.24 7.24 0 0 1 47.56 33.26 A7.24 7.24 0 0 1 45.68 43.9 A7.24 7.24 0 0 1 37.4 50.85 A7.24 7.24 0 0 1 26.6 50.85 A7.24 7.24 0 0 1 18.32 43.9 A7.24 7.24 0 0 1 16.44 33.26 A7.24 7.24 0 0 1 21.84 23.9 A7.24 7.24 0 0 1 32 20.2 Z" fill="#FBF0DB"></path><g fill="#FBF0DB"><circle cx="27.4" cy="20.6" r="4.3"></circle><circle cx="36.6" cy="20.6" r="4.3"></circle><circle cx="32" cy="17.4" r="5.1"></circle></g><ellipse cx="22.2" cy="41.6" rx="3.5" ry="2.7" fill="#F98D7C"></ellipse><ellipse cx="41.8" cy="41.6" rx="3.5" ry="2.7" fill="#F98D7C"></ellipse><ellipse cx="24.6" cy="36.2" rx="4.4" ry="5.0" fill="#40203A"></ellipse><circle cx="23.3" cy="34.5" r="1.45" fill="#FFFFFF"></circle><circle cx="26.1" cy="37.7" r="0.75" fill="#FFFFFF" opacity=".9"></circle><ellipse cx="39.4" cy="36.2" rx="4.4" ry="5.0" fill="#40203A"></ellipse><circle cx="38.1" cy="34.5" r="1.45" fill="#FFFFFF"></circle><circle cx="40.9" cy="37.7" r="0.75" fill="#FFFFFF" opacity=".9"></circle><path d="M30.6 39.9 q1.4 -1.5 2.8 0 q-1.4 1.9 -2.8 0 Z" fill="#40203A"></path><path d="M29 42.6 q3 3.4 6 0" fill="none" stroke="#40203A" stroke-width="2" stroke-linecap="round"></path></svg>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 82px; font-weight: 600; letter-spacing: -0.035em; line-height: 1;">ADDY</div>
+      </div>
+
+      <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 34px; font-weight: 300; line-height: 1.32; letter-spacing: -0.015em; text-wrap: pretty;">Readings, rearranged into shapes your brain likes better.</div>
+
+      <div style="width: 72px; height: 3px; background: #9C4F2E;"></div>
+
+      <div style="font-size: 20px; line-height: 1.7; color: #5C574E; max-width: 540px; text-wrap: pretty;">An agent that reads a dense passage, decides what shape a specific learner can hold it in, builds it, and proves against the source that it changed nothing.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 0;">
+
+      <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #8E8877; padding-bottom: 14px;">One source passage</div>
+
+      <div style="width: 340px; background: #FBF8F1; border: 1px solid #E3DACA; border-radius: 3px; padding: 18px 20px; display: flex; flex-direction: column; gap: 8px;">
+        <div style="height: 6px; border-radius: 3px; background: #DED3C1; width: 100%;"></div>
+        <div style="height: 6px; border-radius: 3px; background: #DED3C1; width: 100%;"></div>
+        <div style="height: 6px; border-radius: 3px; background: #DED3C1; width: 100%;"></div>
+        <div style="height: 6px; border-radius: 3px; background: #DED3C1; width: 100%;"></div>
+        <div style="height: 6px; border-radius: 3px; background: #DED3C1; width: 62%;"></div>
+      </div>
+
+      <svg width="340" height="58" viewBox="0 0 340 58" fill="none" style="display: block;">
+        <path d="M170 0 V20 M78 20 H262 M78 20 V44 M262 20 V44" stroke="#C4B79F" stroke-width="2" stroke-linecap="round"></path>
+        <path d="M72 38 L78 46 L84 38" stroke="#C4B79F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M256 38 L262 46 L268 38" stroke="#C4B79F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+
+      <div style="display: flex; gap: 28px;">
+
+        <div style="width: 156px; background: #FBF8F1; border: 1px solid #E3DACA; border-top: 3px solid #6B7F5E; border-radius: 3px; padding: 16px 16px 18px; display: flex; flex-direction: column; gap: 12px;">
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #4F6245;">Flowchart</div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 7px;">
+            <div style="width: 84px; height: 22px; border: 1.5px solid #CBD6C0; border-radius: 3px; background: #EDF1E8;"></div>
+            <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M5 0 V11 M1.5 7.5 L5 11 L8.5 7.5" stroke="#B3C4A5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <div style="display: flex; gap: 8px;">
+              <div style="width: 52px; height: 22px; border: 1.5px solid #CBD6C0; border-radius: 3px; background: #EDF1E8;"></div>
+              <div style="width: 52px; height: 22px; border: 1.5px solid #CBD6C0; border-radius: 3px; background: #EDF1E8;"></div>
+            </div>
+          </div>
+          <div style="font-size: 13px; line-height: 1.5; color: #5C574E;">Devon, 20<br>dyslexia</div>
+        </div>
+
+        <div style="width: 156px; background: #FBF8F1; border: 1px solid #E3DACA; border-top: 3px solid #9C4F2E; border-radius: 3px; padding: 16px 16px 18px; display: flex; flex-direction: column; gap: 12px;">
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #9C4F2E;">Quest</div>
+          <div style="display: flex; flex-direction: column; gap: 7px;">
+            <div style="display: flex; gap: 4px;">
+              <div style="height: 6px; flex-grow: 1; border-radius: 3px; background: #9C4F2E;"></div>
+              <div style="height: 6px; flex-grow: 1; border-radius: 3px; background: #9C4F2E;"></div>
+              <div style="height: 6px; flex-grow: 1; border-radius: 3px; background: #E8D9CB;"></div>
+              <div style="height: 6px; flex-grow: 1; border-radius: 3px; background: #E8D9CB;"></div>
+            </div>
+            <div style="height: 22px; border: 1.5px solid #E6CDBA; border-radius: 3px; background: #F6E9E0;"></div>
+            <div style="height: 22px; border: 1.5px dashed #E6CDBA; border-radius: 3px;"></div>
+          </div>
+          <div style="font-size: 13px; line-height: 1.5; color: #5C574E;">Mara, 19<br>ADHD</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid #E3DACA; padding-top: 22px;">
+    <div style="font-size: 15px; color: #8E8877;">Challenge [2] &middot; Generative AI Neurodiversity-Adaptive Study Workspace</div>
+    <div style="font-size: 15px; color: #8E8877;">[TEAM MEMBER NAMES]</div>
+  </div>
+
+</div>
+</section>
+
+<section class="slide" data-i="1" data-title="02 · The problem">
+<div style="width: 1440px; height: 900px; background: #F7F1E3; color: #2B2A26; font-family: 'Atkinson Hyperlegible', Verdana, sans-serif; padding: 42px 88px; display: flex; flex-direction: column; gap: 24px;">
+
+  <div style="display: flex; justify-content: space-between; align-items: baseline;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #5C574E;">The problem</div>
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.16em; color: #8E8877;">02 / 11</div>
+  </div>
+
+  <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 52px; font-weight: 500; letter-spacing: -0.025em; line-height: 1.12; max-width: 900px; text-wrap: pretty;">This is one paragraph, from one page, of one chapter.</div>
+
+  <div style="display: flex; gap: 56px; align-items: flex-start;">
+
+    <div style="width: 700px; background: #FBF8F1; border: 1px solid #E3DACA; border-radius: 3px; padding: 30px 34px; display: flex; flex-direction: column; gap: 16px;">
+      <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #8E8877;">OpenStax Biology &mdash; Cellular respiration</div>
+      <div style="font-size: 15px; line-height: 1.38; color: #46423A; text-align: justify; hyphens: auto;">Cellular respiration is the process by which cells harvest energy from food molecules. In eukaryotes it usually means oxidizing glucose to carbon dioxide and water while capturing free energy as ATP. The pathway has three tightly linked stages. Glycolysis occurs in the cytosol and splits one glucose into two molecules of pyruvate, with a small net gain of ATP and NADH. If oxygen is available, pyruvate enters mitochondria and is converted to acetyl CoA, which feeds the citric acid cycle. The citric acid cycle oxidizes the remaining carbons to CO2 and loads electron carriers NADH and FADH2. Oxidative phosphorylation then uses those electrons in the electron transport chain; the resulting proton gradient drives ATP synthase. Most of the ATP from glucose is made here. Without oxygen, cells may stop after glycolysis and ferment pyruvate so NAD+ can be regenerated.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 22px; width: 452px;">
+
+      <div style="display: flex; gap: 16px; align-items: flex-start;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B7F5E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 3px;">
+          <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path>
+          <circle cx="12" cy="12" r="2.6"></circle>
+        </svg>
+        <div style="font-size: 19px; line-height: 1.65; text-wrap: pretty;"><strong style="font-weight: 700;">Devon decodes it word by word.</strong> <span style="color: #5C574E;">Nine sentences, a dozen terms he has to sound out. He is not slow at biology. He is slow at this shape.</span></div>
+      </div>
+
+      <div style="display: flex; gap: 16px; align-items: flex-start;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9C4F2E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 3px;">
+          <path d="M13 2 L4 14h7l-1 8 9-12h-7z"></path>
+        </svg>
+        <div style="font-size: 19px; line-height: 1.65; text-wrap: pretty;"><strong style="font-weight: 700;">Mara loses the thread by sentence three.</strong> <span style="color: #5C574E;">There is no next action, no edge, and no finish line anywhere on the page.</span></div>
+      </div>
+
+      <div style="display: flex; gap: 14px; padding-top: 4px;">
+        <div style="flex-grow: 1; background: #FBF8F1; border: 1px solid #E3DACA; border-left: 3px solid #6B7F5E; border-radius: 3px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px;">
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 30px; font-weight: 600; letter-spacing: -0.02em; color: #4F6245;">15&ndash;20%</div>
+          <div style="font-size: 14px; line-height: 1.5; color: #5C574E;">of people show signs of a language-based learning difference, dyslexia most commonly<br><span style="color: #8E8877;">Int&rsquo;l Dyslexia Association [verify]</span></div>
+        </div>
+        <div style="flex-grow: 1; background: #FBF8F1; border: 1px solid #E3DACA; border-left: 3px solid #9C4F2E; border-radius: 3px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px;">
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 30px; font-weight: 600; letter-spacing: -0.02em; color: #9C4F2E;">11.4%</div>
+          <div style="font-size: 14px; line-height: 1.5; color: #5C574E;">of U.S. children aged 3&ndash;17 have ever been diagnosed with ADHD<br><span style="color: #8E8877;">CDC, 2022 [verify]</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="border-top: 1px solid #E3DACA; padding-top: 26px; display: flex; align-items: baseline; gap: 18px;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 27px; font-weight: 400; letter-spacing: -0.015em; line-height: 1.4; text-wrap: pretty;">Every accessibility tool we found changes the <em style="font-style: normal; border-bottom: 2px solid #E3DACA;">font</em>. None of them change the <em style="font-style: normal; border-bottom: 2px solid #9C4F2E;">shape</em>. That is the failure.</div>
+  </div>
+
+</div>
+</section>
+
+<section class="slide" data-i="2" data-title="03 · Two learners, two shapes">
+<div style="width: 1440px; height: 900px; background: #F7F1E3; color: #2B2A26; font-family: 'Atkinson Hyperlegible', Verdana, sans-serif; padding: 36px 88px; display: flex; flex-direction: column; gap: 14px;">
+
+  <div style="display: flex; justify-content: space-between; align-items: baseline;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #5C574E;">The same passage, twice</div>
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.16em; color: #8E8877;">03 / 11</div>
+  </div>
+
+  <div style="display: flex; align-items: baseline; gap: 20px;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 42px; font-weight: 500; letter-spacing: -0.025em; line-height: 1.1;">Two learners. Two shapes.</div>
+    <div style="font-size: 17px; color: #5C574E; line-height: 1.5;">Not two font sizes.</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 52px;">
+
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="width: 34px; height: 34px; border-radius: 17px; background: #6B7F5E; color: #FBF8F1; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center;">D</div>
+        <div style="display: flex; flex-direction: column; gap: 1px;">
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 18px; font-weight: 600;">Devon, 20</div>
+          <div style="font-size: 14px; color: #5C574E;">dyslexia &middot; high decoding cost per word</div>
+        </div>
+      </div>
+
+      <div style="background: #EDF1E8; border: 1px solid #CBD6C0; border-radius: 3px; padding: 11px 16px; font-size: 15px; line-height: 1.55; color: #4F6245;"><strong style="font-weight: 700;">Planner chose a flowchart.</strong> Three-stage process with a branch &mdash; structure carries it with a fraction of the words.</div>
+
+      <div style="background: #FBF8F1; border: 1px solid #E3DACA; border-radius: 3px; padding: 16px 20px; display: flex; flex-direction: column; align-items: center; gap: 0;">
+
+        <div style="width: 100%; border: 2px solid #6B7F5E; border-radius: 4px; background: #EDF1E8; padding: 10px 14px; display: flex; flex-direction: column; gap: 3px;">
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: #4F6245;">STAGE 1 &middot; GLYCOLYSIS &middot; IN THE CYTOSOL</div>
+          <div style="font-size: 16px; font-weight: 700; line-height: 1.4;">1 glucose &rarr; 2 pyruvate</div>
+          <div style="font-size: 15px; line-height: 1.4; color: #5C574E;">small net gain of ATP + NADH</div>
+        </div>
+
+        <svg width="14" height="22" viewBox="0 0 14 22" fill="none"><path d="M7 0 V18 M3 14 L7 18 L11 14" stroke="#B3C4A5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+        <div style="width: 100%; border: 1.5px solid #CBD6C0; border-radius: 4px; background: #FBF8F1; padding: 9px 14px; text-align: center; font-size: 16px; font-weight: 700;">Is oxygen available?</div>
+
+        <svg width="566" height="34" viewBox="0 0 566 34" fill="none" style="display: block;"><path d="M283 0 V13 M199 13 H491 M199 13 V26 M491 13 V26" stroke="#B3C4A5" stroke-width="2" stroke-linecap="round"></path><path d="M194.5 21.5 L199 26 L203.5 21.5" stroke="#B3C4A5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M486.5 21.5 L491 26 L495.5 21.5" stroke="#B3C4A5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+        <div style="display: flex; gap: 18px; width: 100%; align-items: flex-start;">
+
+          <div style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; gap: 0;">
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; color: #4F6245; padding-bottom: 5px;">YES</div>
+            <div style="width: 100%; border: 1.5px solid #CBD6C0; border-radius: 4px; background: #FBF8F1; padding: 8px 12px; font-size: 15px; line-height: 1.4; text-align: center;">Pyruvate &rarr; mitochondria &rarr; acetyl CoA</div>
+            <svg width="14" height="18" viewBox="0 0 14 18" fill="none"><path d="M7 0 V14 M3 10 L7 14 L11 10" stroke="#B3C4A5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <div style="width: 100%; border: 2px solid #6B7F5E; border-radius: 4px; background: #EDF1E8; padding: 8px 12px; display: flex; flex-direction: column; gap: 2px;">
+              <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: #4F6245;">STAGE 2 &middot; CITRIC ACID CYCLE</div>
+              <div style="font-size: 15px; line-height: 1.4;">Burns the rest to CO2, loads NADH + FADH2</div>
+            </div>
+            <svg width="14" height="18" viewBox="0 0 14 18" fill="none"><path d="M7 0 V14 M3 10 L7 14 L11 10" stroke="#B3C4A5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <div style="width: 100%; border: 2px solid #6B7F5E; border-radius: 4px; background: #EDF1E8; padding: 8px 12px; display: flex; flex-direction: column; gap: 2px;">
+              <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: #4F6245;">STAGE 3 &middot; OXIDATIVE PHOSPHORYLATION</div>
+              <div style="font-size: 15px; line-height: 1.4;">Electrons run the chain; the proton gradient drives ATP synthase</div>
+              <div style="font-size: 14px; line-height: 1.4; color: #5C574E;">Most of the ATP is made here</div>
+            </div>
+          </div>
+
+          <div style="width: 150px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 0;">
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; color: #9C4F2E; padding-bottom: 5px;">NO</div>
+            <div style="width: 100%; border: 1.5px solid #E6CDBA; border-radius: 4px; background: #F6E9E0; padding: 8px 12px; display: flex; flex-direction: column; gap: 3px;">
+              <div style="font-size: 15px; line-height: 1.4;">Stop after glycolysis</div>
+              <div style="font-size: 15px; line-height: 1.4;">Ferment pyruvate to get NAD+ back</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="width: 34px; height: 34px; border-radius: 17px; background: #9C4F2E; color: #FBF8F1; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center;">M</div>
+        <div style="display: flex; flex-direction: column; gap: 1px;">
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 18px; font-weight: 600;">Mara, 19</div>
+          <div style="font-size: 14px; color: #5C574E;">ADHD &middot; drops the thread without a next action</div>
+        </div>
+      </div>
+
+      <div style="background: #F6E9E0; border: 1px solid #E6CDBA; border-radius: 3px; padding: 11px 16px; font-size: 15px; line-height: 1.55; color: #8A4425;"><strong style="font-weight: 700;">Planner chose a staged quest.</strong> One step live at a time, a visible finish line, and her place held for her.</div>
+
+      <div style="background: #FBF8F1; border: 1px solid #E3DACA; border-radius: 3px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px;">
+
+        <div style="display: flex; flex-direction: column; gap: 9px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #5C574E;">Cellular respiration &middot; glucose to ATP</div>
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 15px; font-weight: 600; color: #9C4F2E;">3 of 8</div>
+          </div>
+          <div style="display: flex; gap: 4px;">
+            <div style="height: 8px; flex-grow: 1; border-radius: 4px; background: #9C4F2E;"></div>
+            <div style="height: 8px; flex-grow: 1; border-radius: 4px; background: #9C4F2E;"></div>
+            <div style="height: 8px; flex-grow: 1; border-radius: 4px; background: #9C4F2E;"></div>
+            <div style="height: 8px; flex-grow: 1; border-radius: 4px; background: #E8D9CB;"></div>
+            <div style="height: 8px; flex-grow: 1; border-radius: 4px; background: #E8D9CB;"></div>
+            <div style="height: 8px; flex-grow: 1; border-radius: 4px; background: #E8D9CB;"></div>
+            <div style="height: 8px; flex-grow: 1; border-radius: 4px; background: #E8D9CB;"></div>
+            <div style="height: 8px; flex-grow: 1; border-radius: 4px; background: #E8D9CB;"></div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 7px;">
+
+          <div style="display: flex; align-items: center; gap: 11px; padding: 7px 12px; border-radius: 4px; background: #F1E9D7; opacity: 0.62;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9C4F2E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M20 6 L9 17 l-5-5"></path></svg>
+            <div style="font-size: 15px; line-height: 1.45;">Cells harvest energy from food</div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 11px; padding: 7px 12px; border-radius: 4px; background: #F1E9D7; opacity: 0.62;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9C4F2E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M20 6 L9 17 l-5-5"></path></svg>
+            <div style="font-size: 15px; line-height: 1.45;">Burn glucose to CO2 + water, bank it as ATP</div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 11px; padding: 7px 12px; border-radius: 4px; background: #F1E9D7; opacity: 0.62;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9C4F2E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M20 6 L9 17 l-5-5"></path></svg>
+            <div style="font-size: 15px; line-height: 1.45;">Three tightly linked stages &mdash; here they are</div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 11px; padding: 12px; border-radius: 4px; background: #F6E9E0; border: 2px solid #9C4F2E;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9C4F2E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M9 6 l6 6 -6 6"></path></svg>
+            <div style="font-size: 16px; font-weight: 700; line-height: 1.45; flex-grow: 1;">Stage 1 &middot; Glycolysis, in the cytosol: 1 glucose &rarr; 2 pyruvate</div>
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; color: #9C4F2E; white-space: nowrap;">YOU ARE HERE</div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 11px; padding: 7px 12px; border-radius: 4px; border: 1px dashed #DED3C1;">
+            <div style="width: 18px; height: 18px; border-radius: 4px; border: 2px solid #DED3C1; flex-shrink: 0;"></div>
+            <div style="font-size: 15px; line-height: 1.45; color: #8E8877;">Oxygen? Pyruvate &rarr; mitochondria &rarr; acetyl CoA</div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 11px; padding: 7px 12px; border-radius: 4px; border: 1px dashed #DED3C1;">
+            <div style="width: 18px; height: 18px; border-radius: 4px; border: 2px solid #DED3C1; flex-shrink: 0;"></div>
+            <div style="font-size: 15px; line-height: 1.45; color: #8E8877;">Stage 2 &middot; The cycle burns the rest, loads NADH + FADH2</div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 11px; padding: 7px 12px; border-radius: 4px; border: 1px dashed #DED3C1;">
+            <div style="width: 18px; height: 18px; border-radius: 4px; border: 2px solid #DED3C1; flex-shrink: 0;"></div>
+            <div style="font-size: 15px; line-height: 1.45; color: #8E8877;">Stage 3 &middot; Electrons spin ATP synthase &mdash; most ATP here</div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 11px; padding: 7px 12px; border-radius: 4px; border: 1px dashed #DED3C1;">
+            <div style="width: 18px; height: 18px; border-radius: 4px; border: 2px solid #DED3C1; flex-shrink: 0;"></div>
+            <div style="font-size: 15px; line-height: 1.45; color: #8E8877;">No oxygen? Stop and ferment, to get NAD+ back</div>
+          </div>
+
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; border-top: 1px solid #E3DACA; padding-top: 14px;">
+          <div style="font-size: 14px; color: #5C574E;">Three banked. Five to go.</div>
+          <div style="background: #9C4F2E; color: #FBF8F1; border-radius: 4px; padding: 11px 20px; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 15px; font-weight: 600;">Mark step 4 done</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<section class="slide" data-i="3" data-title="04 · The agent loop">
+<div style="width: 1440px; height: 900px; background: #F7F1E3; color: #2B2A26; font-family: 'Atkinson Hyperlegible', Verdana, sans-serif; padding: 50px 88px; display: flex; flex-direction: column; gap: 24px;">
+
+  <div style="display: flex; justify-content: space-between; align-items: baseline;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #5C574E;">How it works</div>
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.16em; color: #8E8877;">04 / 11</div>
+  </div>
+
+  <div style="display: flex; align-items: baseline; gap: 22px;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 46px; font-weight: 500; letter-spacing: -0.025em; line-height: 1.1;">The planner decides the shape.</div>
+    <div style="font-size: 17px; color: #5C574E; line-height: 1.5;">We never ask the student to pick a format they have never seen.</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px;">
+
+    <div style="background: #FBF8F1; border: 1px solid #E3DACA; border-radius: 3px; padding: 22px; display: flex; flex-direction: column; gap: 13px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #8E8877;">01</div>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.01em;">Read</div>
+      </div>
+      <div style="height: 1px; background: #E3DACA;"></div>
+      <div style="font-size: 16px; line-height: 1.6; color: #46423A;">Split the source into atomic claims and number them. Nine sentences became <strong style="font-weight: 700;">S1&ndash;S8</strong>. Nothing is summarised yet &mdash; this is only bookkeeping.</div>
+    </div>
+
+    <div style="background: #FBF8F1; border: 1px solid #CBD6C0; border-top: 3px solid #6B7F5E; border-radius: 3px; padding: 22px; display: flex; flex-direction: column; gap: 13px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #8E8877;">02</div>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: #4F6245;">Decide</div>
+      </div>
+      <div style="height: 1px; background: #CBD6C0;"></div>
+      <div style="font-size: 16px; line-height: 1.6; color: #46423A;">Classify the <strong style="font-weight: 700;">material</strong> (sequential process? decision logic? definition-heavy?) against the <strong style="font-weight: 700;">learner</strong>, and print the reason on screen. Three-stage process with a branch + high decode cost &rarr; flowchart. Same passage, low working memory &rarr; staged quest.</div>
+    </div>
+
+    <div style="background: #FBF8F1; border: 1px solid #E3DACA; border-radius: 3px; padding: 22px; display: flex; flex-direction: column; gap: 13px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #8E8877;">03</div>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.01em;">Produce</div>
+      </div>
+      <div style="height: 1px; background: #E3DACA;"></div>
+      <div style="font-size: 16px; line-height: 1.6; color: #46423A;">Build the artefact. Every node, step and card carries the id of the claim it came from &mdash; so the next stage has something to check against.</div>
+    </div>
+
+    <div style="background: #FBF8F1; border: 1px solid #CBD6C0; border-top: 3px solid #6B7F5E; border-radius: 3px; padding: 22px; display: flex; flex-direction: column; gap: 13px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #8E8877;">04</div>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: #4F6245;">Self-check</div>
+      </div>
+      <div style="height: 1px; background: #CBD6C0;"></div>
+      <div style="font-size: 16px; line-height: 1.6; color: #46423A;">Re-read the output against the source and answer two questions only: <strong style="font-weight: 700;">is anything missing</strong>, and <strong style="font-weight: 700;">is anything here the source never said</strong>.</div>
+    </div>
+
+  </div>
+
+  <svg width="1264" height="72" viewBox="0 0 1264 72" fill="none" style="display: block;">
+    <path d="M1168 0 V34 M1168 34 H474 M474 34 V60" stroke="#9C4F2E" stroke-width="2" stroke-linecap="round" stroke-dasharray="7 6"></path>
+    <path d="M468.5 53 L474 60 L479.5 53" stroke="#9C4F2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    <text x="700" y="26" font-family="Lexend, 'Trebuchet MS', sans-serif" font-size="14" font-weight="600" letter-spacing="1.6" fill="#9C4F2E">RE-ENTER AT DECIDE</text>
+  </svg>
+
+  <div style="background: #F6E9E0; border: 1px solid #E6CDBA; border-radius: 3px; padding: 26px 28px; display: flex; align-items: center; gap: 34px;">
+    <div style="display: flex; flex-direction: column; gap: 8px; width: 300px; flex-shrink: 0;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #C4A08A;">05</div>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; color: #8A4425;">Adapt</div>
+      </div>
+      <div style="font-size: 16px; line-height: 1.6; color: #8A4425;">The student is the only judge that counts.</div>
+    </div>
+    <div style="width: 1px; align-self: stretch; background: #E6CDBA;"></div>
+    <div style="font-size: 18px; line-height: 1.65; color: #46423A; text-wrap: pretty;">When Mara taps <em style="font-style: normal; font-weight: 700;">This isn&rsquo;t working</em> and says why, that is not a support ticket &mdash; it is a new input to <strong style="font-weight: 700;">Decide</strong>. The agent re-runs the choice with her complaint added to her profile, rebuilds, and re-checks against the same source. The passage never changes. The shape does.</div>
+  </div>
+
+</div>
+</section>
+
+<section class="slide" data-i="4" data-title="05 · Nothing lost, nothing invented">
+<div style="width: 1440px; height: 900px; background: #F7F1E3; color: #2B2A26; font-family: 'Atkinson Hyperlegible', Verdana, sans-serif; padding: 36px 88px; display: flex; flex-direction: column; gap: 14px;">
+
+  <div style="display: flex; justify-content: space-between; align-items: baseline;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #5C574E;">Nothing lost, nothing invented</div>
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.16em; color: #8E8877;">05 / 11</div>
+  </div>
+
+  <div style="display: flex; align-items: baseline; gap: 22px;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 42px; font-weight: 500; letter-spacing: -0.025em; line-height: 1.1;">It checks itself. Then we check it.</div>
+    <div style="font-size: 16px; color: #5C574E; line-height: 1.5;">Every claim traced to a numbered sentence.</div>
+  </div>
+
+  <div style="background: #FBF8F1; border: 1px solid #E3DACA; border-radius: 3px; display: flex; flex-direction: column;">
+
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; border-bottom: 1px solid #E3DACA; padding: 12px 26px; background: #F1E9D7;">
+      <div style="grid-column: span 6; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #5C574E;">What the output tells the student</div>
+      <div style="grid-column: span 2; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #5C574E;">Source</div>
+      <div style="grid-column: span 4; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #5C574E;">Verdict</div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; padding: 9px 26px; border-bottom: 1px solid #F0EAE0; align-items: center;">
+      <div style="grid-column: span 6; font-size: 16px; line-height: 1.45;">Cells harvest energy from food</div>
+      <div style="grid-column: span 2; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 15px; font-weight: 600; color: #6B7F5E;">S1</div>
+      <div style="grid-column: span 4; display: flex; align-items: center; gap: 9px; font-size: 15px; color: #4F6245;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B7F5E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M20 6 L9 17 l-5-5"></path></svg>Traced</div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; padding: 9px 26px; border-bottom: 1px solid #F0EAE0; align-items: center;">
+      <div style="grid-column: span 6; font-size: 16px; line-height: 1.45;">Burn glucose to CO2 and water, bank it as ATP</div>
+      <div style="grid-column: span 2; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 15px; font-weight: 600; color: #6B7F5E;">S2</div>
+      <div style="grid-column: span 4; display: flex; align-items: center; gap: 9px; font-size: 15px; color: #4F6245;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B7F5E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M20 6 L9 17 l-5-5"></path></svg>Traced</div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; padding: 9px 26px; border-bottom: 1px solid #F0EAE0; align-items: center;">
+      <div style="grid-column: span 6; font-size: 16px; line-height: 1.45;">Three tightly linked stages &mdash; here they are</div>
+      <div style="grid-column: span 2; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 15px; font-weight: 600; color: #6B7F5E;">S3</div>
+      <div style="grid-column: span 4; display: flex; align-items: center; gap: 9px; font-size: 15px; color: #4F6245;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B7F5E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M20 6 L9 17 l-5-5"></path></svg>Traced</div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; padding: 9px 26px; border-bottom: 1px solid #F0EAE0; align-items: center;">
+      <div style="grid-column: span 6; font-size: 16px; line-height: 1.45;">Stage 1 &middot; Glycolysis, in the cytosol: 1 glucose &rarr; 2 pyruvate</div>
+      <div style="grid-column: span 2; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 15px; font-weight: 600; color: #6B7F5E;">S4</div>
+      <div style="grid-column: span 4; display: flex; align-items: center; gap: 9px; font-size: 15px; color: #4F6245;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B7F5E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M20 6 L9 17 l-5-5"></path></svg>Traced</div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; padding: 9px 26px; border-bottom: 1px solid #F0EAE0; align-items: center;">
+      <div style="grid-column: span 6; font-size: 16px; line-height: 1.45;">Oxygen? Pyruvate &rarr; mitochondria &rarr; acetyl CoA</div>
+      <div style="grid-column: span 2; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 15px; font-weight: 600; color: #6B7F5E;">S5</div>
+      <div style="grid-column: span 4; display: flex; align-items: center; gap: 9px; font-size: 15px; color: #4F6245;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B7F5E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M20 6 L9 17 l-5-5"></path></svg>Traced</div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; padding: 9px 26px; border-bottom: 1px solid #F0EAE0; align-items: center;">
+      <div style="grid-column: span 6; font-size: 16px; line-height: 1.45;">Stage 2 &middot; The cycle burns the rest, loads NADH + FADH2</div>
+      <div style="grid-column: span 2; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 15px; font-weight: 600; color: #6B7F5E;">S6</div>
+      <div style="grid-column: span 4; display: flex; align-items: center; gap: 9px; font-size: 15px; color: #4F6245;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B7F5E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M20 6 L9 17 l-5-5"></path></svg>Traced</div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; padding: 9px 26px; border-bottom: 1px solid #F0EAE0; align-items: center;">
+      <div style="grid-column: span 6; font-size: 16px; line-height: 1.45;">Stage 3 &middot; Electrons spin ATP synthase &mdash; most ATP here</div>
+      <div style="grid-column: span 2; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 15px; font-weight: 600; color: #6B7F5E;">S7</div>
+      <div style="grid-column: span 4; display: flex; align-items: center; gap: 9px; font-size: 15px; color: #4F6245;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B7F5E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M20 6 L9 17 l-5-5"></path></svg>Traced</div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; padding: 9px 26px; border-bottom: 1px solid #F0EAE0; align-items: center;">
+      <div style="grid-column: span 6; font-size: 16px; line-height: 1.45;">No oxygen? Stop and ferment, to get NAD+ back</div>
+      <div style="grid-column: span 2; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 15px; font-weight: 600; color: #6B7F5E;">S8</div>
+      <div style="grid-column: span 4; display: flex; align-items: center; gap: 9px; font-size: 15px; color: #4F6245;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B7F5E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M20 6 L9 17 l-5-5"></path></svg>Traced</div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; padding: 14px 26px; border-bottom: 1px solid #F0EAE0; align-items: center; background: #FBF3DF; border-left: 3px solid #B08A3E;">
+      <div style="grid-column: span 6; font-size: 16px; line-height: 1.5; color: #5C574E;"><em style="font-style: normal; color: #8A6A16; font-weight: 700;">Draft 1 never said there are three stages.</em> It drew five boxes in a row &mdash; the scaffold the exam actually asks for was gone.</div>
+      <div style="grid-column: span 2; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 15px; font-weight: 600; color: #8A6A16;">S3</div>
+      <div style="grid-column: span 4; display: flex; align-items: center; gap: 9px; font-size: 15px; line-height: 1.45; color: #8A6A16;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#B08A3E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M12 8 v5"></path><path d="M12 17 v.01"></path><circle cx="12" cy="12" r="9.5"></circle></svg><strong style="font-weight: 700;">Dropped &rarr; restored</strong> as the Stage 1/2/3 labels</div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0; padding: 14px 26px; align-items: center; background: #F7E7E1; border-left: 3px solid #A8462F;">
+      <div style="grid-column: span 6; font-size: 16px; line-height: 1.5; color: #5C574E;"><em style="font-style: normal; color: #8F3527; font-weight: 700;">&ldquo;Produces 38 ATP per glucose.&rdquo;</em> Draft 1 supplied the number every student memorises. The passage says <em style="font-style: normal;">a small net gain</em> and <em style="font-style: normal;">most of the ATP is made here</em> &mdash; and never counts.</div>
+      <div style="grid-column: span 2; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 15px; font-weight: 600; color: #8F3527;">&mdash;</div>
+      <div style="grid-column: span 4; display: flex; align-items: center; gap: 9px; font-size: 15px; line-height: 1.45; color: #8F3527;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A8462F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M18 6 L6 18 M6 6 l12 12"></path></svg><strong style="font-weight: 700;">Invented &rarr; deleted</strong> before the student saw it</div>
+    </div>
+
+  </div>
+
+  <div style="display: flex; gap: 18px; align-items: stretch;">
+
+    <div style="flex-grow: 1; background: #FBF8F1; border: 1px solid #E3DACA; border-radius: 3px; padding: 16px 22px; display: flex; align-items: center; gap: 16px;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2B2A26" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+        <circle cx="12" cy="8" r="3.6"></circle>
+        <path d="M4.5 20a7.5 7.5 0 0 1 15 0"></path>
+      </svg>
+      <div style="font-size: 16px; line-height: 1.55; color: #46423A;"><strong style="font-weight: 700;">Human check.</strong> [TEAMMATE NAME] read the source beside the remake in the side-by-side panel and signed off on both flags. The agent is not the last word &mdash; it just makes the last word cheap.</div>
+    </div>
+
+    <div style="width: 230px; flex-shrink: 0; background: #EDF1E8; border: 1px solid #CBD6C0; border-radius: 3px; padding: 14px 20px; display: flex; flex-direction: column; justify-content: center; gap: 3px;">
+      <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 32px; font-weight: 600; letter-spacing: -0.02em; color: #4F6245;">8 of 8</div>
+      <div style="font-size: 14px; line-height: 1.45; color: #4F6245;">source claims present, 0 unsupported claims remaining</div>
+    </div>
+
+  </div>
+
+</div>
+</section>
+
+<section class="slide" data-i="5" data-title="06 · Adapt is not simplify">
+<div style="width: 1440px; height: 900px; background: #F7F1E3; color: #2B2A26; font-family: 'Atkinson Hyperlegible', Verdana, sans-serif; padding: 34px 88px; display: flex; flex-direction: column; gap: 15px;">
+
+  <div style="display: flex; justify-content: space-between; align-items: baseline;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #5C574E;">Adaptation</div>
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.16em; color: #8E8877;">06 / 11</div>
+  </div>
+
+  <div style="display: flex; align-items: baseline; gap: 22px;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 42px; font-weight: 500; letter-spacing: -0.025em; line-height: 1.1;">Adapt is not &ldquo;simplify&rdquo;.</div>
+    <div style="font-size: 17px; color: #5C574E; line-height: 1.5; max-width: 660px; text-wrap: pretty;">She taps <strong style="font-weight: 700;">This isn&rsquo;t working</strong> and says why. Three complaints, three different repairs.</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px;">
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="background: #F6E9E0; border: 1px solid #E6CDBA; border-radius: 4px; padding: 13px 16px; min-height: 84px; display: flex; align-items: center;">
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 19px; font-weight: 400; line-height: 1.32; letter-spacing: -0.012em; color: #8A4425;">&ldquo;I keep losing my place.&rdquo;</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 19px; font-weight: 600; letter-spacing: -0.015em;">A re-entry failure</div>
+          <div style="font-size: 14px; line-height: 1.5; color: #5C574E; text-wrap: pretty;">The shape was right. Her position in it was not being held, so every interruption cost her the whole screen.</div>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <div style="display: flex; gap: 12px; padding: 7px 0; border-top: 1px solid #F0EAE0; align-items: baseline;">
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600; color: #2B2A26; width: 82px; flex-shrink: 0;">Format</div>
+            <div style="font-size: 13.5px; line-height: 1.45; color: #46423A; flex-grow: 1;">Staged quest &rarr; staged quest. <strong style="font-weight:700">Unchanged.</strong></div>
+          </div>
+          <div style="display: flex; gap: 12px; padding: 7px 0; border-top: 1px solid #F0EAE0; align-items: baseline;">
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600; color: #2B2A26; width: 82px; flex-shrink: 0;">On screen</div>
+            <div style="font-size: 13.5px; line-height: 1.45; color: #46423A; flex-grow: 1;">Eight steps visible &rarr; one. The rest collapse behind the bar.</div>
+          </div>
+          <div style="display: flex; gap: 12px; padding: 7px 0; border-top: 1px solid #F0EAE0; align-items: baseline;">
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600; color: #4F6245; width: 82px; flex-shrink: 0;">Added</div>
+            <div style="font-size: 13.5px; line-height: 1.45; color: #46423A; flex-grow: 1;">A one-line recap of the step she finished last, pinned above the live one.</div>
+          </div>
+          <div style="display: flex; gap: 12px; padding: 7px 0; border-top: 1px solid #F0EAE0; align-items: baseline;">
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600; color: #8F3527; width: 82px; flex-shrink: 0;">Removed</div>
+            <div style="font-size: 13.5px; line-height: 1.45; color: #46423A; flex-grow: 1;">Addy&rsquo;s idle bob beside the live step. Reduce motion was already a setting; the planner now sets it for her.</div>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="background: #F6E9E0; border: 1px solid #E6CDBA; border-radius: 4px; padding: 13px 16px; min-height: 84px; display: flex; align-items: center;">
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 19px; font-weight: 400; line-height: 1.32; letter-spacing: -0.012em; color: #8A4425;">&ldquo;It&rsquo;s too broken up. I can&rsquo;t see how it fits together.&rdquo;</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 19px; font-weight: 600; letter-spacing: -0.015em;">Over-fragmentation</div>
+          <div style="font-size: 14px; line-height: 1.5; color: #5C574E; text-wrap: pretty;">The opposite complaint, and the one an agent tuned only for <em style="font-style:normal;font-weight:700">less at a time</em> gets catastrophically wrong. She has the steps; she has lost the pathway.</div>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <div style="display: flex; gap: 12px; padding: 7px 0; border-top: 1px solid #F0EAE0; align-items: baseline;">
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600; color: #8A4425; width: 82px; flex-shrink: 0;">Format</div>
+            <div style="font-size: 13.5px; line-height: 1.45; color: #46423A; flex-grow: 1;">Staged quest &rarr; <strong style="font-weight:700">flowchart.</strong> All three stages on one screen.</div>
+          </div>
+          <div style="display: flex; gap: 12px; padding: 7px 0; border-top: 1px solid #F0EAE0; align-items: baseline;">
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600; color: #4F6245; width: 82px; flex-shrink: 0;">Added</div>
+            <div style="font-size: 13.5px; line-height: 1.45; color: #46423A; flex-grow: 1;">The oxygen branch drawn explicitly &mdash; the fork that a list can only put in sequence.</div>
+          </div>
+          <div style="display: flex; gap: 12px; padding: 7px 0; border-top: 1px solid #F0EAE0; align-items: baseline;">
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600; color: #2B2A26; width: 82px; flex-shrink: 0;">Kept</div>
+            <div style="font-size: 13.5px; line-height: 1.45; color: #46423A; flex-grow: 1;">Her three finished steps carry over as ticks on the matching nodes. She does not restart.</div>
+          </div>
+          <div style="display: flex; gap: 12px; padding: 7px 0; border-top: 1px solid #F0EAE0; align-items: baseline;">
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600; color: #8F3527; width: 82px; flex-shrink: 0;">Removed</div>
+            <div style="font-size: 13.5px; line-height: 1.45; color: #46423A; flex-grow: 1;">Step gating. Nothing is hidden any more.</div>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="background: #F6E9E0; border: 1px solid #E6CDBA; border-radius: 4px; padding: 13px 16px; min-height: 84px; display: flex; align-items: center;">
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 19px; font-weight: 400; line-height: 1.32; letter-spacing: -0.012em; color: #8A4425;">&ldquo;I still don&rsquo;t get why no oxygen means no ATP.&rdquo;</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 19px; font-weight: 600; letter-spacing: -0.015em;">One claim, not the page</div>
+          <div style="font-size: 14px; line-height: 1.5; color: #5C574E; text-wrap: pretty;">A comprehension gap on a specific sentence &mdash; S8. Rebuilding the whole artefact would be the wrong answer, and would cost her the three steps she has banked.</div>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <div style="display: flex; gap: 12px; padding: 7px 0; border-top: 1px solid #F0EAE0; align-items: baseline;">
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600; color: #2B2A26; width: 82px; flex-shrink: 0;">Format</div>
+            <div style="font-size: 13.5px; line-height: 1.45; color: #46423A; flex-grow: 1;">Staged quest &rarr; staged quest. Only the S8 step is rebuilt.</div>
+          </div>
+          <div style="display: flex; gap: 12px; padding: 7px 0; border-top: 1px solid #F0EAE0; align-items: baseline;">
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600; color: #4F6245; width: 82px; flex-shrink: 0;">Expanded</div>
+            <div style="font-size: 13.5px; line-height: 1.45; color: #46423A; flex-grow: 1;">S8 becomes three: the chain needs oxygen at the end &rarr; without it NADH stays loaded &rarr; glycolysis stalls unless fermentation frees NAD+.</div>
+          </div>
+          <div style="display: flex; gap: 12px; padding: 7px 0; border-top: 1px solid #F0EAE0; align-items: baseline;">
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600; color: #2B2A26; width: 82px; flex-shrink: 0;">Kept</div>
+            <div style="font-size: 13.5px; line-height: 1.45; color: #46423A; flex-grow: 1;">The other seven steps are untouched, ticks and all.</div>
+          </div>
+          <div style="display: flex; gap: 12px; padding: 7px 0; border-top: 1px solid #F0EAE0; align-items: baseline;">
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600; color: #8F3527; width: 82px; flex-shrink: 0;">Flagged</div>
+            <div style="font-size: 13.5px; line-height: 1.45; color: #46423A; flex-grow: 1;">S8 marked shaky on her profile. It returns in the chapter recap whether or not she asks.</div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <div style="flex-grow: 1;"></div>
+
+  <div style="display: flex; gap: 18px; align-items: stretch;">
+    <div style="flex-grow: 1; background: #EDF1E8; border: 1px solid #CBD6C0; border-radius: 4px; padding: 16px 22px; display: flex; align-items: center; gap: 14px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B7F5E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M9 11l2.5 2.5L16 8"></path><path d="M20.5 12a8.5 8.5 0 1 1-4.3-7.4"></path></svg>
+      <div style="font-size: 16px; line-height: 1.55; color: #4F6245;"><strong style="font-weight: 700;">Every rebuild re-enters at the same gate: 8 of 8 claims present, 0 invented.</strong> An agent that answered all three of these by cutting words would eventually cut the biology. Adapting to a student never costs fidelity to the text.</div>
+    </div>
+    <div style="width: 250px; flex-shrink: 0; background: #FBF8F1; border: 1px solid #E3DACA; border-radius: 4px; padding: 14px 20px; display: flex; flex-direction: column; justify-content: center; gap: 4px;">
+      <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #8E8877;">Stored on</div>
+      <div style="font-size: 15px; line-height: 1.5; color: #46423A;">her profile, not this passage &mdash; the next reading opens already shaped.</div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<section class="slide" data-i="6" data-title="07 · The workspace">
+<div style="width: 1440px; height: 900px; background: #F7F1E3; color: #2B2A26; font-family: 'Atkinson Hyperlegible', Verdana, sans-serif; padding: 48px 88px; display: flex; flex-direction: column; gap: 20px;">
+
+  <div style="display: flex; justify-content: space-between; align-items: baseline;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #5C574E;">The workspace</div>
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.16em; color: #8E8877;">07 / 11</div>
+  </div>
+
+  <div style="display: flex; align-items: baseline; gap: 22px;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 42px; font-weight: 500; letter-spacing: -0.025em; line-height: 1.1;">One screen. Source left, remake right.</div>
+    <div style="font-size: 17px; color: #5C574E; line-height: 1.5;">The demo video walks this end to end.</div>
+  </div>
+
+  <div style="border: 1px solid #D6CBB4; border-radius: 8px; overflow: hidden; background: #F7F1E3; box-shadow: 0 8px 28px rgba(43,42,38,.09);">
+
+    <div style="height: 52px; background: #FBF8F1; border-bottom: 1px solid #E3DACA; display: flex; align-items: center; justify-content: space-between; padding: 0 18px;">
+      <div style="display: flex; align-items: center; gap: 11px;">
+        <svg width="28" height="28" style="flex-shrink:0" viewBox="9 2 52 52" class="buddy" role="img" aria-label="Addy, the study buddy"><g transform="translate(20.5 22) rotate(-9) translate(-20.5 -22)"><path d="M20.5 30 C16.4 21.6 15.6 13.4 18.2 8.2 C21.6 10.6 24.4 19.4 25.2 29 Z" fill="#FBF0DB" stroke="#F0DFC0" stroke-width="1"></path><path d="M20.9 27.6 C18.4 21.4 18.1 15.6 19.6 12 C21.6 13.9 23.2 20.3 23.7 27.1 Z" fill="#F7B9A6"></path></g><g transform="translate(43.5 22) rotate(9) translate(-43.5 -22)"><path d="M43.5 30 C47.6 21.6 48.4 13.4 45.8 8.2 C42.4 10.6 39.6 19.4 38.8 29 Z" fill="#FBF0DB" stroke="#F0DFC0" stroke-width="1"></path><path d="M43.1 27.6 C45.6 21.4 45.9 15.6 44.4 12 C42.4 13.9 40.8 20.3 40.3 27.1 Z" fill="#F7B9A6"></path></g><g fill="#FBF0DB"><circle cx="27.4" cy="20.6" r="4.3"></circle><circle cx="36.6" cy="20.6" r="4.3"></circle><circle cx="32" cy="17.4" r="5.1"></circle></g><path d="M32 20.2 A7.24 7.24 0 0 1 42.16 23.9 A7.24 7.24 0 0 1 47.56 33.26 A7.24 7.24 0 0 1 45.68 43.9 A7.24 7.24 0 0 1 37.4 50.85 A7.24 7.24 0 0 1 26.6 50.85 A7.24 7.24 0 0 1 18.32 43.9 A7.24 7.24 0 0 1 16.44 33.26 A7.24 7.24 0 0 1 21.84 23.9 A7.24 7.24 0 0 1 32 20.2 Z" fill="#FBF0DB"></path><g fill="#FBF0DB"><circle cx="27.4" cy="20.6" r="4.3"></circle><circle cx="36.6" cy="20.6" r="4.3"></circle><circle cx="32" cy="17.4" r="5.1"></circle></g><ellipse cx="22.2" cy="41.6" rx="3.5" ry="2.7" fill="#F98D7C"></ellipse><ellipse cx="41.8" cy="41.6" rx="3.5" ry="2.7" fill="#F98D7C"></ellipse><ellipse cx="24.6" cy="36.2" rx="4.4" ry="5.0" fill="#40203A"></ellipse><circle cx="23.3" cy="34.5" r="1.45" fill="#FFFFFF"></circle><circle cx="26.1" cy="37.7" r="0.75" fill="#FFFFFF" opacity=".9"></circle><ellipse cx="39.4" cy="36.2" rx="4.4" ry="5.0" fill="#40203A"></ellipse><circle cx="38.1" cy="34.5" r="1.45" fill="#FFFFFF"></circle><circle cx="40.9" cy="37.7" r="0.75" fill="#FFFFFF" opacity=".9"></circle><path d="M30.6 39.9 q1.4 -1.5 2.8 0 q-1.4 1.9 -2.8 0 Z" fill="#40203A"></path><path d="M29 42.6 q3 3.4 6 0" fill="none" stroke="#40203A" stroke-width="2" stroke-linecap="round"></path></svg>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 17px; font-weight: 600; letter-spacing: -0.01em;">Addy</div>
+        <div style="width: 1px; height: 18px; background: #E3DACA;"></div>
+        <div style="font-size: 15px; color: #5C574E;">Cellular respiration</div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 9px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 500; color: #5C574E; border: 1px solid #E3DACA; border-radius: 16px; padding: 6px 14px;">Focus mode</div>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 500; color: #5C574E; border: 1px solid #E3DACA; border-radius: 16px; padding: 6px 14px;">Read aloud</div>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 500; color: #5C574E; border: 1px solid #E3DACA; border-radius: 16px; padding: 6px 14px;">Quick settings</div>
+      </div>
+    </div>
+
+    <div style="background: #EDF1E8; border-bottom: 1px solid #CBD6C0; padding: 13px 18px; display: flex; align-items: center; gap: 13px;">
+      <div style="width: 22px; height: 22px; border-radius: 11px; background: #6B7F5E; color: #FBF8F1; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+      <div style="font-size: 16px; line-height: 1.5; color: #4F6245; flex-grow: 1;"><strong style="font-weight: 700;">I chose a flowchart</strong> because this passage is a three-stage process with one branch, and you read best with fewer words per line.</div>
+      <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600; color: #4F6245; border: 1px solid #6B7F5E; border-radius: 16px; padding: 5px 14px; flex-shrink: 0;">Why?</div>
+    </div>
+
+    <div style="display: flex; align-items: stretch; min-height: 296px;">
+
+      <div style="width: 50%; background: #F1E9D7; border-right: 1px solid #E3DACA; padding: 16px 20px; display: flex; flex-direction: column; gap: 11px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 20px; height: 20px; border-radius: 10px; background: #8E8877; color: #FBF8F1; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center;">2</div>
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #5C574E;">Source &middot; original</div>
+        </div>
+        <div style="font-size: 13.5px; line-height: 1.6; color: #46423A;">Cellular respiration is the process by which cells harvest energy from food molecules. In eukaryotes it usually means oxidizing glucose to carbon dioxide and water while capturing free energy as ATP. The pathway has three tightly linked stages. <span style="background: #EBD9A6; box-shadow: 0 0 0 2px #EBD9A6; border-radius: 2px;">Glycolysis occurs in the cytosol and splits one glucose into two molecules of pyruvate, with a small net gain of ATP and NADH.</span> If oxygen is available, pyruvate enters mitochondria and is converted to acetyl CoA, which feeds the citric acid cycle. The citric acid cycle oxidizes the remaining carbons to CO2 and loads electron carriers NADH and FADH2. Oxidative phosphorylation then uses those electrons in the electron transport chain; the resulting proton gradient drives ATP synthase.</div>
+      </div>
+
+      <div style="width: 50%; background: #FBF8F1; padding: 16px 20px; display: flex; flex-direction: column; gap: 11px;">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 20px; height: 20px; border-radius: 10px; background: #6B7F5E; color: #FBF8F1; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center;">3</div>
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #5C574E;">Remake &middot; Devon</div>
+          </div>
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; color: #8E8877;">Recommended</div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 0;">
+          <div style="width: 100%; border: 2px solid #B08A3E; border-radius: 4px; background: #FBF3DF; padding: 8px 12px; display: flex; flex-direction: column; gap: 2px;">
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.12em; color: #8A6A16;">STAGE 1 &middot; GLYCOLYSIS &middot; CYTOSOL</div>
+            <div style="font-size: 14px; font-weight: 700; line-height: 1.35;">1 glucose &rarr; 2 pyruvate &middot; small net ATP + NADH</div>
+          </div>
+          <svg width="12" height="16" viewBox="0 0 12 16" fill="none"><path d="M6 0 V12 M2.5 8.5 L6 12 L9.5 8.5" stroke="#B3C4A5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <div style="width: 100%; border: 1.5px solid #CBD6C0; border-radius: 4px; background: #FBF8F1; padding: 7px 12px; text-align: center; font-size: 14px; font-weight: 700;">Is oxygen available?</div>
+          <svg width="592" height="26" viewBox="0 0 592 26" fill="none" style="display: block;"><path d="M296 0 V10 M144 10 H448 M144 10 V20 M448 10 V20" stroke="#B3C4A5" stroke-width="2" stroke-linecap="round"></path><path d="M140 16 L144 20 L148 16" stroke="#B3C4A5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M444 16 L448 20 L452 16" stroke="#B3C4A5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <div style="display: flex; gap: 14px; width: 100%;">
+            <div style="flex-grow: 1; border: 1.5px solid #CBD6C0; border-radius: 4px; background: #EDF1E8; padding: 7px 11px; font-size: 13.5px; line-height: 1.4;"><strong style="font-weight: 700; color: #4F6245;">Yes &middot;</strong> acetyl CoA &rarr; citric acid cycle &rarr; ATP synthase</div>
+            <div style="flex-grow: 1; border: 1.5px solid #E6CDBA; border-radius: 4px; background: #F6E9E0; padding: 7px 11px; font-size: 13.5px; line-height: 1.4;"><strong style="font-weight: 700; color: #8A4425;">No &middot;</strong> stop and ferment, to get NAD+ back</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #FBF8F1; border-top: 1px solid #E3DACA; padding: 13px 18px; display: flex; align-items: center; gap: 18px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="width: 20px; height: 20px; border-radius: 10px; background: #8E8877; color: #FBF8F1; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center;">4</div>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #5C574E;">Fidelity</div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 18px; font-size: 15px;">
+        <div style="color: #4F6245;"><strong style="font-weight: 700;">8</strong> supported</div>
+        <div style="color: #8A6A16;"><strong style="font-weight: 700;">0</strong> missing</div>
+        <div style="color: #8F3527;"><strong style="font-weight: 700;">0</strong> invented</div>
+      </div>
+      <div style="flex-grow: 1;"></div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="width: 20px; height: 20px; border-radius: 10px; background: #9C4F2E; color: #FBF8F1; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center;">5</div>
+        <div style="background: #9C4F2E; color: #FBF8F1; border-radius: 4px; padding: 9px 18px; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600;">This isn&rsquo;t working</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 22px; padding-top: 2px;">
+    <div style="font-size: 14px; line-height: 1.5; color: #5C574E;"><strong style="font-weight: 700; color: #2B2A26;">1 &middot; The reason, on screen.</strong> The line that proves a planner ran, not a template.</div>
+    <div style="font-size: 14px; line-height: 1.5; color: #5C574E;"><strong style="font-weight: 700; color: #2B2A26;">2 &middot; The original, always.</strong> This is the teammate&rsquo;s human-check surface.</div>
+    <div style="font-size: 14px; line-height: 1.5; color: #5C574E;"><strong style="font-weight: 700; color: #2B2A26;">3 &middot; Linked highlighting.</strong> Hover a node, the sentence it came from lights up.</div>
+    <div style="font-size: 14px; line-height: 1.5; color: #5C574E;"><strong style="font-weight: 700; color: #2B2A26;">4 &middot; Missing and invented</strong> are first-class counters, not a later rubric.</div>
+    <div style="font-size: 14px; line-height: 1.5; color: #5C574E;"><strong style="font-weight: 700; color: #2B2A26;">5 &middot; One button</strong> is the whole feedback interface.</div>
+  </div>
+
+</div>
+</section>
+
+<section class="slide" data-i="7" data-title="08 · What we built">
+<div style="width: 1440px; height: 900px; background: #F7F1E3; color: #2B2A26; font-family: 'Atkinson Hyperlegible', Verdana, sans-serif; padding: 64px 88px; display: flex; flex-direction: column; gap: 32px;">
+
+  <div style="display: flex; justify-content: space-between; align-items: baseline;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #5C574E;">What we built</div>
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.16em; color: #8E8877;">08 / 11</div>
+  </div>
+
+  <div style="display: flex; align-items: baseline; gap: 22px;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 46px; font-weight: 500; letter-spacing: -0.025em; line-height: 1.1;">Paste a page. Get a shape.</div>
+    <div style="font-size: 17px; color: #5C574E; line-height: 1.5;">Paste to shaped page in [SECONDS] &mdash; time it before you present.</div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 14px;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #5C574E;">Pipeline</div>
+    <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px;">
+
+      <div style="background: #FBF8F1; border: 1px solid #E3DACA; border-radius: 3px; padding: 18px; display: flex; flex-direction: column; gap: 9px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5C574E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5"></path></svg>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 16px; font-weight: 600;">Ingest</div>
+        <div style="font-size: 14px; line-height: 1.55; color: #5C574E;">Paste, or PDF page. Layout stripped, headings kept.</div>
+      </div>
+
+      <div style="background: #FBF8F1; border: 1px solid #E3DACA; border-radius: 3px; padding: 18px; display: flex; flex-direction: column; gap: 9px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5C574E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h9"></path></svg>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 16px; font-weight: 600;">Split</div>
+        <div style="font-size: 14px; line-height: 1.55; color: #5C574E;">One numbered claim per assertion. This is the ground truth.</div>
+      </div>
+
+      <div style="background: #FBF8F1; border: 1px solid #CBD6C0; border-top: 3px solid #6B7F5E; border-radius: 3px; padding: 18px; display: flex; flex-direction: column; gap: 9px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B7F5E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6M12 15v6"></path><circle cx="12" cy="12" r="3"></circle><path d="M5 7l2.5 2.5M16.5 14.5L19 17"></path></svg>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 16px; font-weight: 600; color: #4F6245;">Decide</div>
+        <div style="font-size: 14px; line-height: 1.55; color: #5C574E;">Material shape &times; learner profile &rarr; one format, with a stated reason.</div>
+      </div>
+
+      <div style="background: #FBF8F1; border: 1px solid #E3DACA; border-radius: 3px; padding: 18px; display: flex; flex-direction: column; gap: 9px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5C574E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"></rect><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"></rect><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"></rect><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"></rect></svg>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 16px; font-weight: 600;">Produce</div>
+        <div style="font-size: 14px; line-height: 1.55; color: #5C574E;">Renders to JSON, not prose. Each node keeps its claim id.</div>
+      </div>
+
+      <div style="background: #FBF8F1; border: 1px solid #CBD6C0; border-top: 3px solid #6B7F5E; border-radius: 3px; padding: 18px; display: flex; flex-direction: column; gap: 9px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B7F5E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l2.5 2.5L16 8"></path><path d="M20.5 12a8.5 8.5 0 1 1-4.3-7.4"></path></svg>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 16px; font-weight: 600; color: #4F6245;">Check</div>
+        <div style="font-size: 14px; line-height: 1.55; color: #5C574E;">Claims in &harr; claims out. Missing and unsupported both block the render.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 22px; align-items: stretch;">
+
+    <div style="flex-grow: 1; background: #FBF8F1; border: 1px solid #E3DACA; border-radius: 3px; padding: 22px 26px; display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B7F5E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 L9 17 l-5-5"></path></svg>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #4F6245;">Working in the demo</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px; font-size: 16px; line-height: 1.6; color: #46423A;">
+        <div>Paste text, a PDF, or a URL &mdash; plus three preloaded passages so the demo cannot fail on a paste.</div>
+        <div>Planner picks flowchart, checklist or quest <em style="font-style: normal; font-weight: 700;">and prints its reason</em>.</div>
+        <div>Claim-level fidelity report with linked source highlighting.</div>
+        <div><strong style="font-weight: 700;">This isn&rsquo;t working</strong> re-plans the format or the granularity.</div>
+        <div>Onboarding profile, focus mode with breaks, read-aloud, garden.</div>
+      </div>
+    </div>
+
+    <div style="flex-grow: 1; background: #F1E9D7; border: 1px solid #E3DACA; border-radius: 3px; padding: 22px 26px; display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8E8877" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"></circle><path d="M12 7v5l3 2"></path></svg>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #5C574E;">Not yet &mdash; and we will say so</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px; font-size: 16px; line-height: 1.6; color: #5C574E;">
+        <div>One passage at a time &mdash; not a whole chapter, and no memory across sections.</div>
+        <div>Text only. Figures, equations and tables are out of scope.</div>
+        <div>The profile is set at onboarding, not learned from behaviour over weeks.</div>
+        <div>Accounts exist, but the demo runs the no-login slice.</div>
+      </div>
+    </div>
+
+    <div style="width: 330px; flex-shrink: 0; background: #FBF8F1; border: 1px solid #E3DACA; border-radius: 3px; padding: 22px 26px; display: flex; flex-direction: column; gap: 14px;">
+      <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #5C574E;">Stack</div>
+      <div style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 13px; line-height: 1.7; color: #46423A;">React 18 &middot; Vite<br>Node &middot; api/ingest, api/chat<br>OpenRouter &rarr; deepseek/<br>deepseek-v4.1-flash<br><span style="color: #8E8877;">heuristic fallback if it 404s</span><br>Supabase &middot; one shared project<br>unpdf for PDF extraction<br>Vercel &middot; xforce-hack.vercel.app</div>
+    </div>
+
+  </div>
+
+</div>
+</section>
+
+<section class="slide" data-i="8" data-title="09 · What we assumed">
+<div style="width: 1440px; height: 900px; background: #F7F1E3; color: #2B2A26; font-family: 'Atkinson Hyperlegible', Verdana, sans-serif; padding: 52px 88px; display: flex; flex-direction: column; gap: 32px;">
+
+  <div style="display: flex; justify-content: space-between; align-items: baseline;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #5C574E;">What we assumed</div>
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.16em; color: #8E8877;">09 / 11</div>
+  </div>
+
+  <div style="display: flex; align-items: baseline; gap: 22px;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 42px; font-weight: 500; letter-spacing: -0.025em; line-height: 1.1;">Four assumptions we would defend.</div>
+    <div style="font-size: 17px; color: #5C574E; line-height: 1.5;">And the claims we will not make.</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 56px;">
+      <div style="display: flex; flex-direction: column; gap: 12px; border-top: 3px solid #6B7F5E; padding-top: 20px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 23px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.25;">Source is exam-authoritative</div>
+        <div style="font-size: 17px; line-height: 1.68; color: #46423A; text-wrap: pretty;">A loose paraphrase can teach a student a fact that is not on the test. We change the <strong style="font-weight:700">shape</strong> &mdash; flowchart, checklist, quest &mdash; never the science. Every node keeps a claim id back to the sentence it came from, which is what makes the check on slide 05 possible at all.</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; border-top: 3px solid #9C4F2E; padding-top: 20px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 23px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.25;">We are not diagnosing anyone</div>
+        <div style="font-size: 17px; line-height: 1.68; color: #46423A; text-wrap: pretty;">The modes encode <strong style="font-weight:700">study costs</strong>, not conditions: Mara drops the thread without a next action, Devon pays per word to decode. The app&rsquo;s own onboarding says it &mdash; <em style="font-style:normal">&ldquo;No diagnosis needed. This just helps us set things up.&rdquo;</em> Devon and Mara are composites; we will say so if you ask.</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; border-top: 3px solid #6B7F5E; padding-top: 20px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 23px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.25;">Font tools keep the same paragraph</div>
+        <div style="font-size: 17px; line-height: 1.68; color: #46423A; text-wrap: pretty;">That is the failure, and it is why a bigger typeface was never going to be enough. Devon needs fewer words and a visible branch. Mara needs one live step and her place held. <strong style="font-weight:700">Opposite repairs, same paragraph</strong> &mdash; one setting cannot serve both.</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; border-top: 3px solid #9C4F2E; padding-top: 20px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 23px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.25;">The agent will get something wrong</div>
+        <div style="font-size: 17px; line-height: 1.68; color: #46423A; text-wrap: pretty;">Summarisers drop the scaffold (&ldquo;three tightly linked stages&rdquo;) and invent the plausible (&ldquo;38 ATP per glucose&rdquo;). Ours did both on draft 1. The brief asked us to catch that, so missing and invented are counters in the product, and <strong style="font-weight:700">a human teammate is the last word</strong>.</div>
+      </div>
+  </div>
+
+  <div style="flex-grow: 1;"></div>
+
+  <div style="border-top: 1px solid #E3DACA; padding-top: 24px; display: flex; align-items: baseline; justify-content: space-between; gap: 40px;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 26px; font-weight: 400; letter-spacing: -0.02em; line-height: 1.4; max-width: 950px; text-wrap: pretty;">The scope is small on purpose: one exam-grade passage, eight atomic claims, two modes. We would rather be checkable than broad.</div>
+    <div style="font-size: 15px; color: #8E8877; text-align: right; line-height: 1.6;">ADDY<br>Team XForce</div>
+  </div>
+
+</div>
+</section>
+
+<section class="slide" data-i="9" data-title="10 · Why it matters">
+<div style="width: 1440px; height: 900px; background: #F7F1E3; color: #2B2A26; font-family: 'Atkinson Hyperlegible', Verdana, sans-serif; padding: 64px 88px; display: flex; flex-direction: column; justify-content: space-between;">
+
+  <div style="display: flex; justify-content: space-between; align-items: baseline;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #5C574E;">Why it matters</div>
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.16em; color: #8E8877;">10 / 11</div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 46px;">
+
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 54px; font-weight: 400; letter-spacing: -0.03em; line-height: 1.18; max-width: 1140px; text-wrap: pretty;">Accessibility tools ask the student to keep reading the same shape, <em style="font-style: normal; font-weight: 600;">harder</em>.</div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px;">
+
+      <div style="display: flex; flex-direction: column; gap: 14px; border-top: 3px solid #E3DACA; padding-top: 22px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 22px; font-weight: 600; letter-spacing: -0.015em;">One shape fits nobody</div>
+        <div style="font-size: 18px; line-height: 1.7; color: #46423A; text-wrap: pretty;">Larger type and text-to-speech help, and every student gets the same one. Devon and Mara need opposite things from the same paragraph &mdash; and neither of them needs a bigger font.</div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px; border-top: 3px solid #9C4F2E; padding-top: 22px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 22px; font-weight: 600; letter-spacing: -0.015em; color: #8A4425;">The student is the signal</div>
+        <div style="font-size: 18px; line-height: 1.7; color: #46423A; text-wrap: pretty;">Onboarding asks what trips you up, never what you have been diagnosed with. After that, tapping <strong style="font-weight: 700;">This isn&rsquo;t working</strong> is the whole interface &mdash; and the planner has to do something specific with it.</div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px; border-top: 3px solid #6B7F5E; padding-top: 22px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 22px; font-weight: 600; letter-spacing: -0.015em; color: #4F6245;">Traceable enough to assign</div>
+        <div style="font-size: 18px; line-height: 1.7; color: #46423A; text-wrap: pretty;">An instructor will not hand a class an AI rewrite of the textbook they are examined on. Claim-level tracing is what makes this adoptable instead of a novelty.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="border-top: 1px solid #E3DACA; padding-top: 30px; display: flex; align-items: baseline; justify-content: space-between; gap: 40px;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 30px; font-weight: 400; letter-spacing: -0.02em; line-height: 1.4; max-width: 880px; text-wrap: pretty;">The text stays exactly as authoritative as it was. Only the way in changes.</div>
+    <div style="font-size: 15px; color: #8E8877; text-align: right; line-height: 1.6;">ADDY<br>Team XForce</div>
+  </div>
+
+</div>
+</section>
+
+<section class="slide" data-i="10" data-title="11 · Team & next">
+<div style="width: 1440px; height: 900px; background: #2B2A26; color: #F7F1E3; font-family: 'Atkinson Hyperlegible', Verdana, sans-serif; padding: 64px 88px; display: flex; flex-direction: column; justify-content: space-between;">
+
+  <div style="display: flex; justify-content: space-between; align-items: baseline;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #8E8877;">Team XForce</div>
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.16em; color: #5C574E;">11 / 11</div>
+  </div>
+
+  <div style="display: flex; gap: 80px; align-items: flex-start;">
+
+    <div style="display: flex; flex-direction: column; gap: 30px; flex-grow: 1;">
+      <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 56px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; text-wrap: pretty;">Readings, rearranged<br>into shapes your<br>brain likes better.</div>
+      <div style="width: 72px; height: 3px; background: #9C4F2E;"></div>
+      <div style="font-size: 20px; line-height: 1.7; color: #C4B79F; max-width: 520px; text-wrap: pretty;">Paste your own chapter into it &mdash; it is live at the link below.</div>
+      <div style="font-size: 18px; line-height: 1.7; color: #E0A492;">xforce-hack.vercel.app&nbsp;&nbsp;&middot;&nbsp;&nbsp;github.com/aidaken/xforce-hack</div>
+    </div>
+
+    <div style="width: 520px; flex-shrink: 0; display: flex; flex-direction: column; gap: 30px;">
+
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #8E8877;">Built by</div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 24px; font-size: 18px; line-height: 1.6; color: #F7F1E3;">
+          <div>[NAME] <span style="color: #8E8877; font-size: 15px;">&mdash; [ROLE]</span></div>
+          <div>[NAME] <span style="color: #8E8877; font-size: 15px;">&mdash; [ROLE]</span></div>
+          <div>[NAME] <span style="color: #8E8877; font-size: 15px;">&mdash; [ROLE]</span></div>
+          <div>[NAME] <span style="color: #8E8877; font-size: 15px;">&mdash; [ROLE]</span></div>
+          <div>[NAME] <span style="color: #8E8877; font-size: 15px;">&mdash; [ROLE]</span></div>
+          <div>[NAME] <span style="color: #8E8877; font-size: 15px;">&mdash; [ROLE]</span></div>
+        </div>
+      </div>
+
+      <div style="height: 1px; background: #46423A;"></div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #8E8877;">Next</div>
+        <div style="display: flex; flex-direction: column; gap: 11px; font-size: 17px; line-height: 1.65; color: #C4B79F;">
+          <div>Learn the profile from what the student actually does, not just from onboarding.</div>
+          <div>Whole chapters, with the shape holding across sections.</div>
+          <div>Put it in front of a campus disability-services office and find out what we got wrong.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="border-top: 1px solid #46423A; padding-top: 26px; display: flex; align-items: center; justify-content: space-between;">
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9C4F2E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H10a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H5.5A1.5 1.5 0 0 1 4 15.5z"></path>
+        <path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H14a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h4.5a1.5 1.5 0 0 0 1.5-1.5z"></path>
+      </svg>
+      <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 24px; font-weight: 600; letter-spacing: -0.02em;">ADDY</div>
+    </div>
+    <div style="font-size: 15px; color: #8E8877;">Capital One &times; Tapia 2026</div>
+  </div>
+
+</div>
+</section>
+</div></div>
+
+<div id="bar"></div>
+<div id="hud"><span><b id="cur">1</b> / 11</span><span id="livetag"></span></div>
+
+<div id="menu">
+  <h2>ADDY &mdash; 11 slides</h2>
+  <ol id="menulist"></ol>
+  <div class="keys">
+    <kbd>&rarr;</kbd> <kbd>space</kbd> next &nbsp;&middot;&nbsp;
+    <kbd>&larr;</kbd> back &nbsp;&middot;&nbsp;
+    <kbd>1</kbd>&ndash;<kbd>9</kbd> jump &nbsp;&middot;&nbsp;
+    <kbd>g</kbd> this menu &nbsp;&middot;&nbsp;
+    <kbd>f</kbd> fullscreen &nbsp;&middot;&nbsp;
+    <kbd>esc</kbd> close
+  </div>
+</div>
+
+<script>
+/* ---- minimal Design-Component runtime: dotted holes, sc-for, sc-if, onClick ---- */
+var DC = (function () {
+  var registry = {};
+
+  function DCLogic() { this.props = {}; this.state = undefined; this._host = null; }
+  DCLogic.prototype.setState = function (patch) {
+    var next = {}, k;
+    for (k in (this.state || {})) next[k] = this.state[k];
+    for (k in patch) next[k] = patch[k];
+    this.state = next;
+    if (this._host) this._host.render();
+  };
+  DCLogic.prototype.forceUpdate = function () { if (this._host) this._host.render(); };
+  window.DCLogic = DCLogic;
+
+  function lookup(path, scope) {
+    var parts = String(path).trim().split("."), v = scope, i;
+    for (i = 0; i < parts.length; i++) {
+      if (v == null) return undefined;
+      v = v[parts[i]];
+    }
+    return v;
+  }
+
+  function interpText(str, scope) {
+    return str.replace(/\{\{([^}]+)\}\}/g, function (_, p) {
+      var v = lookup(p, scope);
+      return v == null ? "" : String(v);
+    });
+  }
+
+  function resolve(str, scope) {
+    var whole = /^\s*\{\{([^}]+)\}\}\s*$/.exec(str);
+    if (whole) {
+      var t = whole[1].trim();
+      if (t === "true") return true;
+      if (t === "false") return false;
+      return lookup(t, scope);
+    }
+    return str.replace(/\{\{([^}]+)\}\}/g, function (_, p) {
+      var v = lookup(p, scope);
+      return v == null ? "" : String(v);
+    });
+  }
+
+  function build(node, scope, out) {
+    if (node.nodeType === 3) {
+      var t = node.nodeValue;
+      if (t.indexOf("{{") === -1) { out.appendChild(document.createTextNode(t)); return; }
+      out.appendChild(document.createTextNode(interpText(t, scope)));
+      return;
+    }
+    if (node.nodeType !== 1) return;
+
+    var tag = node.localName.toLowerCase();
+
+    if (tag === "sc-for") {
+      var list = resolve(node.getAttribute("list") || "", scope);
+      var as = node.getAttribute("as") || "item";
+      if (!list || !list.length) return;
+      for (var i = 0; i < list.length; i++) {
+        var s = Object.create(scope);
+        s[as] = list[i];
+        s.$index = i;
+        for (var c = node.firstChild; c; c = c.nextSibling) build(c, s, out);
+      }
+      return;
+    }
+
+    if (tag === "sc-if") {
+      if (!resolve(node.getAttribute("value") || "", scope)) return;
+      for (var c2 = node.firstChild; c2; c2 = c2.nextSibling) build(c2, scope, out);
+      return;
+    }
+
+    var el = node.cloneNode(false);
+    var attrs = Array.prototype.slice.call(el.attributes);
+    for (var a = 0; a < attrs.length; a++) {
+      var name = attrs[a].name, val = attrs[a].value;
+      if (name.slice(0, 2).toLowerCase() === "on") {
+        el.removeAttribute(name);
+        var fn = resolve(val, scope);
+        if (typeof fn === "function") el.addEventListener(name.slice(2).toLowerCase(), fn);
+        continue;
+      }
+      if (name.indexOf("hint-") === 0) { el.removeAttribute(name); continue; }
+      if (val.indexOf("{{") === -1) continue;
+      var rv = resolve(val, scope);
+      el.setAttribute(name, rv == null ? "" : String(rv));
+    }
+    for (var c3 = node.firstChild; c3; c3 = c3.nextSibling) build(c3, scope, el);
+    out.appendChild(el);
+  }
+
+  return {
+    register: function (id, Comp) { registry[id] = Comp; },
+    mount: function (id, tpl, host) {
+      var Comp = registry[id];
+      if (!Comp) { console.warn("no component:", id); return; }
+      var inst = new Comp();
+      inst._host = {
+        render: function () {
+          var vals = inst.renderVals ? inst.renderVals() : {};
+          var frag = document.createDocumentFragment();
+          for (var c = tpl.content.firstChild; c; c = c.nextSibling) build(c, vals, frag);
+          while (host.firstChild) host.removeChild(host.firstChild);
+          host.appendChild(frag);
+        }
+      };
+      inst._host.render();
+    }
+  };
+})();
+
+
+
+/* ---- presenter shell ---- */
+(function () {
+  var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+  var deck = document.getElementById("deck");
+  var bar = document.getElementById("bar");
+  var hud = document.getElementById("hud");
+  var cur = document.getElementById("cur");
+  var livetag = document.getElementById("livetag");
+  var menu = document.getElementById("menu");
+  var menulist = document.getElementById("menulist");
+  var i = 0, hudTimer;
+
+  slides.forEach(function (s) {
+    var id = s.getAttribute("data-live");
+    if (id) DC.mount(id, s.querySelector("template"), s.querySelector(".mount"));
+  });
+
+  slides.forEach(function (s, n) {
+    var li = document.createElement("li");
+    li.innerHTML = '<span class="n">' + (n + 1) + '</span><span>' + s.getAttribute("data-title") + '</span>' +
+      (s.getAttribute("data-live") ? '<span class="tag">LIVE</span>' : '');
+    li.addEventListener("click", function () { go(n); closeMenu(); });
+    menulist.appendChild(li);
+  });
+  var lis = Array.prototype.slice.call(menulist.children);
+
+  function fit() {
+    var s = Math.min(window.innerWidth / 1440, window.innerHeight / 900);
+    deck.style.transform = "scale(" + s + ")";
+  }
+
+  function flashHud() {
+    hud.classList.add("show");
+    clearTimeout(hudTimer);
+    hudTimer = setTimeout(function () { hud.classList.remove("show"); }, 1800);
+  }
+
+  function go(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function (s, k) { s.classList.toggle("on", k === i); });
+    lis.forEach(function (li, k) { li.classList.toggle("cur", k === i); });
+    cur.textContent = i + 1;
+    livetag.textContent = slides[i].getAttribute("data-live") ? "\u00b7 live \u2014 click it" : "";
+    livetag.className = slides[i].getAttribute("data-live") ? "live" : "";
+    bar.style.width = ((i + 1) / slides.length * 100) + "%";
+    location.hash = String(i + 1);
+    flashHud();
+  }
+
+  function openMenu() { menu.classList.add("on"); }
+  function closeMenu() { menu.classList.remove("on"); }
+
+  document.addEventListener("keydown", function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key;
+    if (k === "Escape") { closeMenu(); return; }
+    if (k === "g" || k === "G") { e.preventDefault(); menu.classList.toggle("on"); return; }
+    if (k === "f" || k === "F") {
+      e.preventDefault();
+      if (document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen();
+      return;
+    }
+    if (k >= "1" && k <= "9") { e.preventDefault(); go(parseInt(k, 10) - 1); closeMenu(); return; }
+    if (k === "0") { e.preventDefault(); go(9); closeMenu(); return; }
+    if (k === "ArrowRight" || k === "ArrowDown" || k === "PageDown" || k === " " || k === "Enter") {
+      e.preventDefault(); go(i + 1); return;
+    }
+    if (k === "ArrowLeft" || k === "ArrowUp" || k === "PageUp" || k === "Backspace") {
+      e.preventDefault(); go(i - 1); return;
+    }
+    if (k === "Home") { e.preventDefault(); go(0); return; }
+    if (k === "End") { e.preventDefault(); go(slides.length - 1); return; }
+  });
+
+  window.addEventListener("resize", fit);
+  document.addEventListener("mousemove", flashHud);
+
+  fit();
+  var start = parseInt((location.hash || "").slice(1), 10);
+  go(isNaN(start) ? 0 : start - 1);
+})();
+</script>
+</body>
+</html>

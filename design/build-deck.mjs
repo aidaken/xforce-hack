@@ -5,13 +5,15 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const OUT = resolve(here, "rechapter-deck.html");
+const OUT = resolve(here, "addy-deck.html");
 
 const canvas = JSON.parse(readFileSync(resolve(here, "canvas.json"), "utf8"));
-const pageOrder = canvas.pages.map((p) => p.id);
-const boards = [...canvas.artboards].sort(
-  (a, b) => pageOrder.indexOf(a.page) - pageOrder.indexOf(b.page)
-);
+const pageOrder = (canvas.pages || []).map((p) => p.id);
+const boards = pageOrder.length
+  ? [...canvas.artboards].sort(
+      (a, b) => pageOrder.indexOf(a.page) - pageOrder.indexOf(b.page)
+    )
+  : [...canvas.artboards];
 
 const slides = boards.map((b) => {
   const src = readFileSync(resolve(here, b.file), "utf8");
@@ -54,7 +56,7 @@ const html = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rechapter &mdash; Tapia 2026</title>
+<title>ADDY &mdash; Tapia 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -112,7 +114,7 @@ ${sections}
 <div id="hud"><span><b id="cur">1</b> / ${slides.length}</span><span id="livetag"></span></div>
 
 <div id="menu">
-  <h2>Rechapter &mdash; ${slides.length} slides, ${liveCount} live</h2>
+  <h2>ADDY &mdash; ${slides.length} slides</h2>
   <ol id="menulist"></ol>
   <div class="keys">
     <kbd>&rarr;</kbd> <kbd>space</kbd> next &nbsp;&middot;&nbsp;
@@ -330,5 +332,5 @@ ${logicBlocks}
 
 writeFileSync(OUT, html, "utf8");
 console.log(
-  `wrote rechapter-deck.html — ${slides.length} slides (${liveCount} interactive), ${(html.length / 1024).toFixed(0)} KB`
+  `wrote addy-deck.html — ${slides.length} slides (${liveCount} interactive), ${(html.length / 1024).toFixed(0)} KB`
 );
