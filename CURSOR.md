@@ -1,16 +1,24 @@
 # CURSOR.md
 
-Living notes for Cursor (and humans). **Update this file as the project progresses** so a new chat on any branch still knows the setup.
+Living notes for Cursor (and humans). **Product truth lives in [`product_info.md`](product_info.md).** Update that after every finished task. Update this file when agent conventions change (git, cloud IDs, secrets).
 
 Last updated: 2026-09-18
 
-Cursor also loads `.cursor/rules/*.mdc`. Keep those short; put the longer story here.
+Cursor also loads `.cursor/rules/*.mdc`. Keep those short; put the product story in `product_info.md`.
+
+## Closeout (do this before you stop)
+
+After you finish the work — not later, not only if asked:
+
+1. Update [`product_info.md`](product_info.md) so shipped vs not, API, limits, and next gaps match reality. Bump **Last updated** and **Changelog**.
+2. Update this file and [`CLAUDE.md`](CLAUDE.md) only if agent conventions changed.
+3. Never put secrets in any of these files.
 
 ## Project
 
 TAPIA / Capital One 2026 hackathon. We are on challenge **[2] Generative AI Neurodiversity-Adaptive Study Workspace**.
 
-Working MVP: `README.md`. Product name: **ADDY**.
+**Live product record:** [`product_info.md`](product_info.md). Pitch / MVP draft: `README.md`. Product name: **ADDY**.
 
 **Frontend (friends):** start at [`docs/frontend.md`](docs/frontend.md). Replace the stub in `public/app.html`. Landing is `public/index.html`. Keep calling `/api/ingest` and `/api/chat`.
 
@@ -60,4 +68,5 @@ Pushes to GitHub deploy. Preview URLs per branch. Production URL: https://xforce
 
 ## When you change something durable
 
-Update **both** `CURSOR.md` and `CLAUDE.md` (date + the relevant section). Examples: locked product combo, new tables, chosen web stack, branch rename.
+1. **Always:** [`product_info.md`](product_info.md) (date + changelog + the section that changed).
+2. **If conventions changed:** both `CURSOR.md` and `CLAUDE.md`. Examples: locked product combo, new tables, chosen web stack, branch rename.

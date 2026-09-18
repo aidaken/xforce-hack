@@ -6,6 +6,8 @@ GitHub: [aidaken/xforce-hack](https://github.com/aidaken/xforce-hack)
 
 Product name: **ADDY**. One passage in, two remakes out — ADHD checklist vs dyslexia flowchart — then a source check so we did not invent or drop anything. Toggle the learner mode in the workspace. Student taps **This isn’t working** → the agent switches format.
 
+**What is actually shipped** (API, limits, gaps): [`product_info.md`](product_info.md). Agents update that file after every finished task. This README is the pitch / MVP draft.
+
 Direction is drafted here; a few scope questions are still open.
 
 ## Why this is necessary
@@ -146,13 +148,14 @@ Then open http://localhost:3000/app.
 
 ## Repo map
 
+- `product_info.md` — **live product record** (update after every task)
 - `ideas/` — earlier pick-list (formats, agent loop, judge demo)
 - `public/` — landing (`index.html`) + **stub** chat (`app.html`) — friends replace the stub
 - `server/` — ingest, classify, OpenRouter
 - `api/` — Vercel serverless wrappers
 - `docs/frontend.md` — where frontend work starts
 - `supabase/` — CLI config, linked to the hosted project above
-- `CLAUDE.md` / `CURSOR.md` — living notes for humans and agents
+- `CLAUDE.md` / `CURSOR.md` / `AGENTS.md` — agent conventions; product truth is `product_info.md`
 
 Do not checkout `main` to edit files. Feature work happens on branches. Aidar’s “push to prod” updates GitHub `main` and Vercel production.
 
@@ -164,4 +167,4 @@ Not locked yet. Highest-tension items:
 2. **Two named modes** (ADHD vs dyslexia) vs **preference toggles + free text** as the primary learner model.
 3. **Planner picks one of three renderers** vs **always show both ADHD checklist and dyslexia flowchart** for the judge toggle.
 
-Full question list is in the current planning thread; answers should land back here and in `CURSOR.md` / `CLAUDE.md`.
+Full question list is in the current planning thread; answers should land in [`product_info.md`](product_info.md) (and here if the pitch changes).

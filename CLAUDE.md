@@ -1,15 +1,24 @@
 # CLAUDE.md
 
-Living notes for Claude Code / any agent in this repo. **Update this file when something important changes** (stack, branch conventions, Supabase, locked product decisions).
+Living notes for Claude Code / any agent in this repo. **Update this file when conventions change** (git, cloud IDs, secrets). **Product truth lives in [`product_info.md`](product_info.md)** — update that after every finished task.
 
 Last updated: 2026-09-18
+
+## Closeout (do this before you stop)
+
+After you finish the work — not later, not only if asked:
+
+1. Update [`product_info.md`](product_info.md) so shipped vs not, API, limits, and next gaps match reality. Bump **Last updated** and **Changelog**.
+2. Update this file and [`CURSOR.md`](CURSOR.md) only if agent conventions changed.
+3. Never put secrets in any of these files.
 
 ## What this is
 
 - Hackathon: Capital One @ TAPIA 2026
 - Repo: https://github.com/aidaken/xforce-hack
 - Challenge **[2]** Neurodiversity-adaptive study workspace. Product name: **ADDY**.
-- Working MVP is in `README.md`.
+- **Live product record:** [`product_info.md`](product_info.md)
+- Pitch / MVP draft: [`README.md`](README.md)
 - **Frontend teammates:** [`docs/frontend.md`](docs/frontend.md) — replace [`public/app.html`](public/app.html) (chat stub) and optionally [`public/index.html`](public/index.html) (landing). Do not rewrite `server/` or `api/` unless you are changing the HTTP contract.
 - **Backend:** [`server/`](server/) (ingest, classify, OpenRouter prompts/chat). Vercel wrappers in [`api/`](api/). Ingest types: `text`, `pdf` (text layer or scanned OCR), `docx`, `gdoc`, `url` (including public Google Docs), `sample`. Google Docs must be shared “Anyone with the link”.
 
@@ -55,23 +64,25 @@ One hosted project. GitHub `aidaken/xforce-hack` is already linked. Do **not** c
 ## Layout
 
 ```
+product_info.md        live product record (update after every task)
 ideas/                 challenge 2 brainstorm (pick-list)
 config/                cloud project IDs (supabase + vercel)
 docs/                  teammate setup (supabase.md, vercel.md, frontend.md)
 lib/supabase.js        browser-safe client
-public/                landing + ADDY chat (`app.html`)
+public/                landing + ADDY chat stub (`app.html`)
 server/                ingest, classify, OpenRouter, chat
 api/                   Vercel serverless wrappers
 scripts/               link + connectivity check
 supabase/              CLI config.toml (linked to the cloud project)
 vercel.json            static public/ + /api/*
-CLAUDE.md / CURSOR.md  living agent docs
+CLAUDE.md / CURSOR.md  agent conventions
 ```
 
 Product is **ADDY**. Do not invent a second backend or a second Vercel project.
 
 ## Agent habits
 
+- Read [`product_info.md`](product_info.md) first for what is actually shipped
 - Read `ideas/` before proposing a new product shape
 - Keep `CLAUDE.md` and `CURSOR.md` in sync when conventions change
 - Prefer the shared Supabase for any persistence (remakes, verifier results, sessions)

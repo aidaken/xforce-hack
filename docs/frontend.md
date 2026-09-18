@@ -2,6 +2,8 @@
 
 The **real UI is not this stub.** Replace `public/app.html` (and restyle `public/index.html` if you want). Keep talking to the existing API so ingest + OpenRouter keep working.
 
+Live product + API record: [`product_info.md`](../product_info.md). Agents update that file after every finished task.
+
 ## What to edit
 
 | You are changing | Go here | Do not |
@@ -10,7 +12,7 @@ The **real UI is not this stub.** Replace `public/app.html` (and restyle `public
 | Marketing / landing page | [`public/index.html`](../public/index.html) | |
 | Ingest, classify, OpenRouter, prompts | [`server/`](../server/) | Backend owns this |
 | Vercel function entrypoints | [`api/`](../api/) | Thin wrappers only |
-| Product + API notes for agents | [`CLAUDE.md`](../CLAUDE.md), [`CURSOR.md`](../CURSOR.md) | Never put secrets here |
+| Product + API notes for agents | [`product_info.md`](../product_info.md), then [`CLAUDE.md`](../CLAUDE.md) / [`CURSOR.md`](../CURSOR.md) | Never put secrets here |
 
 You can later swap `public/app.html` for Next.js/Vite. Point the new app at the same routes below.
 
