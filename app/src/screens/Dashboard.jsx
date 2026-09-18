@@ -2,14 +2,7 @@ import { useAddy } from "../state/store.jsx";
 import { FOLDER_NAMES, FOLDER_TINTS } from "../data/readings.js";
 import QuickSettings from "../components/QuickSettings.jsx";
 import AddReading from "../components/AddReading.jsx";
-import IngestDrop from "../components/IngestDrop.jsx";
-import { ChevronRight, Clock, Plus } from "../components/Icons.jsx";
-
-const UPCOMING = [
-  { title: "History essay outline", folder: "History Essay", due: "Due tomorrow", color: "var(--clay)" },
-  { title: "Reading response: respiration", folder: "Biology 101", due: "Due Thursday", color: "var(--warn)" },
-  { title: "Problem set 3", folder: "Intro to Economics", due: "Due next Monday", color: "var(--sage)" },
-];
+import { ChevronRight, Plus } from "../components/Icons.jsx";
 
 export default function Dashboard() {
   const { state, patch, readings } = useAddy();
@@ -20,8 +13,6 @@ export default function Dashboard() {
       <QuickSettings />
 
       <main className="stack" style={{ gap: 26, minWidth: 0 }}>
-        <IngestDrop />
-
         <section className="card card-lift stack pad-28" style={{ gap: 18 }}>
           <div className="muted f16">
             {name
@@ -66,40 +57,15 @@ export default function Dashboard() {
         </section>
 
         <section className="stack" style={{ gap: 12 }}>
-          <h2 className="h2">Coming up</h2>
-          <div className="stack" style={{ gap: 10 }}>
-            {UPCOMING.map((u) => (
-              <div
-                key={u.title}
-                className="row wrap card"
-                style={{
-                  gap: 14,
-                  borderLeft: `5px solid ${u.color}`,
-                  padding: "16px 18px",
-                }}
-              >
-                <div className="stack" style={{ gap: 3, flex: 1, minWidth: 200 }}>
-                  <span className="f18">{u.title}</span>
-                  <span className="muted f15">{u.folder}</span>
-                </div>
-                <span className="pill" style={{ color: u.color }}>
-                  <Clock />
-                  {u.due}
-                </span>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="stack" style={{ gap: 12 }}>
           <div className="row wrap" style={{ justifyContent: "space-between", gap: 12 }}>
             <h2 className="h2">My folders</h2>
             <button
               type="button"
               className="btn"
               style={{ fontSize: 16 }}
+              aria-expanded={state.addOpen}
               onClick={() =>
-                patch({ addOpen: !state.addOpen, addDone: "", addError: "", dragOver: false })
+                patch({ addOpen: !state.addOpen, addError: "", dragOver: false })
               }
             >
               <Plus />

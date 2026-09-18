@@ -2,7 +2,7 @@
 
 **This is the live product record.** Agents and humans update it **after every finished task**, before they stop. Do not wait for someone to ask. If the code, API, deploy, limits, or a locked decision changed, this file must match reality.
 
-Last updated: 2026-09-18 (SPA serves at `/`; hand-written landing page removed)
+Last updated: 2026-09-18 (add-a-reading rebuilt: one inline panel, client-side PDF text extraction, computed fidelity check)
 
 Companion files (conventions only, not the product record): [`CLAUDE.md`](CLAUDE.md), [`CURSOR.md`](CURSOR.md), [`.cursor/rules/`](.cursor/rules/). Frontend map: [`docs/frontend.md`](docs/frontend.md). Pitch/MVP draft: [`README.md`](README.md).
 
@@ -95,7 +95,7 @@ After ingest the client **must keep `document` in memory** and send it back on e
 | --- | --- | --- |
 | Login | `app/src/screens/Login.jsx` | Demo form only — no Supabase auth |
 | Onboarding | `Onboarding.jsx` | ~9 steps: name, ADHD/dyslexia reason, struggles, prefs, focus, sound, buddy |
-| Dashboard | `Dashboard.jsx` | Quick settings (left) · **ingest drop box** · continue-reading card · folders |
+| Dashboard | `Dashboard.jsx` | Quick settings (left) · continue-reading card · **My folders + “Add a reading”** (no separate drop box, no “Coming up” list) |
 | Folder | `Folder.jsx` | Readings in a class folder |
 | Reading | `Reading.jsx` | **Guided** (Charlotte’s reading-coach after ingest) · Flowchart · Checklist · Quest. **This isn’t working** POSTs `/api/chat` |
 | Profile | `Profile.jsx` | Theme, font, size, reduce-motion |
@@ -103,14 +103,47 @@ After ingest the client **must keep `document` in memory** and send it back on e
 
 Themes: paper / sage / dusk. Fonts include Lexend and OpenDyslexic. Deep-link: `/app?screen=reading&theme=dusk`.
 
-Add-a-reading lives in two places and shares [`app/src/lib/ingestReading.js`](app/src/lib/ingestReading.js):
+#### Add a reading (rebuilt 2026-09-18)
 
-- Dashboard **Drop a file or content** card (`IngestDrop.jsx`) — between Quick settings and Cellular respiration. Drop auto-ingests; paste/URL uses **Restructure this**. Success opens the Reading screen with that document.
-- Folders **Add a reading** (`AddReading.jsx`) — same ingest path, then opens Reading.
+**One** entry point: the **Add a reading** button beside the *My folders* heading on the dashboard. It opens [`AddReading.jsx`](app/src/components/AddReading.jsx) as an **inline panel**, never a modal. The old dashboard `IngestDrop.jsx` drop card is **deleted** — do not bring back a second ingest surface.
 
-`ingestTypeForFile` in `app/src/lib/api.js`. Concept types map to UI formats in `FORMAT_BY_CONCEPT`. Seed readings in `app/src/data/readings.js`. Ingested passages have no generated quiz; Quest uses read-through beats.
+Three modes on a segmented row; each keeps its own slot in the store, so switching modes (or closing the panel) never discards what is already entered.
 
-After ingest (dashboard drop or Add a reading), ADDY opens the **Guided** tab: Charlotte’s `<reading-coach>` walks the passage one idea at a time. Finishing a section earns a basketball throw (`<study-hoops>`); finishing the reading opens the alpaca house (`<alpaca-house>`). Her files live as-is under [`public/study-activities/`](public/study-activities/) — we only adapt ADDY readings into her lesson schema ([`app/src/lib/coachLesson.js`](app/src/lib/coachLesson.js)). Standalone demos stay at `/study-activities/`. See [`docs/study-activities.md`](docs/study-activities.md). [PR #6](https://github.com/aidaken/xforce-hack/pull/6) is not merged wholesale (avoids README conflicts).
+| Mode | Input | Submit label | Sent to `/api/ingest` |
+| --- | --- | --- | --- |
+| Paste text | Textarea + live word count and ~180 wpm read time | Restructure this | `{ type: "text", text }` (a bare `http…` paste becomes `type: "url"`) |
+| Upload a PDF | Drag-drop zone / file picker, **`.pdf` only, up to 40 MB** | Upload and restructure | `{ type: "text", title, text }` — the text layer is pulled out **in the browser** |
+| Paste a link | URL field, amber hint if it does not start with `http` | Fetch and restructure | `{ type: "url", url }` |
+
+- **PDFs never leave the browser.** [`app/src/lib/pdfText.js`](app/src/lib/pdfText.js) runs pdf.js (via `unpdf`, dynamic-imported into its own ~1.6 MB lazy chunk) on the file: it rebuilds lines from glyph positions, rejoins wrapped lines into paragraphs, de-hyphenates, and drops running heads/feet and page numbers (repeat-across-pages + page-number patterns in the top/bottom 8% band). First **80 pages**. That is why the UI cap is 40 MB while the server upload cap is still 8 MB — only the words go over the wire.
+- **Scanned PDF** (no text layer, under ~40 chars/page): the panel says plainly that the file is page images and offers **Switch to paste text**, plus **Let Addy try to read the pictures** when the file is ≤ 8 MB, which falls back to the server's vision OCR (`type: "pdf"`, first 3 pages).
+- **Processing state** lists the real stages — Reading the text → Choosing a format → Checking nothing was lost — then routes to the Reading screen.
+- Submit is disabled (50% opacity, `not-allowed`) until the active mode has valid input.
+- Folder select uses `FOLDER_NAMES`, i.e. the folders that actually exist.
+- Uploading `.docx` / `.gdoc` / `.txt` from the panel is **gone** (PDF-only by design). Those still ingest through **Paste a link** (public Google Doc, remote `.docx`/`.pdf`) or by pasting the text, and `/api/ingest` still accepts every type.
+
+Shared path: [`app/src/lib/ingestReading.js`](app/src/lib/ingestReading.js) builds the payload, calls `/api/ingest`, and reports `extract` → `plan` → `check` back to the panel. Concept types map to UI formats in `FORMAT_BY_CONCEPT`. Seed readings live in `app/src/data/readings.js`. Ingested passages have no generated quiz; Quest uses read-through beats.
+
+#### Format planner + fidelity check
+
+- [`app/src/lib/adapt.js`](app/src/lib/adapt.js) turns a document into a reading. Beats follow the source's **paragraphs** (sentences are cut inside each paragraph, so a heading with no full stop stays its own beat), merged down to at most 6 steps. The one-line rationale names the shape it chose — "This passage describes a step-by-step process, so I made it a flowchart." — and the classifier's longer sentence becomes the **Why?** detail.
+- [`app/src/lib/fidelity.js`](app/src/lib/fidelity.js) is a real, offline, lexical check: per source sentence it measures content-word overlap against the remake steps (covered ≥ 0.65, compressed ≥ 0.3, otherwise dropped), counts remake claims no source sentence backs, and flags truncation and crowded steps. The Reading screen shows `Fidelity check · N of N ideas covered · 0 added that weren't in the source`, green tick when clean and an amber warning icon when not. Seed readings keep their hand-written `flags`; ingested readings carry a computed `fidelity`.
+
+**Seed class folders** (`FOLDER_NAMES` / `FOLDER_TINTS` in `app/src/data/readings.js`, 7 readings):
+
+| Folder | Reading | Format | Source |
+| --- | --- | --- | --- |
+| Biology 101 | Cellular respiration | Flowchart | Addy design copy (verbatim, do not edit) |
+| Biology 101 | Moving things across the cell membrane | Checklist | Addy design copy (verbatim, do not edit) |
+| Calculus I | The chain rule | Flowchart | OpenStax Calculus Vol. 1 § 3.6 |
+| Physics II | Applying Gauss's law | Flowchart | OpenStax University Physics Vol. 2 § 6.3 |
+| Physics II | Choosing a Gaussian surface | Checklist | same § 6.3 (the three symmetry cases) |
+| Web Development | useEffect | Checklist | react.dev `useEffect` reference |
+| US History | The Americas before 1492 | Quest | OpenStax U.S. History § 1.1 |
+
+Each non-Biology entry carries `source: { id, conceptType, url }`, so “This isn’t working” sends the right `conceptType` to `/api/chat` instead of defaulting to `process`. Hand-written seeds follow the design's contract: `sents` stays faithful to the source, `steps` is the remake, `flags` names what the remake dropped or compressed.
+
+After ingest (Add a reading), ADDY opens the **Guided** tab: Charlotte’s `<reading-coach>` walks the passage one idea at a time. Finishing a section earns a basketball throw (`<study-hoops>`); finishing the reading opens the alpaca house (`<alpaca-house>`). Her files live as-is under [`public/study-activities/`](public/study-activities/) — we only adapt ADDY readings into her lesson schema ([`app/src/lib/coachLesson.js`](app/src/lib/coachLesson.js)). Standalone demos stay at `/study-activities/`. See [`docs/study-activities.md`](docs/study-activities.md). [PR #6](https://github.com/aidaken/xforce-hack/pull/6) is not merged wholesale (avoids README conflicts).
 
 The old `public/app.html` chat stub is **gone** (replaced by this SPA).
 
@@ -129,12 +162,13 @@ The old `public/app.html` chat stub is **gone** (replaced by this SPA).
 
 | Gap | Notes |
 | --- | --- |
-| Real fidelity / Source Guard | Reading screen has a fidelity panel, but flags are local/seed — no server claim map, no invented/missing API |
+| Server-side Source Guard | The fidelity check is real but **client-side and lexical** (`app/src/lib/fidelity.js`): no server claim map, no model-graded entailment, no fidelity API |
 | Login / saved profiles | Login + onboarding UI exist; **not** wired to Supabase. Refresh loses the session |
 | Persistence | Remakes, documents, streaks not stored in Supabase |
 | Private Google Docs | Will not ingest (by design unless we add OAuth later) |
 | Old `.doc` (not docx) | Not supported |
-| OCR page cap | Vision OCR is first 3 pages only |
+| OCR page cap | Vision OCR is first 3 pages only, and only reachable from the scanned-PDF fallback button (≤ 8 MB) |
+| PDF page cap | Client-side extraction reads the first 80 pages; the panel says so when a file is longer |
 | Mermaid as a library | Flowchart is a custom UI component, not Mermaid.js |
 
 ### Open decisions (not locked)
@@ -182,6 +216,9 @@ Frontend: edit [`app/src/`](app/src/). Keep calling `/api/ingest` and `/api/chat
 
 | Date | What landed |
 | --- | --- |
+| 2026-09-18 | Add-a-reading rebuilt as one inline panel (paste / PDF / link), `IngestDrop.jsx` deleted; client-side PDF text extraction (40 MB, paragraph-preserving, headers/footers stripped, scanned files named as such); computed fidelity check; AA-safe `--warn-text` amber |
+| 2026-09-18 | Dashboard “Coming up” section (fake due dates) removed with its `UPCOMING` data |
+| 2026-09-18 | Seed folders rebuilt from real sources: Calculus I, Physics II, Web Development, US History (5 new readings). Biology 101 left verbatim; Economics + History Essay retired |
 | 2026-09-18 | SPA now serves at `/` and `/app`; `public/index.html` landing page deleted (`public/study-activities/` kept) |
 | 2026-09-18 | PR #6 study activities copied (no README merge); Guided tab + hoops/alpaca after ingest |
 | 2026-09-18 | Dashboard ingest box between Quick settings and continue-reading; drop/paste/URL ingest opens Reading |

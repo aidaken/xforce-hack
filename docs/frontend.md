@@ -29,9 +29,11 @@ app/src/App.jsx           screen router + app shell
 app/src/state/store.jsx   all app state, theme/font effects, timers
 app/src/styles.css        design tokens (paper/sage/dusk) + component classes
 app/src/screens/          Login, Onboarding, Dashboard, Folder, Reading, Profile, Focus
-app/src/components/       header, ingest drop, reading-coach embed, study play, formats
+app/src/components/       header, add-a-reading panel, reading-coach embed, study play, formats
 app/src/lib/api.js        /api wrappers + concept→format mapping
 app/src/lib/adapt.js      turns an ingested document into a reading
+app/src/lib/pdfText.js    client-side PDF text extraction (pdf.js via unpdf)
+app/src/lib/fidelity.js   source-vs-remake coverage check
 app/src/lib/coachLesson.js maps a reading onto Charlotte’s <reading-coach> schema
 public/study-activities/  portable guided reading + basketball + alpaca house (do not rewrite)
 ```
@@ -84,6 +86,48 @@ npm run dev
 ```
 
 OpenRouter is server-side only. Local: `secrets.toml`. Prod: Vercel env `OPENROUTER_API_KEY`. Model: `deepseek/deepseek-v4.1-flash`. Never put the key in frontend code.
+
+## Add a reading
+
+One entry point: the **Add a reading** button beside *My folders* on the
+dashboard opens `app/src/components/AddReading.jsx` as an **inline panel**.
+There is deliberately no second ingest surface — the old dashboard drop card
+was deleted on 2026-09-18.
+
+Three modes on a segmented row, each with its own slot in the store so
+switching modes never loses what is typed:
+
+| Mode | Accepts | Posts |
+| --- | --- | --- |
+| Paste text | any passage; live word count + ~180 wpm estimate | `type: "text"` |
+| Upload a PDF | `.pdf` only, up to 40 MB | `type: "text"` — the text layer is extracted **in the browser** |
+| Paste a link | article, remote `.pdf` / `.docx`, public Google Doc | `type: "url"` |
+
+`app/src/lib/pdfText.js` does the PDF work client-side with pdf.js (shipped
+inside `unpdf`, behind a dynamic `import()` so the 1.6 MB chunk only loads
+when someone picks a PDF). It rebuilds lines from glyph positions, rejoins
+wrapped lines into paragraphs, de-hyphenates, and strips running heads, feet
+and page numbers. Reads the first 80 pages.
+
+**The file never leaves the browser** — only the extracted words are posted.
+That is why the panel can accept 40 MB while `/api/ingest` still caps uploads
+at 8 MB. A PDF with no text layer is called what it is ("this is pictures of
+pages"), with a button to switch to paste-text and, for files under 8 MB, an
+opt-in fallback to the server's vision OCR.
+
+`app/src/lib/fidelity.js` then compares the source sentences against the
+remake steps and the Reading screen reports `N of N ideas covered · 0 added
+that weren't in the source`, listing whatever was dropped, shortened or
+crowded into one step.
+
+## Accessibility contract for this panel
+
+Worth keeping when you touch it: every control ≥ 44px tall, 12px corners,
+body text ≥ 18px at line-height 1.5–1.6, left-aligned and never justified,
+icons always next to a text label, sentence case throughout. **Nothing is ever
+red** — problems are warm amber (`--warn` for borders, `--warn-text` for text
+and icons, which is the AA-safe tone of the same amber) plus an icon plus
+words.
 
 ## Formats
 
