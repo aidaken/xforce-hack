@@ -19,7 +19,7 @@ After you finish the work — not later, not only if asked:
 - Challenge **[2]** Neurodiversity-adaptive study workspace. Product name: **ADDY**.
 - **Live product record:** [`product_info.md`](product_info.md)
 - Pitch / MVP draft: [`README.md`](README.md)
-- **Frontend:** [`docs/frontend.md`](docs/frontend.md) — the app is a **React SPA in [`app/`](app/)** (Vite). Edit `app/src/`; `public/app.html` and `public/assets/` are gitignored build output. [`public/index.html`](public/index.html) is still the plain-HTML landing page. Do not rewrite `server/` or `api/` unless you are changing the HTTP contract.
+- **Frontend:** [`docs/frontend.md`](docs/frontend.md) — the app is a **React SPA in [`app/`](app/)** (Vite). Edit `app/src/`; `public/app.html` and `public/assets/` are gitignored build output, but `public/study-activities/` is Charlotte's checked-in static app — never wipe `public/` wholesale. The SPA serves at both `/` and `/app`; the old plain-HTML landing page was removed on 2026-09-18. Do not rewrite `server/` or `api/` unless you are changing the HTTP contract.
 - **Backend:** [`server/`](server/) (ingest, classify, OpenRouter prompts/chat). Vercel wrappers in [`api/`](api/). Ingest types: `text`, `pdf` (text layer or scanned OCR), `docx`, `gdoc`, `url` (including public Google Docs), `sample`. Google Docs must be shared “Anyone with the link”.
 
 ## Git
@@ -96,8 +96,8 @@ config/                cloud project IDs (supabase + vercel)
 docs/                  teammate setup (supabase.md, vercel.md, frontend.md, study-activities.md)
 lib/supabase.js        browser-safe client
 app/                   React SPA (Vite) — the real UI, edit here
-public/index.html      landing page (plain HTML, outside the Vite build)
 public/app.html        BUILD OUTPUT — gitignored, never edit or commit
+public/assets/         BUILD OUTPUT — gitignored
 public/study-activities/ Charlotte’s portable coach + play widgets (mount, don’t rewrite)
 server/                ingest, classify, OpenRouter, chat
 api/                   Vercel serverless wrappers

@@ -154,7 +154,7 @@ Then open http://localhost:3000/app.
 - `ideas/` — earlier pick-list (formats, agent loop, judge demo)
 - `app/` — React SPA (Vite). Edit here. Builds to gitignored `public/app.html`
 - `public/study-activities/` — Charlotte's portable guided reading + play widgets (wired into `/app` after ingest)
-- `public/index.html` — landing page (plain HTML)
+- `public/` — otherwise build output; the SPA answers both `/` and `/app`
 - `server/` — ingest, classify, OpenRouter
 - `api/` — Vercel serverless wrappers
 - `docs/frontend.md` — where frontend work starts

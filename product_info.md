@@ -2,7 +2,7 @@
 
 **This is the live product record.** Agents and humans update it **after every finished task**, before they stop. Do not wait for someone to ask. If the code, API, deploy, limits, or a locked decision changed, this file must match reality.
 
-Last updated: 2026-09-18 (guided reading + play widgets on main / prod)
+Last updated: 2026-09-18 (SPA serves at `/`; hand-written landing page removed)
 
 Companion files (conventions only, not the product record): [`CLAUDE.md`](CLAUDE.md), [`CURSOR.md`](CURSOR.md), [`.cursor/rules/`](.cursor/rules/). Frontend map: [`docs/frontend.md`](docs/frontend.md). Pitch/MVP draft: [`README.md`](README.md).
 
@@ -45,12 +45,12 @@ Feature branch: `aidar-kenzhebaev`
 - **One** Vercel project for every branch: `xforce-hack`, `prj_GXZ75tI8NCSyxSXNFiHanqcIp1Zc`, team `team_XS9LEdNQcwp4cYraijcCL30b`. GitHub already linked. Do not create a second project.
 - **One** Supabase project for every branch: `tfmzjvoqsktlzwnrzdzr` / `https://tfmzjvoqsktlzwnrzdzr.supabase.co`. Do not create a second project. **No remake/session tables yet** — ingest/chat are in-memory per serverless instance.
 - Vercel `buildCommand`: `npm run build` (Vite) into `public/`. `public/app.html` + `public/assets/` are **gitignored build output**.
-- Static `public/` + serverless `api/` (`vercel.json`). Local: `npm run build` then `npm run dev` → http://localhost:3000 (`/` landing, `/app` workspace). Vite HMR: `npm run dev:web` on :5173.
+- Static `public/` + serverless `api/` (`vercel.json`). `public/app.html` + `public/assets/` are gitignored build output; `public/study-activities/` is checked in. Local: `npm run build` then `npm run dev` → http://localhost:3000 (`/` **and** `/app` both serve the SPA). Vite HMR: `npm run dev:web` on :5173.
 - Aidar “push to prod”: merge `origin/main` if needed → `git push origin HEAD` and `git push origin HEAD:main` → `vercel --prod --yes`. Never force-push `main`. Do not checkout `main` to edit.
 
 ### Landing
 
-- [`public/index.html`](public/index.html) — pitch + **Remix a passage** → `/app`. Friends may restyle.
+- **Removed 2026-09-18.** The old hand-written `public/index.html` pitch page is gone; the React SPA is the only UI and answers `/` as well as `/app`. First screen is Login (`app/src/screens/Login.jsx`). Recover the old page from git history if it is ever wanted back.
 
 ### Ingest + chat backend
 
@@ -150,7 +150,7 @@ The old `public/app.html` chat stub is **gone** (replaced by this SPA).
 In order, on `aidar-kenzhebaev`, pushed to GitHub `main` and Vercel production when Aidar said push to prod:
 
 1. Shared Supabase + Vercel IDs pinned; agent docs so nobody spins up a second cloud project.
-2. Landing page (`public/index.html`).
+2. Landing page (`public/index.html`) — later removed, see changelog.
 3. Ingest + classify + chat API; ADHD/Dyslexia prompts; `public/app.html` marked as a **stub** for frontend teammates (`docs/frontend.md`).
 4. OpenRouter wired. Model locked to **DeepSeek V4.1 Flash**. Key in `secrets.toml` locally and Vercel env in prod.
 5. PR #4 `main` → `dev` conflicts resolved (merge-ort, pushed).
@@ -182,6 +182,7 @@ Frontend: edit [`app/src/`](app/src/). Keep calling `/api/ingest` and `/api/chat
 
 | Date | What landed |
 | --- | --- |
+| 2026-09-18 | SPA now serves at `/` and `/app`; `public/index.html` landing page deleted (`public/study-activities/` kept) |
 | 2026-09-18 | PR #6 study activities copied (no README merge); Guided tab + hoops/alpaca after ingest |
 | 2026-09-18 | Dashboard ingest box between Quick settings and continue-reading; drop/paste/URL ingest opens Reading |
 | 2026-09-18 | Merged React + Vite SPA from `dev` (`3bd65dd` created screens; `9d3e357` merged ingest). Stub `app.html` retired |

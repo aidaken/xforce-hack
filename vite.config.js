@@ -2,9 +2,10 @@ import { resolve } from "node:path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// The Addy SPA lives in app/ and builds into public/ next to the existing
-// landing page. emptyOutDir MUST stay false: public/index.html is the
-// hand-written marketing page and is not ours to delete.
+// The Addy SPA lives in app/ and builds into public/ and serves at both /
+// and /app. emptyOutDir MUST stay false: public/study-activities/ is
+// Charlotte's checked-in static app, not build output, and a true here would
+// delete it on every build.
 export default defineConfig({
   root: "app",
   plugins: [react()],
