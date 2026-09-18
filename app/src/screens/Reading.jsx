@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useAddy } from "../state/store.jsx";
 import { FORMAT_NAMES } from "../data/readings.js";
 import { chat, learnerFromProfile } from "../lib/api.js";
+import { fidelitySummary } from "../lib/fidelity.js";
 import { readingToCoachLesson } from "../lib/coachLesson.js";
 import { Flowchart, Checklist, Quest } from "../components/ReadingFormats.jsx";
 import ReadingCoachEmbed from "../components/ReadingCoachEmbed.jsx";
@@ -51,8 +52,19 @@ export default function Reading() {
   const st = state;
   const [remake, setRemake] = useState({ busy: false, text: "", error: "" });
 
-  const flags = current.flags.length
-    ? current.flags
+  // Seed readings carry hand-written fidelity notes. Anything ingested at
+  // runtime gets the computed check from lib/fidelity.js instead — nobody
+  // should have to take a remake on trust.
+  const fid = current.fidelity || {
+    total: current.sents.length,
+    covered: current.sents.length,
+    added: 0,
+    flags: [],
+  };
+  const notes = current.flags?.length ? current.flags : fid.flags;
+  const clean = fid.covered === fid.total && fid.added === 0 && !notes.length;
+  const flags = notes.length
+    ? notes
     : ["Nothing flagged. Every idea in the source has a home in this version."];
 
   const lesson = useMemo(() => {
@@ -294,11 +306,12 @@ export default function Reading() {
               gap: 12,
             }}
           >
-            <Check color="var(--ok)" />
-            <span style={{ flex: 1 }}>
-              Fidelity check · {current.sents.length} of {current.sents.length} ideas
-              covered · 0 added that weren't in the source
-            </span>
+            {clean ? (
+              <Check color="var(--ok)" />
+            ) : (
+              <Warn size={16} color="var(--warn-text)" />
+            )}
+            <span style={{ flex: 1 }}>Fidelity check · {fidelitySummary(fid)}</span>
             <span className="muted f15">{st.fidOpen ? "Hide" : "Show"}</span>
           </button>
           {st.fidOpen && (
@@ -317,7 +330,7 @@ export default function Reading() {
                   style={{ display: "flex", gap: 10, lineHeight: 1.55 }}
                 >
                   <span style={{ flex: "0 0 15px", marginTop: 4 }}>
-                    <Warn size={15} color="var(--warn)" />
+                    <Warn size={15} color="var(--warn-text)" />
                   </span>
                   <span>{text}</span>
                 </div>
@@ -371,7 +384,7 @@ export default function Reading() {
             </div>
           )}
           {remake.error && (
-            <div className="row f16" style={{ gap: 8, color: "var(--warn)" }}>
+            <div className="row f16" style={{ gap: 8, color: "var(--warn-text)" }}>
               <Warn />
               {remake.error}
             </div>

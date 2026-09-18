@@ -8,5 +8,6 @@ node_modules/
 
 # Vite build output. Vercel runs `npm run build`; run it locally before
 # `npm run dev` if you want the node server to serve the app.
+# Only these two are build output. public/study-activities/ is checked in.
 public/app.html
 public/assets/

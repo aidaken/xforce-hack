@@ -28,7 +28,7 @@ const server = createServer(async (req, res) => {
 });
 
 function serveStatic(pathname, res) {
-  let rel = pathname === "/" ? "/index.html" : pathname;
+  let rel = pathname === "/" ? "/app.html" : pathname;
   if (rel === "/app") rel = "/app.html";
   const file = normalize(join(publicDir, rel));
   if (!file.startsWith(publicDir) || !existsSync(file) || statSync(file).isDirectory()) {

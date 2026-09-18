@@ -3,7 +3,7 @@ import { FORMAT_ICONS, FORMAT_NAMES } from "../data/readings.js";
 
 const STATUS_COLOR = {
   Done: "var(--ok)",
-  "In progress": "var(--warn)",
+  "In progress": "var(--warn-text)",
 };
 
 export default function Folder() {

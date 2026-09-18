@@ -56,13 +56,16 @@ const initialState = {
   addOpen: false,
   split: 52,
   monthOffset: 0,
-  // add-a-reading form
+  // add-a-reading panel (Dashboard → "Add a reading")
   addMode: "text",
   addText: "",
   addLink: "",
   addFile: null,
+  // client-side PDF extraction result: { text, pages, totalPages, scanned, truncated }
+  addPdf: null,
+  addPdfBusy: false,
   addFolder: "Biology 101",
-  addDone: "",
+  addStage: "",
   addError: "",
   addBusy: false,
   dragOver: false,
