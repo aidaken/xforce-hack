@@ -2,7 +2,7 @@
 
 **This is the live product record.** Agents and humans update it **after every finished task**, before they stop. Do not wait for someone to ask. If the code, API, deploy, limits, or a locked decision changed, this file must match reality.
 
-Last updated: 2026-09-18 (add-a-reading rebuilt: one inline panel, client-side PDF text extraction, computed fidelity check; merged the reading-alpaca ADDY lockup)
+Last updated: 2026-09-18 (add-a-reading rebuilt: one inline panel, client-side PDF text extraction, computed fidelity check; merged the alpaca lockup, self-hosted OpenDyslexic and the Playful study-video buddy)
 
 Companion files (conventions only, not the product record): [`CLAUDE.md`](CLAUDE.md), [`CURSOR.md`](CURSOR.md), [`.cursor/rules/`](.cursor/rules/). Frontend map: [`docs/frontend.md`](docs/frontend.md). Pitch/MVP draft: [`README.md`](README.md).
 
@@ -144,7 +144,7 @@ Shared path: [`app/src/lib/ingestReading.js`](app/src/lib/ingestReading.js) buil
 
 Each non-Biology entry carries `source: { id, conceptType, url }`, so “This isn’t working” sends the right `conceptType` to `/api/chat` instead of defaulting to `process`. Hand-written seeds follow the design's contract: `sents` stays faithful to the source, `steps` is the remake, `flags` names what the remake dropped or compressed.
 
-After ingest (Add a reading), ADDY opens the **Guided** tab: Charlotte’s `<reading-coach>` walks the passage one idea at a time. A basketball sits on the floor as a fidget (drag to bounce; click twice to put it away). The hoop unlocks only after the whole reading is finished. Alpaca house also opens on finish. Widgets mount only on Guided. Her files live as-is under [`public/study-activities/`](public/study-activities/) — we only adapt ADDY readings into her lesson schema ([`app/src/lib/coachLesson.js`](app/src/lib/coachLesson.js)). Standalone demos stay at `/study-activities/`. See [`docs/study-activities.md`](docs/study-activities.md). [PR #6](https://github.com/aidaken/xforce-hack/pull/6) is not merged wholesale (avoids README conflicts).
+After ingest (Add a reading), ADDY opens the **Guided** tab: Charlotte’s `<reading-coach>` walks the passage one idea at a time. A basketball sits on the floor as a fidget (drag to bounce; click twice to put it away). The hoop unlocks only after the whole reading is finished. Alpaca house also opens on finish. **Playful** study buddy mounts her `<study-video>` Subway Surfers sidekick (Calm/Off leave it off). Widgets otherwise mount on Guided. Her files live as-is under [`public/study-activities/`](public/study-activities/) — we only adapt ADDY readings into her lesson schema ([`app/src/lib/coachLesson.js`](app/src/lib/coachLesson.js)). Standalone demos stay at `/study-activities/`. See [`docs/study-activities.md`](docs/study-activities.md). [PR #6](https://github.com/aidaken/xforce-hack/pull/6) is not merged wholesale (avoids README conflicts); the portable components are copied in.
 
 The old `public/app.html` chat stub is **gone** (replaced by this SPA).
 
@@ -221,6 +221,7 @@ Frontend: edit [`app/src/`](app/src/). Keep calling `/api/ingest` and `/api/chat
 | 2026-09-18 | Dashboard “Coming up” section (fake due dates) removed with its `UPCOMING` data |
 | 2026-09-18 | Seed folders rebuilt from real sources: Calculus I, Physics II, Web Development, US History (5 new readings). Biology 101 left verbatim; Economics + History Essay retired |
 | 2026-09-18 | SPA now serves at `/` and `/app`; `public/index.html` landing page deleted (`public/study-activities/` kept; its alpaca lockup stays on login, header and favicon) |
+| 2026-09-18 | Self-hosted OpenDyslexic; Playful buddy mounts Charlotte’s study-video sidekick |
 | 2026-09-18 | Reading-alpaca ADDY lockup as the logo (login, header, landing, favicon); `app/public/addy-logo.png` so prod builds include it |
 | 2026-09-18 | Llama ADDY logo on login, app header, landing, and favicon |
 | 2026-09-18 | Basketball sits on the floor as a fidget; hoop unlocks after a finished reading; double-click puts the ball away |
