@@ -15,9 +15,27 @@ function attachReward(house) {
   return house;
 }
 
+/** Host-side tidy: hide Charlotte's demo earn button and keep the
+ *  basketball dock off the page until the student earns a throw. */
+function tidyHoops(el) {
+  if (!el?.shadowRoot) return el;
+  const earn = el.shadowRoot.querySelector(".earn");
+  if (earn) earn.hidden = true;
+  setHoopsPlay(el, Number(el.throws) > 0);
+  return el;
+}
+
+function setHoopsPlay(el, on) {
+  if (!el?.shadowRoot) return;
+  const dock = el.shadowRoot.querySelector(".dock");
+  if (dock) dock.hidden = !on;
+  if (on && el.hiddenBall) el.toggleHidden?.();
+  if (!on && !el.hiddenBall) el.toggleHidden?.();
+}
+
 /**
- * Charlotte's play widgets (basketball + alpaca house). Mounted at app root
- * so they pop up over the reading workspace after a file is ingested.
+ * Charlotte's play widgets (basketball + alpaca house). Mounted only on the
+ * Guided tab so they do not cover Flowchart / Checklist / Quest.
  */
 export default function StudyPlay({ active }) {
   useEffect(() => {
@@ -30,12 +48,15 @@ export default function StudyPlay({ active }) {
       if (cancelled) return;
       await customElements.whenDefined("study-hoops");
       await customElements.whenDefined("alpaca-house");
+      tidyHoops(document.getElementById(HOOPS));
       attachReward(document.getElementById(HOUSE));
     })();
 
     const onSection = (e) => {
       const n = Number(e.detail?.completed) || 0;
-      document.getElementById(HOOPS)?.setSectionsCompleted?.(n);
+      const hoops = document.getElementById(HOOPS);
+      hoops?.setSectionsCompleted?.(n);
+      if (n > 0) setHoopsPlay(hoops, true);
     };
     const onDone = (e) => {
       const house = attachReward(document.getElementById(HOUSE));

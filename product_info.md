@@ -2,7 +2,7 @@
 
 **This is the live product record.** Agents and humans update it **after every finished task**, before they stop. Do not wait for someone to ask. If the code, API, deploy, limits, or a locked decision changed, this file must match reality.
 
-Last updated: 2026-09-18 (guided reading + play widgets on main / prod)
+Last updated: 2026-09-18 (Guided play widgets tucked so they don’t cover the reading)
 
 Companion files (conventions only, not the product record): [`CLAUDE.md`](CLAUDE.md), [`CURSOR.md`](CURSOR.md), [`.cursor/rules/`](.cursor/rules/). Frontend map: [`docs/frontend.md`](docs/frontend.md). Pitch/MVP draft: [`README.md`](README.md).
 
@@ -110,7 +110,7 @@ Add-a-reading lives in two places and shares [`app/src/lib/ingestReading.js`](ap
 
 `ingestTypeForFile` in `app/src/lib/api.js`. Concept types map to UI formats in `FORMAT_BY_CONCEPT`. Seed readings in `app/src/data/readings.js`. Ingested passages have no generated quiz; Quest uses read-through beats.
 
-After ingest (dashboard drop or Add a reading), ADDY opens the **Guided** tab: Charlotte’s `<reading-coach>` walks the passage one idea at a time. Finishing a section earns a basketball throw (`<study-hoops>`); finishing the reading opens the alpaca house (`<alpaca-house>`). Her files live as-is under [`public/study-activities/`](public/study-activities/) — we only adapt ADDY readings into her lesson schema ([`app/src/lib/coachLesson.js`](app/src/lib/coachLesson.js)). Standalone demos stay at `/study-activities/`. See [`docs/study-activities.md`](docs/study-activities.md). [PR #6](https://github.com/aidaken/xforce-hack/pull/6) is not merged wholesale (avoids README conflicts).
+After ingest (dashboard drop or Add a reading), ADDY opens the **Guided** tab: Charlotte’s `<reading-coach>` walks the passage one idea at a time. Basketball and the alpaca house mount only on Guided (not Flowchart/Checklist/Quest). The ball stays hidden until a section earns a throw; her demo “section finished” button is hidden. Finishing the reading opens the alpaca house (`<alpaca-house>`). Her files live as-is under [`public/study-activities/`](public/study-activities/) — we only adapt ADDY readings into her lesson schema ([`app/src/lib/coachLesson.js`](app/src/lib/coachLesson.js)). Standalone demos stay at `/study-activities/`. See [`docs/study-activities.md`](docs/study-activities.md). [PR #6](https://github.com/aidaken/xforce-hack/pull/6) is not merged wholesale (avoids README conflicts).
 
 The old `public/app.html` chat stub is **gone** (replaced by this SPA).
 
@@ -182,6 +182,7 @@ Frontend: edit [`app/src/`](app/src/). Keep calling `/api/ingest` and `/api/chat
 
 | Date | What landed |
 | --- | --- |
+| 2026-09-18 | Play widgets only on Guided; ball hidden until a throw; demo earn button off |
 | 2026-09-18 | PR #6 study activities copied (no README merge); Guided tab + hoops/alpaca after ingest |
 | 2026-09-18 | Dashboard ingest box between Quick settings and continue-reading; drop/paste/URL ingest opens Reading |
 | 2026-09-18 | Merged React + Vite SPA from `dev` (`3bd65dd` created screens; `9d3e357` merged ingest). Stub `app.html` retired |
