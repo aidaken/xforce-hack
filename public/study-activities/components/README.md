@@ -1,3 +1,48 @@
+# Portable guided reading
+
+Open `reading-coach-demo.html` for the new quiet guided-reading flow. Copy **reading-coach.js** into any website, then supply reviewed lesson data:
+
+```html
+<script src="/components/reading-coach.js" defer></script>
+<reading-coach id="coach"></reading-coach>
+<script>
+customElements.whenDefined('reading-coach').then(() => {
+  document.querySelector('#coach').lesson = myReviewedLesson;
+});
+</script>
+```
+
+Use `reading-coach-sample.js` as the lesson schema example: stable `id`, `version`, `title`, optional `topic`, and sections with unique `id`, `title`, `source`, exact `quote`, `summary`, `steps`, `change`, `recap`, and a `question` containing `prompt`, `options`, zero-based `correct`, and `explanation`. Assignment validates the schema and quote matches and throws on invalid data. Adaptations are supplied content; this component does not call an AI service or evaluate arbitrary answers.
+
+Styles use Shadow DOM. No framework, font download, build step or network call is required by the component. The demo shell reuses the main site's stylesheet/fonts. Set `--coach-font` (a full CSS font shorthand), `--coach-paper`, `--coach-ink`, and `--coach-accent` on the element to match another host or reading preference. Check contrast after overriding colors.
+
+Progress is tab-session scoped by lesson ID/version; optional `storage-key` gives a separate namespace and should be set before assigning the lesson. Change `version` when content changes. It stores stage, section index and check outcomes, not diagnosis or notes. No completion event is replayed after restoration. Handle account boundaries and durable storage in the host if needed.
+
+Bubbling, composed integration events:
+
+| Event | Detail |
+| --- | --- |
+| `section-completed` | `lessonId`, `sectionId`, cumulative `completed`, `outcome` (`checked`, `reviewed`, `skipped`), stable `eventId` |
+| `reading-completed` | `id`, `title`, `topic`, `outcomes`, stable `eventId` |
+| `reading-adapted` | Learner-requested `lessonId`, `sectionId`, `format`, `reason` |
+
+For example, bank throws without opening a game:
+
+```js
+coach.addEventListener('section-completed', ({detail}) => {
+  // Single-lesson demo. For many lessons, maintain a host-wide deduplicated total.
+  document.querySelector('study-hoops')?.setSectionsCompleted(detail.completed);
+});
+coach.addEventListener('reading-completed', ({detail}) => {
+  // Show a quiet optional reward action; do not open a modal automatically.
+  // Pass detail to house.completeReading only when a matching reward provider exists.
+});
+```
+
+The included demo only shows an optional link to the existing basketball demo after reading completion. It does not wire cross-page balances or generate a biology collectible. Host applications should deduplicate `eventId` in durable storage for real rewards; client-side events are not proof of learning. `[reading-coach].state` is an implementation detail, not a stable integration API.
+
+See [research and usability notes](RESEARCH-AND-USABILITY.md) for evidence, limitations and the evaluation checklist. Run the local state tests from the prototype root: `node tests/reading-coach.test.cjs`.
+
 # Portable study video
 
 Copy `study-video.js` into another website and add:
