@@ -5,7 +5,7 @@ export { llmReady };
 export async function completeChat({ messages, learner }) {
   if (!llmReady()) {
     const err = new Error(
-      "OPENROUTER_API_KEY is not set. Ingestion still works; chat lights up when the key is in .env.",
+      "OPENROUTER_API_KEY is not set. Put it in secrets.toml ([openrouter] api_key) or .env. Ingestion still works without it.",
     );
     err.code = "LLM_UNCONFIGURED";
     throw err;

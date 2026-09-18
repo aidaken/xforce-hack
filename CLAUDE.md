@@ -45,7 +45,7 @@ One hosted project. GitHub `aidaken/xforce-hack` is already linked. Do **not** c
 - Pinned: `config/vercel.json`
 - Guide: `docs/vercel.md`
 - Config: `vercel.json` (static `public/` + serverless `api/`)
-- Backend: `server/` ingest + OpenRouter chat. Model: `OPENROUTER_MODEL` (currently `deepseek/deepseek-v4.1-flash`). Set `OPENROUTER_API_KEY` in **local `.env` (gitignored)** and on the Vercel project env. Never commit the key. Never put it in CLAUDE.md / CURSOR.md / frontend code.
+- Backend: `server/` ingest + OpenRouter chat. Model: `deepseek/deepseek-v4.1-flash` (`OPENROUTER_MODEL`). Local key: `secrets.toml` (`[openrouter] api_key`, gitignored; copy `secrets.toml.example`). Also accepted: `.env` / Vercel env. Never commit the key. Never put it in CLAUDE.md / CURSOR.md / frontend code.
 - Local: `npm run dev` → http://localhost:3000/app
 - Frontend map: `docs/frontend.md`
 - After clone: `npx vercel link --yes --project xforce-hack --scope aidars-projects-c6143ce8`
@@ -76,4 +76,4 @@ Product is **ADDY**. Do not invent a second backend or a second Vercel project.
 - Keep `CLAUDE.md` and `CURSOR.md` in sync when conventions change
 - Prefer the shared Supabase for any persistence (remakes, verifier results, sessions)
 - Prefer the shared Vercel project for deploys (`prj_GXZ75tI8NCSyxSXNFiHanqcIp1Zc`). Never create a second one.
-- OpenRouter key lives in `.env` + Vercel env only. If a human pastes a key in chat, write it there — never into git.
+- OpenRouter key lives in `secrets.toml` (local), `.env`, or Vercel env. Never in git. If a human pastes a key in chat, write it to `secrets.toml` — never into the repo.

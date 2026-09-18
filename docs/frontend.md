@@ -34,10 +34,11 @@ After ingest, keep `document` in client memory and send it back on chat (Vercel 
 Local:
 
 ```bash
-cp .env.example .env   # then put OPENROUTER_API_KEY in .env, never commit it
+cp secrets.toml.example secrets.toml   # put the OpenRouter key in [openrouter] api_key
+cp .env.example .env                   # supabase / optional overrides
 npm install
 npm run dev
 # http://localhost:3000/app
 ```
 
-OpenRouter is server-side only (`OPENROUTER_API_KEY` in `.env` and Vercel env). Model: `OPENROUTER_MODEL=deepseek/deepseek-v4.1-flash`. Never put the key in frontend code.
+OpenRouter is server-side only. Local: `secrets.toml`. Prod: Vercel env `OPENROUTER_API_KEY`. Model: `deepseek/deepseek-v4.1-flash`. Never put the key in frontend code.
