@@ -1,7 +1,17 @@
 @font-face {
   font-family: "OpenDyslexic";
-  src: url("https://cdn.jsdelivr.net/npm/@fontsource/opendyslexic@5.0.19/files/opendyslexic-latin-400-normal.woff2")
+  src: url("https://cdn.jsdelivr.net/npm/@fontsource/opendyslexic@5.3.0/files/opendyslexic-latin-400-normal.woff2")
     format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+/* Without a real bold the browser smears the 400 face, which thickens the
+   weighted bottoms OpenDyslexic relies on and undoes the point of it. */
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("https://cdn.jsdelivr.net/npm/@fontsource/opendyslexic@5.3.0/files/opendyslexic-latin-700-normal.woff2")
+    format("woff2");
+  font-weight: 700;
   font-display: swap;
 }
 
