@@ -150,3 +150,20 @@ The default experience is deliberately quiet: a room, a short reward message, an
 Collections and placements are saved to localStorage under the chosen key. No reading text or disability information is stored. Storage failure falls back to the current visit with a visible notice. There is no server persistence or account; storage is shared by tabs on the same origin, with updates read when reloading. Each instance should use a distinct key if separate houses are desired. `completeReading` does not automatically interrupt the reader with a modal; the host controls when to call `open()`.
 
 `house-demo.html` opens the feature standalone. Add the `open` attribute to show the house immediately. The two included assets and their ImageGen prompts are documented in `assets/GENERATION.md`.
+
+## Addy companion: a pet that wanders behind the page
+
+Copy `addy-pet.js` and its sibling `assets/addy/` folder (ten PNGs, ~570 KB). No framework, CSS, build step, or network call beyond the images.
+
+```html
+<script src="/components/addy-pet.js" defer></script>
+<addy-pet></addy-pet>
+```
+
+Put the tag inside the element whose background she should walk on: `<body>`, or an app root that paints its own full-page background. She sits between that element's background and its content (the element becomes a stacking context if it is not one already). The Addy React app mounts her inside `.addy` via `app/src/components/AddyPet.jsx`.
+
+Addy walks to random points across the whole viewport, rests in a pose (pointing or thinking, randomly flipped), then sets off again. She is always behind the page content: anything with a background paints over her, and she can be grabbed wherever she shows through. Dragging lifts her (celebrating or thinking pose), release drops her with a small landing squash, and she resumes from there. Clicks on links, buttons, and form controls are never intercepted, and the page keeps scrolling normally unless she is being held.
+
+Attributes: `size` (width in px, default 120), `speed` (px/s, default 100), `paused`, `assets` (base URL of the art folder). Methods: `pause()`, `resume()`, `goTo(x, y)`. She keeps moving under `prefers-reduced-motion`; use `paused` if a host wants her still. The loop stops while the tab is hidden. Art is `walk1-6.png` (8 fps cycle), `pointing`, `thinking`, `celebrating`; frames face right and walking left is a CSS flip.
+
+Open `addy-demo.html` for a standalone page with speed and pause controls.

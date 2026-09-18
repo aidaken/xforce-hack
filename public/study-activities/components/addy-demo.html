@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Addy companion demo</title>
+<style>
+  :root{--paper:#f8f9f5;--ink:#1c2a24;--green:#285d4c;--rule:#d5dbd4}
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{background:var(--paper);color:var(--ink);font-family:"DM Sans",system-ui,sans-serif;line-height:1.55;padding:32px 16px 64px}
+  h1{font-size:1.6rem;margin:0 0 4px}
+  .sub{color:#4f5e57;margin:0 0 28px;max-width:60ch}
+  main{max-width:880px;margin:0 auto}
+  .card{background:#fff;border:1px solid var(--rule);border-radius:14px;padding:20px 22px;margin-bottom:18px}
+  .card h2{font-size:1.05rem;margin:0 0 10px}
+  .card p{margin:0 0 10px}
+  .tools{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;font-size:.92rem;color:#4f5e57}
+  .tools label{display:inline-flex;gap:8px;align-items:center}
+  input[type=range]{width:120px;accent-color:var(--green)}
+  button{font:inherit;padding:6px 12px;border-radius:8px;cursor:pointer;border:1px solid var(--rule);background:#fff;color:var(--ink)}
+  button:hover{border-color:var(--green)}
+  code{background:#e8ede8;padding:1px 5px;border-radius:4px;font-size:.9em}
+  .status{font-variant-numeric:tabular-nums;min-width:9ch}
+</style>
+</head>
+<body>
+<main>
+  <h1>Addy wanders</h1>
+  <p class="sub">Addy roams behind the page on her own. Grab her where she peeks out between the cards and drop her anywhere; she carries on from there. The cards below are just filler so you can see her moving under real content.</p>
+
+  <div class="card">
+    <h2>Controls</h2>
+    <div class="tools">
+      <label>Speed <input id="speed" type="range" min="20" max="200" value="100"> <span id="speedv">100</span> px/s</label>
+      <button type="button" id="pause">Pause</button>
+      <span class="status" id="state">idle</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Cellular respiration: checklist</h2>
+    <ol>
+      <li>Glucose enters the cell and is split in the cytoplasm (glycolysis).</li>
+      <li>Pyruvate moves into the mitochondria.</li>
+      <li>The citric acid cycle strips off electrons and releases CO₂.</li>
+      <li>The electron transport chain pumps protons across the membrane.</li>
+      <li>ATP synthase uses that gradient to make ATP.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>Why it matters</h2>
+    <p>Every cell in your body runs this loop constantly. When you sprint, your muscle cells burn through glucose faster than oxygen can arrive, so they fall back on fermentation and you feel the burn.</p>
+    <p>Think of the mitochondrion as a tiny hydroelectric dam: the electron transport chain pumps water (protons) uphill, and ATP synthase is the turbine that spins as it flows back down.</p>
+  </div>
+
+  <div class="card">
+    <h2>Using it on another page</h2>
+    <p><code>&lt;script src="components/addy-pet.js" defer&gt;&lt;/script&gt;</code> then <code>&lt;addy-pet&gt;&lt;/addy-pet&gt;</code>. Keep the <code>assets/addy/</code> folder next to the script. Attributes: <code>size</code>, <code>speed</code>, <code>paused</code>.</p>
+  </div>
+</main>
+
+<script src="addy-pet.js" defer></script>
+<addy-pet id="addy"></addy-pet>
+<script>
+  customElements.whenDefined('addy-pet').then(() => {
+    const addy = document.getElementById('addy');
+    const speed = document.getElementById('speed'), speedv = document.getElementById('speedv');
+    speed.addEventListener('input', () => { addy.setAttribute('speed', speed.value); speedv.textContent = speed.value; });
+    const pauseBtn = document.getElementById('pause');
+    pauseBtn.addEventListener('click', () => {
+      if (addy.paused) { addy.resume(); pauseBtn.textContent = 'Pause'; }
+      else { addy.pause(); pauseBtn.textContent = 'Resume'; }
+    });
+    const state = document.getElementById('state');
+    setInterval(() => { state.textContent = addy.state; }, 120);
+  });
+</script>
+</body>
+</html>
