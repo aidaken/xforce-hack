@@ -31,13 +31,15 @@ app/src/App.jsx           screen router + app shell
 app/src/state/store.jsx   all app state, theme/font effects, timers
 app/src/styles.css        design tokens (paper/sage/dusk) + component classes
 app/src/screens/          Login, Onboarding, Dashboard, Folder, Reading, Profile, Focus
-app/src/components/       header, add-a-reading panel, reading-coach embed, study play, StudyBuddy, formats
+app/src/components/       header, add-a-reading panel, reading-coach embed, study play, StudyBuddy, AddyCompanion, formats
 app/src/lib/api.js        /api wrappers + concept→format mapping
 app/src/lib/adapt.js      turns an ingested document into a reading
 app/src/lib/pdfText.js    client-side PDF text extraction (pdf.js via unpdf)
 app/src/lib/fidelity.js   source-vs-remake coverage check
 app/src/lib/coachLesson.js maps a reading onto Charlotte’s <reading-coach> schema
 public/study-activities/  portable guided reading + basketball + alpaca house (do not rewrite)
+public/companion/         Thien’s wandering Addy (do not rewrite pet.js)
+prototypes/animations/    companion source + art sheets from PR #9
 ```
 
 Deep-link any screen while building: `/app?screen=reading`, `?theme=dusk`.

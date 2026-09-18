@@ -23,6 +23,7 @@ export default defineConfig({
     proxy: {
       "/api": "http://localhost:3000",
       "/study-activities": "http://localhost:3000",
+      "/companion": "http://localhost:3000",
       "/fonts": "http://localhost:3000",
       "/addy-logo.png": "http://localhost:3000",
     },
