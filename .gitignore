@@ -5,3 +5,8 @@
 secrets.toml
 node_modules/
 .vercel/
+
+# Vite build output. Vercel runs `npm run build`; run it locally before
+# `npm run dev` if you want the node server to serve the app.
+public/app.html
+public/assets/

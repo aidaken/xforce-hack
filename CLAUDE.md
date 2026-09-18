@@ -10,7 +10,7 @@ Last updated: 2026-09-18
 - Repo: https://github.com/aidaken/xforce-hack
 - Challenge **[2]** Neurodiversity-adaptive study workspace. Product name: **ADDY**.
 - Working MVP is in `README.md`.
-- **Frontend teammates:** [`docs/frontend.md`](docs/frontend.md) — replace [`public/app.html`](public/app.html) (chat stub) and optionally [`public/index.html`](public/index.html) (landing). Do not rewrite `server/` or `api/` unless you are changing the HTTP contract.
+- **Frontend teammates:** [`docs/frontend.md`](docs/frontend.md) — the app is a **React SPA in [`app/`](app/)** (Vite). Edit `app/src/`; `public/app.html` and `public/assets/` are gitignored build output. [`public/index.html`](public/index.html) is still the plain-HTML landing page. Do not rewrite `server/` or `api/` unless you are changing the HTTP contract.
 - **Backend:** [`server/`](server/) (ingest, classify, OpenRouter prompts/chat). Vercel wrappers in [`api/`](api/).
 
 ## Git
@@ -20,6 +20,32 @@ Last updated: 2026-09-18
 - Remote: `origin` → `https://github.com/aidaken/xforce-hack.git`
 - **Do not checkout `main` to edit files.** Do the work on `aidar-kenzhebaev`.
 - **Aidar standing order (2026-09-18):** when he says **push to prod**, that means (1) merge `origin/main` into the feature branch if needed, (2) `git push origin HEAD` and `git push origin HEAD:main`, (3) `vercel --prod --yes` on the shared Vercel project. Never force-push `main`.
+
+## Frontend: React + Vite (landed 2026-09-18)
+
+Ported from the Addy design project into a real SPA. Details:
+[`docs/frontend.md`](docs/frontend.md).
+
+- Screens: Login, Onboarding (9 steps), Dashboard, Folder, Reading, Profile, Focus
+- All state in `app/src/state/store.jsx`; design tokens in `app/src/styles.css`
+- Themes paper / sage / dusk; 6 reading fonts incl. OpenDyslexic; reduce-motion
+  toggle **and** `prefers-reduced-motion` are both honoured
+- Deep-link a screen while building: `/app?screen=reading&theme=dusk`
+- Seed copy in `app/src/data/readings.js` is verbatim from the design — keep it
+
+```bash
+npm install
+npm run build       # REQUIRED before `npm run dev` — generates public/app.html
+npm run dev         # API + built app on :3000
+npm run dev:web     # Vite HMR on :5173, proxies /api to :3000
+```
+
+Format vocabulary: the server classifies passages as `process` /
+`rule_system` / `definition_cluster`; the UI says Flowchart / Checklist /
+Quest. That mapping lives in exactly one place — `FORMAT_BY_CONCEPT` in
+`app/src/lib/api.js`. Seed readings have hand-written quiz questions; ingested
+passages do not, so Quest renders those as read-through beats rather than
+inventing questions the source never asked.
 
 ## Supabase (mandatory, all branches)
 
@@ -59,12 +85,14 @@ ideas/                 challenge 2 brainstorm (pick-list)
 config/                cloud project IDs (supabase + vercel)
 docs/                  teammate setup (supabase.md, vercel.md, frontend.md)
 lib/supabase.js        browser-safe client
-public/                landing + ADDY chat (`app.html`)
+app/                   React SPA (Vite) — the real UI, edit here
+public/index.html      landing page (plain HTML, outside the Vite build)
+public/app.html        BUILD OUTPUT — gitignored, never edit or commit
 server/                ingest, classify, OpenRouter, chat
 api/                   Vercel serverless wrappers
 scripts/               link + connectivity check
 supabase/              CLI config.toml (linked to the cloud project)
-vercel.json            static public/ + /api/*
+vercel.json            build: npm run build → public/, plus /api/*
 CLAUDE.md / CURSOR.md  living agent docs
 ```
 
