@@ -1,0 +1,22 @@
+---
+description: Shared Supabase project wiring — do not create a second project
+globs: "{supabase/**,config/supabase.json,lib/supabase.js,.env.example,docs/supabase.md,scripts/*supabase*}"
+alwaysApply: false
+---
+
+# Shared Supabase
+
+This repo has a single hosted project. All git branches use it.
+
+- Ref: `tfmzjvoqsktlzwnrzdzr`
+- URL: `https://tfmzjvoqsktlzwnrzdzr.supabase.co`
+- Dashboard: https://supabase.com/dashboard/project/tfmzjvoqsktlzwnrzdzr
+- Pinned IDs: `config/supabase.json`
+
+```bash
+cp .env.example .env
+bash scripts/link-supabase.sh
+node scripts/check-supabase.mjs
+```
+
+Client: `getSupabase()` in `lib/supabase.js` (anon key only). Migrations go in `supabase/migrations/` and `db push` to this ref. Never commit the service-role key.

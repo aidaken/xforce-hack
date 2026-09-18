@@ -1,0 +1,8 @@
+{
+  "projectName": "xforce-hack",
+  "projectRef": "tfmzjvoqsktlzwnrzdzr",
+  "url": "https://tfmzjvoqsktlzwnrzdzr.supabase.co",
+  "dashboard": "https://supabase.com/dashboard/project/tfmzjvoqsktlzwnrzdzr",
+  "region": "us-west-1",
+  "note": "This is the only Supabase project for this repo. Use it on main and every feature branch. Do not create another."
+}
