@@ -83,16 +83,21 @@
 
   <div class="card">
     <h2>Using it on another page</h2>
-    <p><code>&lt;script src="pet.js"&gt;&lt;/script&gt;</code> then <code>Pet.create({ image: "assets/addy.png", crop: 0.66 })</code>. When the art arrives, pass a <code>sprites</code> map instead — see the header of <code>pet.js</code>.</p>
+    <p><code>&lt;script src="pet.js"&gt;&lt;/script&gt;</code> then <code>Pet.create({ sprites: { walk: { frames: [...six PNGs], fps: 8 } } })</code> — the full option list is in the header of <code>pet.js</code>. Frames are separate PNGs; a horizontal strip works too.</p>
   </div>
 </main>
 
 <script src="pet.js"></script>
 <script>
+  const walk = [1, 2, 3, 4, 5, 6].map((i) => `assets/addywalk${i}.png`);
+  const pose = (name) => ({ frames: [`assets/addy${name}.png`] });
   const addy = Pet.create({
-    image: "assets/addy.png",
-    crop: 0.66,          // Addy's PNG has a wordmark under her; show only the top two thirds
-    facing: "right",
+    sprites: {
+      walk:    { frames: walk, fps: 8 },
+      idle:    [pose("pointing"), pose("thinking")],       // picked at random each stop
+      carried: [pose("celebrating"), pose("thinking")],    // picked at random each grab
+    },
+    facing: "right",     // the art faces right; walking left is a CSS flip
     size: 120,
     speed: 70,
     layer: "behind",     // lives under the page; grab it where it peeks out

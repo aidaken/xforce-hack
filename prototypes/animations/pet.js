@@ -3,27 +3,32 @@
  *
  * Drop-in for any page:
  *   <script src="pet.js"></script>
- *   <script>const addy = Pet.create({ image: "assets/addy.png" });</script>
+ *   <script>
+ *     const addy = Pet.create({
+ *       sprites: {
+ *         walk:    { frames: ["assets/addywalk1.png", ..., "assets/addywalk6.png"], fps: 8 },
+ *         idle:    [{ frames: ["assets/addypointing.png"] }, { frames: ["assets/addythinking.png"] }],
+ *         carried: [{ frames: ["assets/addycelebrating.png"] }, { frames: ["assets/addythinking.png"] }],
+ *       },
+ *       facing: "right",   // which way the art faces; the other way is a CSS flip
+ *       size: 120,         // rendered width in px
+ *       speed: 70,         // px per second
+ *       layer: "behind",   // "behind" = under the page content (default), "front" = above everything
+ *     });
+ *   </script>
  *
  * It walks to random points across the whole viewport, pauses, turns around,
  * and keeps going. Pointer down grabs it; it hangs from the cursor; release
  * drops it where it is and it resumes wandering after a moment.
  *
- * Sprites (swap when the real art lands). Every state is optional and falls
- * back to `image`:
- *   Pet.create({
- *     image: "addy.png",                         // static fallback, flipped for direction
- *     sprites: {
- *       walk:    { src: "walk.png",  frames: 6, fps: 10, width: 128, height: 128 },
- *       idle:    { src: "idle.png",  frames: 4, fps: 4,  width: 128, height: 128 },
- *       carried: { src: "hang.png",  frames: 2, fps: 3,  width: 128, height: 128 },
- *     },
- *     facing: "right",   // which way the source art faces; the other way is a CSS flip
- *     size: 110,         // rendered width in px
- *     speed: 70,         // px per second
- *     crop: 0.66,        // show only the top fraction of a static image (Addy has a wordmark under her)
- *     layer: "behind",   // "behind" = under the page content (default), "front" = above everything
- *   })
+ * Sprite states: walk | idle | carried. Each is one of
+ *   { frames: [url, ...], fps }                       — a list of same-sized images
+ *   { src, frames: N, width, height, fps }            — a horizontal strip of N cells
+ *   [ <either of the above>, ... ]                    — variants; one is picked at random
+ *                                                       each time the pet enters that state
+ * Missing states fall back to idle, then to `image` (a single static PNG;
+ * `crop` shows only the top fraction of it). The pose shown while carried
+ * stays on through the landing squash.
  *
  * For "behind" to work, the page content must sit above z-index 0, e.g.
  * `main { position: relative; z-index: 1 }`. The pet is still grabbable
@@ -31,11 +36,9 @@
  * transparent wrapper still swallows clicks, so give wrappers
  * `pointer-events: none` and their real children `pointer-events: auto`.
  *
- * A sprite sheet is a horizontal strip: `frames` cells of `width` x `height`.
- *
- * API: pet.pause(), pet.resume(), pet.goTo(x, y), pet.setSpeed(pxPerSec), pet.setLayer("behind"|"front"),
- *      pet.setImage(src, { crop, facing }), pet.setSprites(sprites, { facing }),
- *      pet.destroy(), pet.el, pet.state
+ * API: pet.pause(), pet.resume(), pet.goTo(x, y), pet.setSpeed(pxPerSec),
+ *      pet.setLayer("behind"|"front"), pet.setImage(src, { crop, facing }),
+ *      pet.setSprites(sprites, { facing }), pet.destroy(), pet.el, pet.state
  * Options also take `respectReducedMotion: true` to stay put when the OS asks
  * for reduced motion (default is to wander regardless; still draggable either way).
  */
@@ -49,32 +52,45 @@
   const CSS = `
   .pet {
     position: fixed; left: 0; top: 0; z-index: 2147483000;
-  }
-  .pet.behind { z-index: 0; }
-  .pet {
     touch-action: none; user-select: none; -webkit-user-drag: none;
     cursor: grab; will-change: transform;
     filter: drop-shadow(0 8px 6px rgba(0,0,0,0.18));
   }
+  .pet.behind { z-index: 0; }
   /* forgiving hitbox: a little slack around the sprite so a moving target is easy to catch */
   .pet::before { content: ""; position: absolute; inset: -14px; }
   .pet.carried { cursor: grabbing; }
   .pet .pet-body {
-    width: 100%; height: 100%;
+    position: relative; width: 100%; height: 100%;
     transform-origin: 50% 100%;
-    background-repeat: no-repeat; background-size: auto 100%;
-    overflow: hidden;
+    background-repeat: no-repeat; overflow: hidden;
   }
-  .pet .pet-body img { display: block; width: 100%; height: auto; pointer-events: none; }
+  .pet .pet-body img {
+    position: absolute; inset: 0; width: 100%; height: auto;
+    pointer-events: none; display: none;
+  }
+  .pet .pet-body img.on { display: block; }
   .pet.flip .pet-body { transform: scaleX(-1); }
-  .pet.walking .pet-body { animation: pet-waddle 420ms ease-in-out infinite; }
-  .pet.walking.flip .pet-body { animation: pet-waddle-flip 420ms ease-in-out infinite; }
+  /* frame-animated walk: the art does the legs, we just add a soft bob */
+  .pet.walking .pet-body { animation: pet-bob 500ms ease-in-out infinite; }
+  .pet.walking.flip .pet-body { animation: pet-bob-flip 500ms ease-in-out infinite; }
+  /* static single image walk: exaggerate with a waddle instead */
+  .pet.walking.static .pet-body { animation: pet-waddle 420ms ease-in-out infinite; }
+  .pet.walking.static.flip .pet-body { animation: pet-waddle-flip 420ms ease-in-out infinite; }
   .pet.idle .pet-body { animation: pet-breathe 3s ease-in-out infinite; }
+  .pet.idle.flip .pet-body { animation: pet-breathe-flip 3s ease-in-out infinite; }
   .pet.carried .pet-body { transform-origin: 50% 0%; animation: pet-dangle 1.4s ease-in-out infinite; }
   .pet.carried.flip .pet-body { animation: pet-dangle-flip 1.4s ease-in-out infinite; }
   .pet.landing .pet-body { animation: pet-land 320ms ease-out 1; }
   .pet.landing.flip .pet-body { animation: pet-land-flip 320ms ease-out 1; }
-  .pet.sheet .pet-body img { display: none; }
+  @keyframes pet-bob {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-4%); }
+  }
+  @keyframes pet-bob-flip {
+    0%,100% { transform: scaleX(-1) translateY(0); }
+    50%      { transform: scaleX(-1) translateY(-4%); }
+  }
   @keyframes pet-waddle {
     0%,100% { transform: translateY(0) rotate(-3deg); }
     50%      { transform: translateY(-9%) rotate(3deg); }
@@ -86,6 +102,10 @@
   @keyframes pet-breathe {
     0%,100% { transform: scale(1,1); }
     50%      { transform: scale(1.02,0.98); }
+  }
+  @keyframes pet-breathe-flip {
+    0%,100% { transform: scale(-1,1); }
+    50%      { transform: scale(-1.02,0.98); }
   }
   @keyframes pet-dangle {
     0%,100% { transform: rotate(-7deg); }
@@ -142,42 +162,85 @@
     el.setAttribute("aria-label", opts.label || "Addy, wandering around the page. Drag to move.");
     const body = document.createElement("div");
     body.className = "pet-body";
-    const img = document.createElement("img");
-    img.alt = "";
-    img.draggable = false;
-    if (o.image) img.src = o.image;
-    body.appendChild(img);
     el.appendChild(body);
     el.style.width = o.size + "px";
+    el.style.height = o.size + "px";
     document.body.appendChild(el);
 
-    // static image: size the box to the cropped image height once it loads
     let h = o.size;
-    img.addEventListener("load", () => {
-      const ratio = (img.naturalHeight / img.naturalWidth) * o.crop;
-      h = Math.round(o.size * ratio);
-      el.style.height = h + "px";
-      keepInside();
-      place();
-    });
+    function setHeight(px) { h = Math.round(px); el.style.height = h + "px"; keepInside(); place(); }
 
-    // ---------- sprite sheets ----------
-    let sheet = null, frame = 0, frameAcc = 0;
-    function setSheet(name) {
-      const s = o.sprites[name];
-      if (!s) { sheet = null; el.classList.remove("sheet"); body.style.backgroundImage = ""; return; }
-      if (sheet === s) return;
-      sheet = s; frame = 0; frameAcc = 0;
-      el.classList.add("sheet");
-      body.style.backgroundImage = `url("${s.src}")`;
-      h = Math.round(o.size * (s.height / s.width));
-      el.style.height = h + "px";
-      body.style.backgroundSize = `${s.frames * 100}% 100%`;
-      drawFrame();
+    // ---------- sprites ----------
+    // Every image used by any state is created once and kept in the DOM, so
+    // switching frames is a class toggle, not a network/decode hit.
+    const imgs = new Map();  // url -> <img>
+    function imgFor(url) {
+      let im = imgs.get(url);
+      if (im) return im;
+      im = document.createElement("img");
+      im.alt = ""; im.draggable = false; im.src = url;
+      im.addEventListener("load", () => {
+        // size the box from the frame currently showing (all frames of a state share a size)
+        if (cur && cur.list && cur.list[frame] === im) {
+          setHeight(o.size * (im.naturalHeight / im.naturalWidth) * (cur === fallback ? o.crop : 1));
+        }
+      });
+      body.appendChild(im);
+      imgs.set(url, im);
+      return im;
     }
-    function drawFrame() {
-      if (!sheet) return;
-      body.style.backgroundPosition = `${(frame / (sheet.frames - 1 || 1)) * 100}% 0`;
+    function normalize(sprites) {
+      // resolve each state to a list of variants, each { list: [<img>], fps } or { strip: <sheet>, fps }
+      const one = (s) => {
+        if (!s) return null;
+        if (Array.isArray(s.frames)) return { list: s.frames.map(imgFor), fps: s.fps || 8 };
+        if (s.src) return { strip: s, fps: s.fps || 8 };
+        return null;
+      };
+      const out = {};
+      for (const [name, s] of Object.entries(sprites)) {
+        const variants = (Array.isArray(s) ? s : [s]).map(one).filter(Boolean);
+        if (variants.length) out[name] = variants;
+      }
+      return out;
+    }
+    let anims = normalize(o.sprites);
+    let fallback = o.image ? { list: [imgFor(o.image)], fps: 1 } : null;
+    let cur = null, frame = 0, frameAcc = 0;
+
+    function animFor(state) {
+      const key = { walking: "walk", landing: "carried" }[state] || state;
+      const variants = anims[key] || anims.idle || anims.walk;
+      if (!variants) return fallback;
+      return variants[Math.floor(Math.random() * variants.length)];
+    }
+    function showFrame() {
+      if (!cur) return;
+      if (cur.list) {
+        cur.list.forEach((im, i) => im.classList.toggle("on", i === frame));
+      } else {
+        const s = cur.strip;
+        body.style.backgroundPosition = `${(frame / (s.frames - 1 || 1)) * 100}% 0`;
+      }
+    }
+    function useAnim(a) {
+      if (a === cur) return;
+      cur = a; frame = 0; frameAcc = 0;
+      body.style.backgroundImage = ""; body.style.backgroundSize = "";
+      imgs.forEach((im) => im.classList.remove("on"));
+      if (!a) return;
+      if (a.strip) {
+        const s = a.strip;
+        body.style.backgroundImage = `url("${s.src}")`;
+        body.style.backgroundSize = `${s.frames * 100}% 100%`;
+        setHeight(o.size * (s.height / s.width));
+      } else {
+        const im = a.list[0];
+        if (im.naturalWidth) setHeight(o.size * (im.naturalHeight / im.naturalWidth) * (a === fallback ? o.crop : 1));
+      }
+      // a single static image gets the cartoon waddle; real frames only get a bob
+      el.classList.toggle("static", !!(a.list && a.list.length === 1));
+      showFrame();
     }
 
     // ---------- state ----------
@@ -190,15 +253,17 @@
       goTo(x, y) { pet.target = { x, y }; face(x >= pet.x ? 1 : -1); setState("walking"); },
       setSpeed(v) { o.speed = v; },
       setLayer(layer) { o.layer = layer; el.classList.toggle("behind", layer === "behind"); },
-      // swap the static image (e.g. a new PNG from the art team)
+      // swap to a single static image (e.g. a quick PNG from the art team)
       setImage(src, { crop = 1, facing } = {}) {
         o.crop = crop; if (facing) o.facing = facing;
-        o.sprites = {}; setSheet(null); img.src = src; face(pet.dir);
+        anims = {}; fallback = { list: [imgFor(src)], fps: 1 };
+        cur = null; useAnim(animFor(pet.state)); face(pet.dir);
       },
-      // swap in animated sprite sheets (see header for the shape)
+      // swap in animated states (see header for the shape)
       setSprites(sprites, { facing } = {}) {
-        o.sprites = sprites || {}; if (facing) o.facing = facing;
-        sheet = null; setSheet(pet.state === "landing" ? "idle" : pet.state); face(pet.dir);
+        if (facing) o.facing = facing;
+        anims = normalize(sprites || {});
+        cur = null; useAnim(animFor(pet.state)); face(pet.dir);
       },
       destroy() { cancelAnimationFrame(raf); el.remove(); removeEventListener("resize", onResize); },
     };
@@ -219,7 +284,7 @@
       el.classList.remove("idle", "walking", "carried", "landing");
       pet.state = s;
       el.classList.add(s);
-      setSheet(s === "landing" ? "idle" : s);
+      if (s !== "landing") useAnim(animFor(s)); // landing keeps the carried pose
     }
     function face(dir) {
       pet.dir = dir;
@@ -238,6 +303,8 @@
       setState("walking");
     }
 
+    useAnim(animFor("idle"));
+
     // start position
     pet.x = o.start?.x ?? rand(o.margin, vw() - o.size - o.margin);
     pet.y = o.start?.y ?? vh() - o.size - o.margin - 20;
@@ -245,11 +312,11 @@
     pet.idleUntil = performance.now() + rand(400, 1500);
 
     // ---------- grab & drag ----------
-    let grab = null; // { dx, dy, moved, lastX, lastY, vx, vy }
+    let grab = null; // { dx, dy, moved, lastX }
     el.addEventListener("pointerdown", (e) => {
       e.preventDefault();
-      el.setPointerCapture(e.pointerId);
-      grab = { dx: e.clientX - pet.x, dy: e.clientY - pet.y, moved: false, lastX: e.clientX, lastY: e.clientY, vx: 0 };
+      try { el.setPointerCapture(e.pointerId); } catch (_) { /* synthetic events have no pointer to capture */ }
+      grab = { dx: e.clientX - pet.x, dy: e.clientY - pet.y, moved: false, lastX: e.clientX };
       setState("carried");
     });
     el.addEventListener("pointermove", (e) => {
@@ -257,10 +324,10 @@
       const nx = e.clientX - grab.dx, ny = e.clientY - grab.dy;
       if (Math.abs(e.clientX - grab.lastX) > 2) face(e.clientX > grab.lastX ? 1 : -1);
       grab.moved = grab.moved || Math.hypot(nx - pet.x, ny - pet.y) > 4;
-      grab.lastX = e.clientX; grab.lastY = e.clientY;
+      grab.lastX = e.clientX;
       pet.x = nx; pet.y = ny; keepInside(); place();
     });
-    const release = (e) => {
+    const release = () => {
       if (!grab) return;
       const tapped = !grab.moved;
       grab = null;
@@ -277,9 +344,11 @@
     function tick(now) {
       const dt = Math.min(0.05, (now - last) / 1000); last = now;
 
-      if (sheet && sheet.frames > 1) {
+      // advance frame animation (only while it has more than one frame)
+      const n = cur ? (cur.list ? cur.list.length : cur.strip.frames) : 0;
+      if (n > 1 && !reduced) {
         frameAcc += dt;
-        if (frameAcc >= 1 / (sheet.fps || 8)) { frameAcc = 0; frame = (frame + 1) % sheet.frames; drawFrame(); }
+        if (frameAcc >= 1 / cur.fps) { frameAcc = 0; frame = (frame + 1) % n; showFrame(); }
       }
 
       if (!pet.paused && !grab && pet.state !== "landing") {
@@ -290,6 +359,7 @@
           if (dist <= step) {
             pet.x = pet.target.x; pet.y = pet.target.y; pet.target = null;
             setState("idle");
+            if (Math.random() < 0.5) face(-pet.dir); // turn around now and then while resting
             pet.idleUntil = now + rand(o.idleMin, o.idleMax) * 1000;
           } else {
             pet.x += (dx / dist) * step; pet.y += (dy / dist) * step;
