@@ -12,11 +12,13 @@ import Focus from "./screens/Focus.jsx";
 const IN_SHELL = ["dashboard", "folder", "reading", "profile"];
 
 export default function App() {
-  const { state, tab } = useAddy();
+  const { state, tab, fontStack } = useAddy();
   const { screen } = state;
 
   return (
-    <div className="addy">
+    /* the whole shell carries the chosen face, so a dyslexic profile gets
+       OpenDyslexic everywhere and not just inside the reading panes */
+    <div className="addy" style={{ fontFamily: fontStack }}>
       {screen === "login" && <Login />}
       {screen === "onboarding" && <Onboarding />}
 

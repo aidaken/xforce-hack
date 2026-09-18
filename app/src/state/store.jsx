@@ -31,6 +31,9 @@ const initialState = {
   // appearance
   theme: "paper",
   font: "Lexend",
+  // set once the student picks a font by hand, so the dyslexia default
+  // never overrides a choice they made themselves
+  fontTouched: false,
   size: 18,
   lh: 1.6,
   rm: false,
@@ -178,7 +181,8 @@ export function AddyProvider({ children, startScreen, theme, buddyMode }) {
       tab: state.tab || current.rec,
       splitRef,
       startDrag,
-      fontStack: fontStack(state.font),
+      font: effectiveFont(state),
+      fontStack: fontStack(effectiveFont(state)),
       // selection helpers, straight from the design
       sel: (on) => ({
         background: on ? "var(--ochre)" : "var(--surface)",
@@ -205,6 +209,27 @@ export function useAddy() {
   const ctx = useContext(AddyContext);
   if (!ctx) throw new Error("useAddy must be used inside <AddyProvider>");
   return ctx;
+}
+
+/**
+ * Does this profile read as dyslexic? "Both" counts — someone with ADHD and
+ * dyslexia still has the decoding load. Falls back to the struggle answers
+ * for students who skip the question or would rather not say.
+ */
+export function isDyslexicProfile(reason, struggles = []) {
+  const r = String(reason || "").toLowerCase();
+  if (r === "dyslexia" || r === "both") return true;
+  if (r === "adhd") return false;
+  return struggles.some((s) => /blur|swap|lose my place|re-read/i.test(s));
+}
+
+/** The font actually in force: OpenDyslexic for a dyslexic profile, unless
+ *  the student has chosen one themselves. */
+export function effectiveFont(state) {
+  if (state.fontTouched) return state.font;
+  return isDyslexicProfile(state.reason, state.struggles)
+    ? "OpenDyslexic"
+    : state.font;
 }
 
 export function fontStack(font) {
