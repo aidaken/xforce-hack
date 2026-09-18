@@ -33,6 +33,7 @@ export default function ReadingCoachEmbed({ lesson, storageKey }) {
       storage-key={storageKey}
       style={{
         display: "block",
+        paddingBottom: 168,
         "--coach-font": "inherit",
         "--coach-paper": "var(--surface)",
         "--coach-ink": "var(--text)",

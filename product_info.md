@@ -2,7 +2,7 @@
 
 **This is the live product record.** Agents and humans update it **after every finished task**, before they stop. Do not wait for someone to ask. If the code, API, deploy, limits, or a locked decision changed, this file must match reality.
 
-Last updated: 2026-09-18 (add-a-reading rebuilt: one inline panel, client-side PDF text extraction, computed fidelity check)
+Last updated: 2026-09-18 (add-a-reading rebuilt: one inline panel, client-side PDF text extraction, computed fidelity check; merged the reading-alpaca ADDY lockup)
 
 Companion files (conventions only, not the product record): [`CLAUDE.md`](CLAUDE.md), [`CURSOR.md`](CURSOR.md), [`.cursor/rules/`](.cursor/rules/). Frontend map: [`docs/frontend.md`](docs/frontend.md). Pitch/MVP draft: [`README.md`](README.md).
 
@@ -51,6 +51,7 @@ Feature branch: `aidar-kenzhebaev`
 ### Landing
 
 - **Removed 2026-09-18.** The old hand-written `public/index.html` pitch page is gone; the React SPA is the only UI and answers `/` as well as `/app`. First screen is Login (`app/src/screens/Login.jsx`). Recover the old page from git history if it is ever wanted back.
+- The reading-alpaca lockup it carried lives on: `app/public/addy-logo.png` (Vite copies it to `/addy-logo.png` on build, with a copy in `public/` for the node static server) is the logo on Login, the app header and the favicon.
 
 ### Ingest + chat backend
 
@@ -93,7 +94,7 @@ After ingest the client **must keep `document` in memory** and send it back on e
 
 | Screen | File | Notes |
 | --- | --- | --- |
-| Login | `app/src/screens/Login.jsx` | Demo form only — no Supabase auth |
+| Login | `app/src/screens/Login.jsx` | Demo form only — no Supabase auth. Reading-alpaca ADDY lockup at the top |
 | Onboarding | `Onboarding.jsx` | ~9 steps: name, ADHD/dyslexia reason, struggles, prefs, focus, sound, buddy |
 | Dashboard | `Dashboard.jsx` | Quick settings (left) · continue-reading card · **My folders + “Add a reading”** (no separate drop box, no “Coming up” list) |
 | Folder | `Folder.jsx` | Readings in a class folder |
@@ -143,7 +144,7 @@ Shared path: [`app/src/lib/ingestReading.js`](app/src/lib/ingestReading.js) buil
 
 Each non-Biology entry carries `source: { id, conceptType, url }`, so “This isn’t working” sends the right `conceptType` to `/api/chat` instead of defaulting to `process`. Hand-written seeds follow the design's contract: `sents` stays faithful to the source, `steps` is the remake, `flags` names what the remake dropped or compressed.
 
-After ingest (Add a reading), ADDY opens the **Guided** tab: Charlotte’s `<reading-coach>` walks the passage one idea at a time. Finishing a section earns a basketball throw (`<study-hoops>`); finishing the reading opens the alpaca house (`<alpaca-house>`). Her files live as-is under [`public/study-activities/`](public/study-activities/) — we only adapt ADDY readings into her lesson schema ([`app/src/lib/coachLesson.js`](app/src/lib/coachLesson.js)). Standalone demos stay at `/study-activities/`. See [`docs/study-activities.md`](docs/study-activities.md). [PR #6](https://github.com/aidaken/xforce-hack/pull/6) is not merged wholesale (avoids README conflicts).
+After ingest (Add a reading), ADDY opens the **Guided** tab: Charlotte’s `<reading-coach>` walks the passage one idea at a time. A basketball sits on the floor as a fidget (drag to bounce; click twice to put it away). The hoop unlocks only after the whole reading is finished. Alpaca house also opens on finish. Widgets mount only on Guided. Her files live as-is under [`public/study-activities/`](public/study-activities/) — we only adapt ADDY readings into her lesson schema ([`app/src/lib/coachLesson.js`](app/src/lib/coachLesson.js)). Standalone demos stay at `/study-activities/`. See [`docs/study-activities.md`](docs/study-activities.md). [PR #6](https://github.com/aidaken/xforce-hack/pull/6) is not merged wholesale (avoids README conflicts).
 
 The old `public/app.html` chat stub is **gone** (replaced by this SPA).
 
@@ -219,7 +220,11 @@ Frontend: edit [`app/src/`](app/src/). Keep calling `/api/ingest` and `/api/chat
 | 2026-09-18 | Add-a-reading rebuilt as one inline panel (paste / PDF / link), `IngestDrop.jsx` deleted; client-side PDF text extraction (40 MB, paragraph-preserving, headers/footers stripped, scanned files named as such); computed fidelity check; AA-safe `--warn-text` amber |
 | 2026-09-18 | Dashboard “Coming up” section (fake due dates) removed with its `UPCOMING` data |
 | 2026-09-18 | Seed folders rebuilt from real sources: Calculus I, Physics II, Web Development, US History (5 new readings). Biology 101 left verbatim; Economics + History Essay retired |
-| 2026-09-18 | SPA now serves at `/` and `/app`; `public/index.html` landing page deleted (`public/study-activities/` kept) |
+| 2026-09-18 | SPA now serves at `/` and `/app`; `public/index.html` landing page deleted (`public/study-activities/` kept; its alpaca lockup stays on login, header and favicon) |
+| 2026-09-18 | Reading-alpaca ADDY lockup as the logo (login, header, landing, favicon); `app/public/addy-logo.png` so prod builds include it |
+| 2026-09-18 | Llama ADDY logo on login, app header, landing, and favicon |
+| 2026-09-18 | Basketball sits on the floor as a fidget; hoop unlocks after a finished reading; double-click puts the ball away |
+| 2026-09-18 | Play widgets only on Guided; ball hidden until a throw; demo earn button off |
 | 2026-09-18 | PR #6 study activities copied (no README merge); Guided tab + hoops/alpaca after ingest |
 | 2026-09-18 | Dashboard ingest box between Quick settings and continue-reading; drop/paste/URL ingest opens Reading |
 | 2026-09-18 | Merged React + Vite SPA from `dev` (`3bd65dd` created screens; `9d3e357` merged ingest). Stub `app.html` retired |

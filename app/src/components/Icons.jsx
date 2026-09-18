@@ -1,20 +1,22 @@
 // Every SVG from the Addy design, kept as-is so the visual language is
 // unchanged. All are decorative unless a label is passed.
 
-export function Logo({ size = 40, fill = "var(--clay)", eyes = "var(--clayfg)", eyesHidden = false }) {
+export function Logo({ size = 40, alt = "Addy" }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 40 40" aria-hidden="true">
-      <circle cx="8" cy="13" r="6.5" fill={fill} />
-      <circle cx="32" cy="13" r="6.5" fill={fill} />
-      <circle cx="20" cy="22" r="13" fill={fill} />
-      {!eyesHidden && (
-        <>
-          <circle cx="15" cy="20" r="2" fill={eyes} />
-          <circle cx="25" cy="20" r="2" fill={eyes} />
-          <circle cx="20" cy="26" r="3" fill={eyes} />
-        </>
-      )}
-    </svg>
+    <img
+      src="/addy-logo.png"
+      alt={alt}
+      width={size}
+      height={size}
+      style={{
+        width: size,
+        height: size,
+        objectFit: "contain",
+        borderRadius: Math.round(size * 0.18),
+        display: "block",
+        background: "#000",
+      }}
+    />
   );
 }
 

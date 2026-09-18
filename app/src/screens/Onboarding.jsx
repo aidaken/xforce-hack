@@ -353,7 +353,7 @@ export default function Onboarding() {
 
         {st.step === LAST && (
           <div className="stack" style={{ gap: 18, alignItems: "flex-start" }}>
-            <Logo size={56} fill="var(--sage)" eyes="var(--surface)" />
+            <Logo size={72} />
             <h1 style={{ fontSize: 34 }}>
               {`You're all set${name ? `, ${name}` : ""}`}
             </h1>

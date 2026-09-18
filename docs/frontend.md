@@ -15,6 +15,7 @@ Live product + API record: [`product_info.md`](../product_info.md). Agents updat
 | Shared app state (screen, theme, onboarding answers) | [`app/src/state/store.jsx`](../app/src/state/store.jsx) | Do not add a second store |
 | API calls | [`app/src/lib/api.js`](../app/src/lib/api.js) | Do not fork a second API |
 | Demo seed readings | [`app/src/data/readings.js`](../app/src/data/readings.js) | Copy is from the design; keep it verbatim |
+| Brand logo / favicon | [`app/public/addy-logo.png`](../app/public/addy-logo.png) | Vite copies this to `/addy-logo.png` on build. Keep a copy in [`public/addy-logo.png`](../public/addy-logo.png) for the node static server |
 | Charlotte’s portable widgets | [`public/study-activities/`](../public/study-activities/) | Do not rewrite; ADDY only mounts them |
 | Ingest, classify, OpenRouter, prompts | [`server/`](../server/) | Backend owns this |
 | Vercel function entrypoints | [`api/`](../api/) | Thin wrappers only |
