@@ -2,12 +2,15 @@
   "name": "xforce-hack",
   "private": true,
   "type": "module",
-  "description": "TAPIA / Capital One 2026 — neurodiversity study workspace. Shared Supabase: tfmzjvoqsktlzwnrzdzr",
+  "description": "ADDY — TAPIA / Capital One 2026 neurodiversity study workspace. Shared Supabase: tfmzjvoqsktlzwnrzdzr",
   "scripts": {
+    "dev": "node server/index.js",
+    "start": "node server/index.js",
     "supabase:link": "bash scripts/link-supabase.sh",
     "supabase:check": "node scripts/check-supabase.mjs"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.57.4"
+    "@supabase/supabase-js": "^2.57.4",
+    "unpdf": "^1.8.1"
   }
 }

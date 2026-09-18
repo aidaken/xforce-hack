@@ -1,12 +1,12 @@
-# Study Remix
+# ADDY
 
 TAPIA / Capital One 2026 — challenge **[2] Generative AI Neurodiversity-Adaptive Study Workspace**.
 
 GitHub: [aidaken/xforce-hack](https://github.com/aidaken/xforce-hack)
 
-One paragraph in, two remakes out — an ADHD-friendly checklist vs a dyslexia-friendly flowchart — then a source check so we did not invent or drop anything. Same text, two modes, human confirms the original is intact. Student taps **This isn’t working** → the agent switches format.
+Product name: **ADDY**. One passage in, two remakes out — ADHD checklist vs dyslexia flowchart — then a source check so we did not invent or drop anything. Toggle the learner mode in the workspace. Student taps **This isn’t working** → the agent switches format.
 
-Working name: **Study Remix**. Direction is drafted here; a few scope questions are still open (see the end of this file and the chat).
+Direction is drafted here; a few scope questions are still open.
 
 ## Why this is necessary
 
@@ -130,16 +130,29 @@ npx vercel link --yes --project xforce-hack --scope aidars-projects-c6143ce8
 Teammate guide: [docs/vercel.md](docs/vercel.md)  
 Pinned IDs: [config/vercel.json](config/vercel.json)
 
-Pushes to GitHub create deployments. Feature branches get preview URLs. Aidar’s “push to prod” updates GitHub `main` and Vercel production. Put Supabase **anon** / `NEXT_PUBLIC_*` keys on this Vercel project; never the service-role key.
+Pushes to GitHub create deployments. Feature branches get preview URLs. Aidar’s “push to prod” updates GitHub `main` and Vercel production. Put Supabase **anon** / `NEXT_PUBLIC_*` keys on this Vercel project; never the service-role key. Put `OPENROUTER_API_KEY` on Vercel too — never in git.
 
-Until the app is scaffolded, `vercel.json` serves `public/` (landing page).
+Frontend teammates: [docs/frontend.md](docs/frontend.md) (replace `public/app.html`). Backend: `server/` + `api/`.
+
+Local:
+
+```bash
+cp .env.example .env   # add OPENROUTER_API_KEY locally, never commit .env
+npm install
+npm run dev
+```
+
+Then open http://localhost:3000/app.
 
 ## Repo map
 
-- `ideas/` — earlier pick-list (formats, agent loop, judge demo). Still useful; README is the working MVP.
-- `public/` — landing page deployed on Vercel
+- `ideas/` — earlier pick-list (formats, agent loop, judge demo)
+- `public/` — landing (`index.html`) + **stub** chat (`app.html`) — friends replace the stub
+- `server/` — ingest, classify, OpenRouter
+- `api/` — Vercel serverless wrappers
+- `docs/frontend.md` — where frontend work starts
 - `supabase/` — CLI config, linked to the hosted project above
-- `CLAUDE.md` / `CURSOR.md` — living notes for humans and agents (includes Vercel IDs)
+- `CLAUDE.md` / `CURSOR.md` — living notes for humans and agents
 
 Do not checkout `main` to edit files. Feature work happens on branches. Aidar’s “push to prod” updates GitHub `main` and Vercel production.
 
