@@ -2,7 +2,7 @@
 
 **This is the live product record.** Agents and humans update it **after every finished task**, before they stop. Do not wait for someone to ask. If the code, API, deploy, limits, or a locked decision changed, this file must match reality.
 
-Last updated: 2026-09-18 (ADDY llama logo on login, header, landing, favicon)
+Last updated: 2026-09-18 (reading-alpaca ADDY lockup on login, header, landing, favicon; Vite copies from app/public so prod serves it)
 
 Companion files (conventions only, not the product record): [`CLAUDE.md`](CLAUDE.md), [`CURSOR.md`](CURSOR.md), [`.cursor/rules/`](.cursor/rules/). Frontend map: [`docs/frontend.md`](docs/frontend.md). Pitch/MVP draft: [`README.md`](README.md).
 
@@ -50,7 +50,7 @@ Feature branch: `aidar-kenzhebaev`
 
 ### Landing
 
-- [`public/index.html`](public/index.html) — pitch + **Remix a passage** → `/app`. Friends may restyle.
+- [`public/index.html`](public/index.html) — pitch + **Remix a passage** → `/app`. Friends may restyle. Brand mark is the reading-alpaca lockup (`/addy-logo.png`; source also in `app/public/` so Vite copies it on every build).
 
 ### Ingest + chat backend
 
@@ -93,7 +93,7 @@ After ingest the client **must keep `document` in memory** and send it back on e
 
 | Screen | File | Notes |
 | --- | --- | --- |
-| Login | `app/src/screens/Login.jsx` | Demo form only — no Supabase auth |
+| Login | `app/src/screens/Login.jsx` | Demo form only — no Supabase auth. Reading-alpaca ADDY lockup at the top |
 | Onboarding | `Onboarding.jsx` | ~9 steps: name, ADHD/dyslexia reason, struggles, prefs, focus, sound, buddy |
 | Dashboard | `Dashboard.jsx` | Quick settings (left) · **ingest drop box** · continue-reading card · folders |
 | Folder | `Folder.jsx` | Readings in a class folder |
@@ -182,6 +182,7 @@ Frontend: edit [`app/src/`](app/src/). Keep calling `/api/ingest` and `/api/chat
 
 | Date | What landed |
 | --- | --- |
+| 2026-09-18 | Reading-alpaca ADDY lockup as the logo (login, header, landing, favicon); `app/public/addy-logo.png` so prod builds include it |
 | 2026-09-18 | Llama ADDY logo on login, app header, landing, and favicon |
 | 2026-09-18 | Basketball sits on the floor as a fidget; hoop unlocks after a finished reading; double-click puts the ball away |
 | 2026-09-18 | Play widgets only on Guided; ball hidden until a throw; demo earn button off |
