@@ -6,6 +6,8 @@ GitHub: [aidaken/xforce-hack](https://github.com/aidaken/xforce-hack)
 
 Product name: **ADDY**. One passage in, two remakes out — ADHD checklist vs dyslexia flowchart — then a source check so we did not invent or drop anything. Toggle the learner mode in the workspace. Student taps **This isn’t working** → the agent switches format.
 
+**What is actually shipped** (API, limits, gaps): [`product_info.md`](product_info.md). Agents update that file after every finished task. This README is the pitch / MVP draft.
+
 Direction is drafted here; a few scope questions are still open.
 
 ## Why this is necessary
@@ -132,13 +134,15 @@ Pinned IDs: [config/vercel.json](config/vercel.json)
 
 Pushes to GitHub create deployments. Feature branches get preview URLs. Aidar’s “push to prod” updates GitHub `main` and Vercel production. Put Supabase **anon** / `NEXT_PUBLIC_*` keys on this Vercel project; never the service-role key. Put `OPENROUTER_API_KEY` on Vercel too — never in git.
 
-Frontend teammates: [docs/frontend.md](docs/frontend.md) (replace `public/app.html`). Backend: `server/` + `api/`.
+Frontend: [docs/frontend.md](docs/frontend.md) — React SPA in `app/` (Vite). Backend: `server/` + `api/`.
 
 Local:
 
 ```bash
 cp .env.example .env   # add OPENROUTER_API_KEY locally, never commit .env
+cp secrets.toml.example secrets.toml
 npm install
+npm run build
 npm run dev
 ```
 
@@ -146,13 +150,16 @@ Then open http://localhost:3000/app.
 
 ## Repo map
 
+- `product_info.md` — **live product record** (update after every task)
 - `ideas/` — earlier pick-list (formats, agent loop, judge demo)
-- `public/` — landing (`index.html`) + **stub** chat (`app.html`) — friends replace the stub
+- `app/` — React SPA (Vite). Edit here. Builds to gitignored `public/app.html`
+- `public/study-activities/` — Charlotte's portable guided reading + play widgets (wired into `/app` after ingest)
+- `public/index.html` — landing page (plain HTML)
 - `server/` — ingest, classify, OpenRouter
 - `api/` — Vercel serverless wrappers
 - `docs/frontend.md` — where frontend work starts
 - `supabase/` — CLI config, linked to the hosted project above
-- `CLAUDE.md` / `CURSOR.md` — living notes for humans and agents
+- `CLAUDE.md` / `CURSOR.md` / `AGENTS.md` — agent conventions; product truth is `product_info.md`
 
 Do not checkout `main` to edit files. Feature work happens on branches. Aidar’s “push to prod” updates GitHub `main` and Vercel production.
 
@@ -164,4 +171,4 @@ Not locked yet. Highest-tension items:
 2. **Two named modes** (ADHD vs dyslexia) vs **preference toggles + free text** as the primary learner model.
 3. **Planner picks one of three renderers** vs **always show both ADHD checklist and dyslexia flowchart** for the judge toggle.
 
-Full question list is in the current planning thread; answers should land back here and in `CURSOR.md` / `CLAUDE.md`.
+Full question list is in the current planning thread; answers should land in [`product_info.md`](product_info.md) (and here if the pitch changes).

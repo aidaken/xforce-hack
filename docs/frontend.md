@@ -5,6 +5,8 @@ The app is a **React SPA built with Vite**, living in `app/`. It builds to
 and do not commit them** (both are gitignored). Keep talking to the existing
 API so ingest + OpenRouter keep working.
 
+Live product + API record: [`product_info.md`](../product_info.md). Agents update that file after every finished task.
+
 ## What to edit
 
 | You are changing | Go here | Do not |
@@ -14,9 +16,10 @@ API so ingest + OpenRouter keep working.
 | API calls | [`app/src/lib/api.js`](../app/src/lib/api.js) | Do not fork a second API |
 | Demo seed readings | [`app/src/data/readings.js`](../app/src/data/readings.js) | Copy is from the design; keep it verbatim |
 | Marketing / landing page | [`public/index.html`](../public/index.html) | Plain HTML, not part of the Vite build |
+| Charlotte’s portable widgets | [`public/study-activities/`](../public/study-activities/) | Do not rewrite; ADDY only mounts them |
 | Ingest, classify, OpenRouter, prompts | [`server/`](../server/) | Backend owns this |
 | Vercel function entrypoints | [`api/`](../api/) | Thin wrappers only |
-| Product + API notes for agents | [`CLAUDE.md`](../CLAUDE.md), [`CURSOR.md`](../CURSOR.md) | Never put secrets here |
+| Product + API notes for agents | [`product_info.md`](../product_info.md), then [`CLAUDE.md`](../CLAUDE.md) / [`CURSOR.md`](../CURSOR.md) | Never put secrets here |
 
 ## App layout
 
@@ -27,9 +30,11 @@ app/src/App.jsx           screen router + app shell
 app/src/state/store.jsx   all app state, theme/font effects, timers
 app/src/styles.css        design tokens (paper/sage/dusk) + component classes
 app/src/screens/          Login, Onboarding, Dashboard, Folder, Reading, Profile, Focus
-app/src/components/       header, quick settings, add-a-reading, formats, plant, calendar
+app/src/components/       header, ingest drop, reading-coach embed, study play, formats
 app/src/lib/api.js        /api wrappers + concept→format mapping
 app/src/lib/adapt.js      turns an ingested document into a reading
+app/src/lib/coachLesson.js maps a reading onto Charlotte’s <reading-coach> schema
+public/study-activities/  portable guided reading + basketball + alpaca house (do not rewrite)
 ```
 
 Deep-link any screen while building: `/app?screen=reading`, `?theme=dusk`.
@@ -38,14 +43,14 @@ Deep-link any screen while building: `/app?screen=reading`, `?theme=dusk`.
 
 ```bash
 npm run dev       # API + serves the built app on :3000  (build first)
-npm run dev:web   # Vite dev server on :5173 with HMR, proxies /api to :3000
+npm run dev:web   # Vite HMR on :5173; proxies /api and /study-activities to :3000
 ```
 
 For live reload run both: `npm run dev` in one shell, `npm run dev:web` in another.
 
 ## Learner toggle
 
-`learner` is `"adhd"` or `"dyslexia"`. The stub uses a two-button switch. ADHD should feel like motion + one-step cards; dyslexia should be large type, extra spacing, no bounce.
+`learner` is `"adhd"` or `"dyslexia"`. Onboarding maps reason/struggles via `learnerFromProfile` in `app/src/lib/api.js`. ADHD should feel like motion + one-step cards; dyslexia should be large type, extra spacing, no bounce.
 
 ## API (already live)
 
@@ -83,10 +88,12 @@ OpenRouter is server-side only. Local: `secrets.toml`. Prod: Vercel env `OPENROU
 
 ## Formats
 
-The UI shows three shapes — Flowchart, Checklist, Quest. The server classifies
-a passage as `process` / `rule_system` / `definition_cluster`
-(`server/ingest/classify.js`); the mapping between the two vocabularies lives
-in one place, `FORMAT_BY_CONCEPT` in `app/src/lib/api.js`.
+The UI shows four shapes — **Guided**, Flowchart, Checklist, Quest. Ingest opens
+Guided (Charlotte’s reading-coach). The server still classifies a passage as
+`process` / `rule_system` / `definition_cluster`
+(`server/ingest/classify.js`); that mapping still lives in `FORMAT_BY_CONCEPT`
+in `app/src/lib/api.js` for the remake tabs. Seed questions are reused in Guided
+when present; ingested passages get title-based checks so we never invent source facts.
 
 Seed readings carry hand-written comprehension questions. Ingested passages do
 not — the server generates no questions, so Quest renders those as

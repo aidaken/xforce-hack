@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useAddy } from "../state/store.jsx";
 import { FORMAT_NAMES } from "../data/readings.js";
 import { chat, learnerFromProfile } from "../lib/api.js";
+import { readingToCoachLesson } from "../lib/coachLesson.js";
 import { Flowchart, Checklist, Quest } from "../components/ReadingFormats.jsx";
+import ReadingCoachEmbed from "../components/ReadingCoachEmbed.jsx";
 import {
   Check,
   ChevronLeft,
@@ -12,7 +14,7 @@ import {
   Warn,
 } from "../components/Icons.jsx";
 
-const TABS = ["flowchart", "checklist", "quest"];
+const TABS = ["guided", "flowchart", "checklist", "quest"];
 
 /** "This isn't working" options. Each one both reshapes the local view and
  *  gives the model a concrete instruction for the remake. */
@@ -52,6 +54,14 @@ export default function Reading() {
   const flags = current.flags.length
     ? current.flags
     : ["Nothing flagged. Every idea in the source has a home in this version."];
+
+  const lesson = useMemo(() => {
+    try {
+      return readingToCoachLesson(current);
+    } catch {
+      return null;
+    }
+  }, [current]);
 
   async function askForRemake(option) {
     patch({
@@ -192,7 +202,7 @@ export default function Reading() {
               }}
             >
               {FORMAT_NAMES[k]}
-              {current.rec === k && (
+              {(current.rec === k || (k === "guided" && current.source)) && (
                 <span
                   style={{
                     fontSize: 13,
@@ -210,6 +220,9 @@ export default function Reading() {
         })}
       </div>
 
+      {tab === "guided" && lesson ? (
+        <ReadingCoachEmbed lesson={lesson} storageKey={String(current.id)} />
+      ) : (
       <div className="split" ref={splitRef}>
         <div className="split-pane" style={{ flex: `0 0 ${st.split}%` }}>
           <div className="mono" style={{ marginBottom: 14 }}>
@@ -256,6 +269,7 @@ export default function Reading() {
           {tab === "quest" && <Quest />}
         </div>
       </div>
+      )}
 
       <div className="row wrap" style={{ gap: 12, alignItems: "flex-start" }}>
         <div

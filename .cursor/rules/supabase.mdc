@@ -19,4 +19,4 @@ bash scripts/link-supabase.sh
 node scripts/check-supabase.mjs
 ```
 
-Client: `getSupabase()` in `lib/supabase.js` (anon key only). Migrations go in `supabase/migrations/` and `db push` to this ref. Never commit the service-role key.
+Client: `getSupabase()` in `lib/supabase.js` (anon key only). Migrations go in `supabase/migrations/` and `db push` to this ref. Never commit the service-role key. After a finished task, update `product_info.md` if persistence or tables changed.

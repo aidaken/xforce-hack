@@ -16,5 +16,6 @@ This repo has a single Vercel project. All git branches deploy here.
 - GitHub: `aidaken/xforce-hack` (already linked)
 - Pinned IDs: `config/vercel.json`
 - Guide: `docs/vercel.md`
+- After a finished task, update `product_info.md` if deploy/API/env changed.
 
 Do not create a second Vercel project. Aidar’s “push to prod” deploys this project with `vercel --prod --yes` and updates GitHub `main`. Never put `SUPABASE_SERVICE_ROLE_KEY` in Vercel env.

@@ -1,5 +1,6 @@
 import { useAddy } from "./state/store.jsx";
 import AppHeader from "./components/AppHeader.jsx";
+import StudyPlay from "./components/StudyPlay.jsx";
 import Login from "./screens/Login.jsx";
 import Onboarding from "./screens/Onboarding.jsx";
 import Dashboard from "./screens/Dashboard.jsx";
@@ -11,7 +12,7 @@ import Focus from "./screens/Focus.jsx";
 const IN_SHELL = ["dashboard", "folder", "reading", "profile"];
 
 export default function App() {
-  const { state } = useAddy();
+  const { state, tab } = useAddy();
   const { screen } = state;
 
   return (
@@ -30,6 +31,7 @@ export default function App() {
       )}
 
       {screen === "focus" && <Focus />}
+      <StudyPlay active={screen === "reading" && tab === "guided"} />
     </div>
   );
 }

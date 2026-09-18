@@ -2,6 +2,7 @@ import { useAddy } from "../state/store.jsx";
 import { FOLDER_NAMES, FOLDER_TINTS } from "../data/readings.js";
 import QuickSettings from "../components/QuickSettings.jsx";
 import AddReading from "../components/AddReading.jsx";
+import IngestDrop from "../components/IngestDrop.jsx";
 import { ChevronRight, Clock, Plus } from "../components/Icons.jsx";
 
 const UPCOMING = [
@@ -19,6 +20,8 @@ export default function Dashboard() {
       <QuickSettings />
 
       <main className="stack" style={{ gap: 26, minWidth: 0 }}>
+        <IngestDrop />
+
         <section className="card card-lift stack pad-28" style={{ gap: 18 }}>
           <div className="muted f16">
             {name

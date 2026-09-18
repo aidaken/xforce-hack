@@ -1,14 +1,10 @@
 import { useAddy } from "../state/store.jsx";
 import { FOLDER_NAMES } from "../data/readings.js";
+import { ingestAsReading, openReadingPatch } from "../lib/ingestReading.js";
 import {
-  ingest,
-  fileToBase64,
-  fileToText,
-  ingestTypeForFile,
   FILE_ACCEPT,
   INGEST_ERRORS,
 } from "../lib/api.js";
-import { documentToReading } from "../lib/adapt.js";
 import { Check, Upload, Warn } from "./Icons.jsx";
 
 const MODES = [
@@ -44,31 +40,15 @@ export default function AddReading() {
     if (!ready || st.addBusy) return;
     patch({ addBusy: true, addError: "", addDone: "" });
     try {
-      let payload;
-      if (st.addMode === "pdf") {
-        // PDF, Word, Google Doc export or plain text — the server picks the
-        // extractor from `type`, and OCRs PDFs that have no text layer.
-        const type = ingestTypeForFile(st.addFile.name);
-        payload =
-          type === "gdoc" || type === "text"
-            ? { type, filename: st.addFile.name, text: await fileToText(st.addFile) }
-            : { type, filename: st.addFile.name, base64: await fileToBase64(st.addFile) };
-      } else if (st.addMode === "link") {
-        payload = { type: "url", url: st.addLink.trim() };
-      } else {
-        payload = { type: "text", text: st.addText };
-      }
-
-      const { document } = await ingest(payload);
-      const reading = documentToReading(document, st.addFolder);
-      setReadings((list) => [...list, reading]);
-      patch({
-        addText: "",
-        addLink: "",
-        addFile: null,
-        addBusy: false,
-        addDone: `“${reading.title}” landed in ${st.addFolder}. Addy read it as a ${reading.rec}.`,
+      const reading = await ingestAsReading({
+        mode: st.addMode === "pdf" ? "file" : st.addMode,
+        file: st.addFile,
+        text: st.addText,
+        url: st.addLink,
+        folder: st.addFolder,
       });
+      setReadings((list) => [...list, reading]);
+      patch(openReadingPatch(reading));
     } catch (err) {
       patch({
         addBusy: false,
@@ -152,7 +132,7 @@ export default function AddReading() {
           >
             <Upload />
             <span className="f18">Drop a file here, or choose one</span>
-            <span className="muted f15">PDF, Word, Google Doc or text · up to 40 MB</span>
+            <span className="muted f15">PDF, Word, Google Doc or text · up to 8 MB</span>
             <input
               type="file"
               accept={FILE_ACCEPT}
