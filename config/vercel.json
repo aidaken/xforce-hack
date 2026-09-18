@@ -1,0 +1,13 @@
+{
+  "projectName": "xforce-hack",
+  "projectId": "prj_GXZ75tI8NCSyxSXNFiHanqcIp1Zc",
+  "teamId": "team_XS9LEdNQcwp4cYraijcCL30b",
+  "teamSlug": "aidars-projects-c6143ce8",
+  "dashboard": "https://vercel.com/aidars-projects-c6143ce8/xforce-hack",
+  "productionUrl": "https://xforce-hack.vercel.app",
+  "git": {
+    "org": "aidaken",
+    "repo": "xforce-hack"
+  },
+  "note": "This is the only Vercel project for this repo. GitHub integration is already linked. Do not create another. Pushes to GitHub create deployments; latest production deploy was from the dev branch."
+}

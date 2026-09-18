@@ -10,10 +10,10 @@ Cursor also loads `.cursor/rules/*.mdc`. Keep those short; put the longer story 
 
 TAPIA / Capital One 2026 hackathon. We are on challenge **[2] Generative AI Neurodiversity-Adaptive Study Workspace**.
 
-Ideas to pick from: `ideas/product-directions.md`  
-Must-haves: `ideas/challenge-brief.md`
+Working MVP: `README.md` (Study Remix — two remakes + source check + adapt).  
+Must-haves: `ideas/challenge-brief.md`. Earlier menu: `ideas/product-directions.md`.
 
-Nothing is locked yet. Do not scaffold a competing app until the team circles a combo.
+Scope is drafted, not fully locked (accounts vs demo slice, two named modes vs preference toggles). Do not scaffold a second product.
 
 ## Git
 
@@ -36,6 +36,23 @@ Details: `docs/supabase.md`. IDs: `config/supabase.json`. Client: `lib/supabase.
 Anon key may live in `.env.example`. **Service-role key never goes in git, rules, or chat.**
 
 If you need a database, add migrations under `supabase/migrations/` and push to **this** project.
+
+## Vercel — use this one on every branch
+
+GitHub is already linked. Do not create a second Vercel project.
+
+| | |
+| --- | --- |
+| Dashboard | https://vercel.com/aidars-projects-c6143ce8/xforce-hack |
+| Project ID | `prj_GXZ75tI8NCSyxSXNFiHanqcIp1Zc` |
+| Team | `team_XS9LEdNQcwp4cYraijcCL30b` (`aidars-projects-c6143ce8`) |
+| Production | https://xforce-hack.vercel.app |
+
+Setup: `npx vercel link --yes --project xforce-hack --scope aidars-projects-c6143ce8`. Details: `docs/vercel.md`. IDs: `config/vercel.json`. Static output: `vercel.json` → `public/`.
+
+Mirror `.env.example` anon / `NEXT_PUBLIC_*` vars on Vercel. **Never** put `SUPABASE_SERVICE_ROLE_KEY` in Vercel env.
+
+Pushes to GitHub deploy. Preview URLs per branch. Latest production deploy (2026-09-18) came from `dev`. Do not push `main`.
 
 ## When you change something durable
 
