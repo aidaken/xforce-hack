@@ -1,0 +1,13 @@
+---
+description: XForce hackathon project context — challenge, git, shared Supabase
+alwaysApply: true
+---
+
+# xforce-hack
+
+- TAPIA 2026 challenge **[2]** neurodiversity study workspace. Options in `ideas/`. Direction not locked.
+- GitHub: `aidaken/xforce-hack`. Do not commit on `main`. Feature branch: `aidar-be`.
+- **One** Supabase for every branch: project `xforce-hack`, ref `tfmzjvoqsktlzwnrzdzr`, URL `https://tfmzjvoqsktlzwnrzdzr.supabase.co`, dashboard https://supabase.com/dashboard/project/tfmzjvoqsktlzwnrzdzr
+- After clone: `cp .env.example .env` and `supabase link --project-ref tfmzjvoqsktlzwnrzdzr`. See `docs/supabase.md`.
+- Never commit `.env` or `SUPABASE_SERVICE_ROLE_KEY`. Use `lib/supabase.js` (`getSupabase()`) with the anon key in client code.
+- Keep `CLAUDE.md` and `CURSOR.md` updated when conventions change.
