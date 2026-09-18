@@ -130,18 +130,18 @@ npx vercel link --yes --project xforce-hack --scope aidars-projects-c6143ce8
 Teammate guide: [docs/vercel.md](docs/vercel.md)  
 Pinned IDs: [config/vercel.json](config/vercel.json)
 
-Pushes to GitHub create deployments. Feature branches get preview URLs. PR to `dev` — do not push `main`. Put Supabase **anon** / `NEXT_PUBLIC_*` keys on this Vercel project; never the service-role key.
+Pushes to GitHub create deployments. Feature branches get preview URLs. Aidar’s “push to prod” updates GitHub `main` and Vercel production. Put Supabase **anon** / `NEXT_PUBLIC_*` keys on this Vercel project; never the service-role key.
 
-Until the app is scaffolded, `vercel.json` serves `public/` (holding page).
+Until the app is scaffolded, `vercel.json` serves `public/` (landing page).
 
 ## Repo map
 
 - `ideas/` — earlier pick-list (formats, agent loop, judge demo). Still useful; README is the working MVP.
-- `public/` — static holding page deployed on Vercel
+- `public/` — landing page deployed on Vercel
 - `supabase/` — CLI config, linked to the hosted project above
 - `CLAUDE.md` / `CURSOR.md` — living notes for humans and agents (includes Vercel IDs)
 
-Do not commit on `main`. Feature work happens on branches. PRs go to `dev`.
+Do not checkout `main` to edit files. Feature work happens on branches. Aidar’s “push to prod” updates GitHub `main` and Vercel production.
 
 ## Open decisions
 

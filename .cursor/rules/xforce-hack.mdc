@@ -6,7 +6,7 @@ alwaysApply: true
 # xforce-hack
 
 - TAPIA 2026 challenge **[2]** neurodiversity study workspace. Working MVP in `README.md`. Options in `ideas/`.
-- GitHub: `aidaken/xforce-hack`. Do not commit or push `main`. Feature branch: `aidar-be`. PRs go to `dev`.
+- GitHub: `aidaken/xforce-hack`. Feature branch: `aidar-be`. Do not checkout `main` to edit. Aidar’s “push to prod” = `git push origin HEAD:main` + `vercel --prod --yes` (never force-push).
 - **One** Supabase for every branch: project `xforce-hack`, ref `tfmzjvoqsktlzwnrzdzr`, URL `https://tfmzjvoqsktlzwnrzdzr.supabase.co`, dashboard https://supabase.com/dashboard/project/tfmzjvoqsktlzwnrzdzr
 - **One** Vercel for every branch: project `xforce-hack`, id `prj_GXZ75tI8NCSyxSXNFiHanqcIp1Zc`, team `team_XS9LEdNQcwp4cYraijcCL30b`, production https://xforce-hack.vercel.app — see `docs/vercel.md` and `config/vercel.json`. GitHub is already linked. Do not create a second Vercel project.
 - After clone: `cp .env.example .env` and `supabase link --project-ref tfmzjvoqsktlzwnrzdzr`. See `docs/supabase.md`.

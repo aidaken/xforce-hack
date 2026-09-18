@@ -12,7 +12,9 @@
 | GitHub | `aidaken/xforce-hack` (already linked) |
 | Pinned file | `config/vercel.json` |
 
-GitHub integration is on. A push to GitHub creates a deployment. Feature branches get preview URLs like `xforce-hack-git-<branch>-aidars-projects-c6143ce8.vercel.app`. Production URL aliases the latest production deploy (as of 2026-09-18 that was `dev`, not `main`).
+GitHub integration is on. A push to GitHub creates a deployment. Feature branches get preview URLs like `xforce-hack-git-<branch>-aidars-projects-c6143ce8.vercel.app`. Production URL: https://xforce-hack.vercel.app.
+
+**Aidar standing order:** “push to prod” means update GitHub `main` and run `vercel --prod --yes` against this project. Never force-push `main`.
 
 ## After you clone
 

@@ -17,4 +17,4 @@ This repo has a single Vercel project. All git branches deploy here.
 - Pinned IDs: `config/vercel.json`
 - Guide: `docs/vercel.md`
 
-Do not create a second Vercel project. Do not push to `main` to get a deploy — PR to `dev`. Never put `SUPABASE_SERVICE_ROLE_KEY` in Vercel env.
+Do not create a second Vercel project. Aidar’s “push to prod” deploys this project with `vercel --prod --yes` and updates GitHub `main`. Never put `SUPABASE_SERVICE_ROLE_KEY` in Vercel env.

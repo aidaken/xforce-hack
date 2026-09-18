@@ -14,9 +14,10 @@ Last updated: 2026-09-18
 ## Git
 
 - Default remote branch on GitHub: `dev`
-- Do **not** commit or push to `main` / `master`
 - Current feature branch: `aidar-be`
 - Remote: `origin` → `https://github.com/aidaken/xforce-hack.git`
+- **Do not checkout `main` to edit files.** Do the work on `aidar-be`.
+- **Aidar standing order (2026-09-18):** when he says **push to prod**, that means (1) merge `origin/main` into the feature branch if needed, (2) `git push origin HEAD` and `git push origin HEAD:main`, (3) `vercel --prod --yes` on the shared Vercel project. Never force-push `main`.
 
 ## Supabase (mandatory, all branches)
 
@@ -41,10 +42,10 @@ One hosted project. GitHub `aidaken/xforce-hack` is already linked. Do **not** c
 - Production: https://xforce-hack.vercel.app
 - Pinned: `config/vercel.json`
 - Guide: `docs/vercel.md`
-- Config: `vercel.json` (static `public/` until the app scaffold lands)
+- Config: `vercel.json` (static `public/` landing until the app scaffold lands)
 - After clone: `npx vercel link --yes --project xforce-hack --scope aidars-projects-c6143ce8`
 - Put anon / `NEXT_PUBLIC_*` Supabase vars on this project. **Never** put `SUPABASE_SERVICE_ROLE_KEY` on Vercel.
-- Pushes to GitHub create deployments. PR to `dev`. Do not push `main`.
+- Pushes to GitHub create deployments. Aidar’s “push to prod” updates GitHub `main` and `vercel --prod`.
 
 ## Layout
 
