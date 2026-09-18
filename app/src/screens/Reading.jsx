@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useAddy } from "../state/store.jsx";
 import { FORMAT_NAMES } from "../data/readings.js";
-import { chat, learnerFromProfile } from "../lib/api.js";
+import { chat, formatPrefsFrom, learnerFromProfile } from "../lib/api.js";
 import { readingToCoachLesson } from "../lib/coachLesson.js";
 import { Flowchart, Checklist, Quest } from "../components/ReadingFormats.jsx";
 import ReadingCoachEmbed from "../components/ReadingCoachEmbed.jsx";
@@ -76,6 +76,7 @@ export default function Reading() {
     try {
       const res = await chat({
         learner: learnerFromProfile(st.reason, st.struggles),
+        formatPrefs: formatPrefsFrom(st.prefs),
         message: option.ask,
         documentId: current.source?.id,
         document: {

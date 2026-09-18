@@ -38,8 +38,43 @@ export const ingest = (payload) => call("/api/ingest", json(payload));
  * The server is stateless on Vercel, so the caller keeps `document` in React
  * state and sends it back on every turn rather than trusting documentId.
  */
-export const chat = ({ learner, message, documentId, document, history }) =>
-  call("/api/chat", json({ learner, message, documentId, document, history }));
+export const chat = ({
+  learner,
+  formatPrefs,
+  message,
+  documentId,
+  document,
+  history,
+}) =>
+  call(
+    "/api/chat",
+    json({ learner, formatPrefs, message, documentId, document, history }),
+  );
+
+/**
+ * Onboarding stores the format answers as their button labels, which are
+ * user-facing copy and will get reworded. The prompt layer takes normalised
+ * enums instead, so nothing downstream depends on UI wording.
+ *
+ * These are a soft bias, not a router: the material picks the structure and
+ * these break ties and shape the surface. An empty array means no preference
+ * and the planner decides alone — send [], never null.
+ */
+const FORMAT_PREF_ENUM = {
+  "Diagrams and flowcharts": "diagram",
+  "Step-by-step checklists": "checklist",
+  "Short summaries": "summary",
+  "Games and quick quizzes": "quiz",
+};
+
+export function formatPrefsFrom(prefs = []) {
+  const out = new Set();
+  for (const label of prefs) {
+    const key = FORMAT_PREF_ENUM[label];
+    if (key) out.add(key);
+  }
+  return [...out];
+}
 
 /**
  * Which ingest type the server wants for a dropped file. Mirrors the
