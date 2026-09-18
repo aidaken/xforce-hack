@@ -134,13 +134,15 @@ Pinned IDs: [config/vercel.json](config/vercel.json)
 
 Pushes to GitHub create deployments. Feature branches get preview URLs. Aidar’s “push to prod” updates GitHub `main` and Vercel production. Put Supabase **anon** / `NEXT_PUBLIC_*` keys on this Vercel project; never the service-role key. Put `OPENROUTER_API_KEY` on Vercel too — never in git.
 
-Frontend teammates: [docs/frontend.md](docs/frontend.md) (replace `public/app.html`). Backend: `server/` + `api/`.
+Frontend: [docs/frontend.md](docs/frontend.md) — React SPA in `app/` (Vite). Backend: `server/` + `api/`.
 
 Local:
 
 ```bash
 cp .env.example .env   # add OPENROUTER_API_KEY locally, never commit .env
+cp secrets.toml.example secrets.toml
 npm install
+npm run build
 npm run dev
 ```
 
@@ -150,7 +152,8 @@ Then open http://localhost:3000/app.
 
 - `product_info.md` — **live product record** (update after every task)
 - `ideas/` — earlier pick-list (formats, agent loop, judge demo)
-- `public/` — landing (`index.html`) + **stub** chat (`app.html`) — friends replace the stub
+- `app/` — React SPA (Vite). Edit here. Builds to gitignored `public/app.html`
+- `public/index.html` — landing page (plain HTML)
 - `server/` — ingest, classify, OpenRouter
 - `api/` — Vercel serverless wrappers
 - `docs/frontend.md` — where frontend work starts

@@ -20,7 +20,12 @@ TAPIA / Capital One 2026 hackathon. We are on challenge **[2] Generative AI Neur
 
 **Live product record:** [`product_info.md`](product_info.md). Pitch / MVP draft: `README.md`. Product name: **ADDY**.
 
-**Frontend (friends):** start at [`docs/frontend.md`](docs/frontend.md). Replace the stub in `public/app.html`. Landing is `public/index.html`. Keep calling `/api/ingest` and `/api/chat`.
+**Frontend (friends):** start at [`docs/frontend.md`](docs/frontend.md). The app
+is now a **React SPA in `app/`** (Vite), built into `public/app.html` +
+`public/assets/` — both are gitignored build output, so edit `app/src/`, never
+`public/app.html`. Run `npm run build` once before `npm run dev`, or use
+`npm run dev:web` for HMR on :5173. Landing is still `public/index.html`.
+Keep calling `/api/ingest` and `/api/chat`.
 
 **Backend:** `server/` (ingest + OpenRouter). Wrappers: `api/`. Prompts: `server/llm/prompts.js`. Ingest: paste, PDF (text or scanned OCR), Word `.docx`, public Google Doc URL / `.gdoc`, URL, samples.
 

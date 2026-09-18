@@ -2,7 +2,7 @@
 
 **This is the live product record.** Agents and humans update it **after every finished task**, before they stop. Do not wait for someone to ask. If the code, API, deploy, limits, or a locked decision changed, this file must match reality.
 
-Last updated: 2026-09-18 (ingest: Word / Google Docs / scanned PDF OCR; docs closeout rule)
+Last updated: 2026-09-18 (merged React + Vite SPA from `dev`; 7 screens)
 
 Companion files (conventions only, not the product record): [`CLAUDE.md`](CLAUDE.md), [`CURSOR.md`](CURSOR.md), [`.cursor/rules/`](.cursor/rules/). Frontend map: [`docs/frontend.md`](docs/frontend.md). Pitch/MVP draft: [`README.md`](README.md).
 
@@ -32,9 +32,9 @@ One passage in. Remake it for the active learner:
 We are **not** diagnosing anyone. Copy must stay “designed around common ADHD / dyslexia study preferences,” not clinically proven.
 
 Production: https://xforce-hack.vercel.app  
-Workspace stub: https://xforce-hack.vercel.app/app  
+Workspace: https://xforce-hack.vercel.app/app  
 Repo: https://github.com/aidaken/xforce-hack  
-Feature branch for this backend work: `aidar-kenzhebaev`
+Feature branch: `aidar-kenzhebaev`
 
 ---
 
@@ -44,7 +44,8 @@ Feature branch for this backend work: `aidar-kenzhebaev`
 
 - **One** Vercel project for every branch: `xforce-hack`, `prj_GXZ75tI8NCSyxSXNFiHanqcIp1Zc`, team `team_XS9LEdNQcwp4cYraijcCL30b`. GitHub already linked. Do not create a second project.
 - **One** Supabase project for every branch: `tfmzjvoqsktlzwnrzdzr` / `https://tfmzjvoqsktlzwnrzdzr.supabase.co`. Do not create a second project. **No remake/session tables yet** — ingest/chat are in-memory per serverless instance.
-- Static `public/` + serverless `api/` (`vercel.json`). Local: `npm run dev` → http://localhost:3000 (`/` landing, `/app` workspace).
+- Vercel `buildCommand`: `npm run build` (Vite) into `public/`. `public/app.html` + `public/assets/` are **gitignored build output**.
+- Static `public/` + serverless `api/` (`vercel.json`). Local: `npm run build` then `npm run dev` → http://localhost:3000 (`/` landing, `/app` workspace). Vite HMR: `npm run dev:web` on :5173.
 - Aidar “push to prod”: merge `origin/main` if needed → `git push origin HEAD` and `git push origin HEAD:main` → `vercel --prod --yes`. Never force-push `main`. Do not checkout `main` to edit.
 
 ### Landing
@@ -88,7 +89,23 @@ After ingest the client **must keep `document` in memory** and send it back on e
 - If the key is missing, [`server/llm/heuristic.js`](server/llm/heuristic.js) still returns a remake so the UI can be built
 - `ingest` and `chat` functions set `maxDuration` 60s in `vercel.json`
 
-**Stub UI** ([`public/app.html`](public/app.html)) — **not** the real product UI. Friends replace it. It has ADHD/Dyslexia toggle, sample buttons, drop zone (PDF / Word / Google Doc / txt), paste, URL, chat. Ingest does **not** auto-chat; user still sends “remake this”. ADHD stub has bouncing pup (hidden for dyslexia / reduced motion). Fonts: Lexend, OpenDyslexic, Atkinson Hyperlegible.
+**React SPA** ([`app/`](app/), Vite) — this **is** the product UI. Edit `app/src/`, never `public/app.html`.
+
+| Screen | File | Notes |
+| --- | --- | --- |
+| Login | `app/src/screens/Login.jsx` | Demo form only — no Supabase auth |
+| Onboarding | `Onboarding.jsx` | ~9 steps: name, ADHD/dyslexia reason, struggles, prefs, focus, sound, buddy |
+| Dashboard | `Dashboard.jsx` | Folders, plant, streak, add-a-reading |
+| Folder | `Folder.jsx` | Readings in a class folder |
+| Reading | `Reading.jsx` | Split source / remake: Flowchart, Checklist, Quest. **This isn’t working** POSTs `/api/chat` |
+| Profile | `Profile.jsx` | Theme, font, size, reduce-motion |
+| Focus | `Focus.jsx` | Timer + read-aloud-style walk |
+
+Themes: paper / sage / dusk. Fonts include Lexend and OpenDyslexic. Deep-link: `/app?screen=reading&theme=dusk`.
+
+Add-a-reading (`AddReading.jsx`) POSTs `/api/ingest` for paste, file (PDF / Word / `.gdoc` / txt), or URL (including public Google Docs). `ingestTypeForFile` in `app/src/lib/api.js`. Concept types map to UI formats in `FORMAT_BY_CONCEPT` (one place). Seed readings live in `app/src/data/readings.js`. Ingested passages have no generated quiz; Quest uses read-through beats.
+
+The old `public/app.html` chat stub is **gone** (replaced by this SPA).
 
 ### Secrets (never in git)
 
@@ -103,27 +120,21 @@ After ingest the client **must keep `document` in memory** and send it back on e
 
 ## Not shipped (still the MVP gaps)
 
-These are the judge-facing product pieces that are **not** in production yet:
-
 | Gap | Notes |
 | --- | --- |
-| Real workspace UI | Side-by-side source / remake, Mermaid flowchart, gamified step-reveal. Stub chat only. |
-| Fidelity / Source Guard | No claim decomposition, no supported/missing/invented report, no linked highlighting |
-| Adapt loop | No **This isn’t working** → re-plan to another format |
-| Auto-remake after ingest | Stub only ingests; student must send a chat message |
-| Login / saved profiles | Skippable for demo; Supabase not used for sessions yet |
-| Preference profile | Color, music, fonts, interests, free-text “what trips me up” — not wired |
-| Lock / focus screen | Explicitly TBD |
-| Persistence | Remakes, verifier results, documents not stored in Supabase |
+| Real fidelity / Source Guard | Reading screen has a fidelity panel, but flags are local/seed — no server claim map, no invented/missing API |
+| Login / saved profiles | Login + onboarding UI exist; **not** wired to Supabase. Refresh loses the session |
+| Persistence | Remakes, documents, streaks not stored in Supabase |
 | Private Google Docs | Will not ingest (by design unless we add OAuth later) |
 | Old `.doc` (not docx) | Not supported |
 | OCR page cap | Vision OCR is first 3 pages only |
+| Mermaid as a library | Flowchart is a custom UI component, not Mermaid.js |
 
 ### Open decisions (not locked)
 
-1. Demo slice (no accounts) vs full MVP (login, uploads, lock screen).
-2. Two named modes vs preference toggles + free text as the primary model. **Current code: two named modes.**
-3. Planner picks one renderer vs always show both ADHD checklist and dyslexia flowchart for the judge toggle. **Current code: one remake per `learner` on each chat call; toggle = new chat.**
+1. Demo slice (no accounts) vs full MVP (login, uploads, lock screen). **UI has login/onboarding/focus; auth is still fake.**
+2. Two named modes vs preference toggles + free text as the primary model. **API still `adhd`\|`dyslexia`; UI maps onboarding via `learnerFromProfile`.**
+3. Planner picks one renderer vs always show both ADHD checklist and dyslexia flowchart for the judge toggle. **Reading screen has three tabs; “This isn’t working” can switch tab + call chat.**
 
 ---
 
@@ -136,12 +147,8 @@ In order, on `aidar-kenzhebaev`, pushed to GitHub `main` and Vercel production w
 3. Ingest + classify + chat API; ADHD/Dyslexia prompts; `public/app.html` marked as a **stub** for frontend teammates (`docs/frontend.md`).
 4. OpenRouter wired. Model locked to **DeepSeek V4.1 Flash**. Key in `secrets.toml` locally and Vercel env in prod.
 5. PR #4 `main` → `dev` conflicts resolved (merge-ort, pushed).
-6. **This session:** ingest limitations closed —
-   - Word `.docx` (`mammoth`)
-   - Public Google Doc URLs (`/export?format=txt`) and Drive `.gdoc` files
-   - Scanned / image-only PDFs (page render or embedded images → vision OCR)
-   - Stub file picker accepts those types
-   - Verified: local docx/pdf/text/error paths; prod `POST /api/ingest` docx `201`; DeepSeek OCR smoke test returned `Hello ADDY mitochondria` from a rendered page in ~3s
+6. **This session:** ingest limitations closed (docx / public Google Docs / scanned PDF OCR).
+7. Tao’s `3bd65dd` ported the Addy design into a React + Vite SPA (`app/`, 7 screens). `9d3e357` merged that with ingest on `dev` (did **not** create the pages — it merged them). Pulled onto `aidar-kenzhebaev` and deployed.
 
 ---
 
@@ -153,11 +160,13 @@ cp secrets.toml.example secrets.toml   # put OpenRouter key in [openrouter] api_
 npx supabase link --project-ref tfmzjvoqsktlzwnrzdzr
 npx vercel link --yes --project xforce-hack --scope aidars-projects-c6143ce8
 npm install
+npm run build
 npm run dev
 # http://localhost:3000/app
+# optional HMR: npm run dev:web → :5173
 ```
 
-Frontend teammates: replace `public/app.html`, keep calling `/api/ingest` and `/api/chat`, always resend `document` on chat. See [`docs/frontend.md`](docs/frontend.md).
+Frontend: edit [`app/src/`](app/src/). Keep calling `/api/ingest` and `/api/chat`, always resend `document` on chat. See [`docs/frontend.md`](docs/frontend.md).
 
 ---
 
@@ -165,7 +174,8 @@ Frontend teammates: replace `public/app.html`, keep calling `/api/ingest` and `/
 
 | Date | What landed |
 | --- | --- |
+| 2026-09-18 | Merged React + Vite SPA from `dev` (`3bd65dd` created screens; `9d3e357` merged ingest). Stub `app.html` retired |
 | 2026-09-18 | `product_info.md` added; agents must update it after every finished task |
-| 2026-09-18 | Ingest: `.docx`, public Google Docs / `.gdoc`, scanned PDF vision OCR; stub drop zone updated; prod deploy |
+| 2026-09-18 | Ingest: `.docx`, public Google Docs / `.gdoc`, scanned PDF vision OCR; prod deploy |
 | 2026-09-18 | OpenRouter via `secrets.toml`; model `deepseek/deepseek-v4.1-flash` |
-| 2026-09-18 | Ingest + chat backend, ADHD/Dyslexia toggle, stub `app.html`, landing, shared Vercel/Supabase docs |
+| 2026-09-18 | Ingest + chat backend, landing, shared Vercel/Supabase docs |

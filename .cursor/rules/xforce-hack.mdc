@@ -8,7 +8,7 @@ alwaysApply: true
 - TAPIA 2026 challenge **[2]**. Product: **ADDY**. Live record: `product_info.md`. Pitch: `README.md`.
 - After every finished task, update `product_info.md` (shipped vs not, API, limits, changelog, last-updated) before you stop. Update `CLAUDE.md` / `CURSOR.md` only if conventions changed. Never put secrets there.
 - GitHub: `aidaken/xforce-hack`. Feature branch: `aidar-kenzhebaev`. Do not checkout `main` to edit. Aidar’s “push to prod” = `git push origin HEAD:main` + `vercel --prod --yes` (never force-push).
-- Backend: `server/` ingest + OpenRouter chat. UI stub: `public/app.html` (friends replace this — see `docs/frontend.md`).
+- Backend: `server/` ingest + OpenRouter chat. UI: React SPA in `app/` (Vite). Edit `app/src/`; `public/app.html` is gitignored build output. See `docs/frontend.md`.
 - **One** Supabase for every branch: project `xforce-hack`, ref `tfmzjvoqsktlzwnrzdzr`, URL `https://tfmzjvoqsktlzwnrzdzr.supabase.co`, dashboard https://supabase.com/dashboard/project/tfmzjvoqsktlzwnrzdzr
 - **One** Vercel for every branch: project `xforce-hack`, id `prj_GXZ75tI8NCSyxSXNFiHanqcIp1Zc`, team `team_XS9LEdNQcwp4cYraijcCL30b`, production https://xforce-hack.vercel.app — see `docs/vercel.md` and `config/vercel.json`. GitHub is already linked. Do not create a second Vercel project.
 - After clone: `cp .env.example .env` and `supabase link --project-ref tfmzjvoqsktlzwnrzdzr`. See `docs/supabase.md`.
