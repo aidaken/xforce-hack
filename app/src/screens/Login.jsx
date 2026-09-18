@@ -11,11 +11,8 @@ export default function Login() {
         className="stack"
         style={{ width: "100%", maxWidth: 430, gap: 26 }}
       >
-        <div className="stack" style={{ alignItems: "center", gap: 12 }}>
-          <Logo size={64} />
-          <div style={{ fontSize: 38, fontWeight: 600, letterSpacing: "0.01em" }}>
-            Addy
-          </div>
+        <div className="stack" style={{ alignItems: "center", gap: 14 }}>
+          <Logo size={168} />
           <div
             className="muted pretty"
             style={{ fontSize: 18, textAlign: "center", maxWidth: "32ch" }}

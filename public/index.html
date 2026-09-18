@@ -8,7 +8,8 @@
       name="description"
       content="ADDY restructures textbooks for ADHD and dyslexic learners, then checks every claim against the source."
     />
-    <meta name="theme-color" content="#efe6d4" />
+    <link rel="icon" type="image/png" href="/addy-logo.png" />
+    <link rel="apple-touch-icon" href="/addy-logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -77,9 +78,20 @@
       }
 
       .mark {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
         font-weight: 700;
         letter-spacing: -0.03em;
         font-size: 1.05rem;
+      }
+
+      .mark img {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        border-radius: 10px;
+        background: #000;
       }
 
       nav {
@@ -385,7 +397,10 @@
   <body>
     <a class="skip" href="#main">Skip to content</a>
     <header>
-      <div class="mark">ADDY</div>
+      <div class="mark">
+        <img src="/addy-logo.png" width="48" height="48" alt="" />
+        ADDY
+      </div>
       <nav aria-label="Primary">
         <a href="/app.html">Open workspace</a>
         <a href="#demo">Demo</a>
