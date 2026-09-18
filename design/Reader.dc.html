@@ -121,7 +121,7 @@
 
         <sc-if value="{{isList}}" hint-placeholder-val="{{true}}">
           <div style="display: flex; flex-direction: column; gap: 14px; max-width: 700px;">
-            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 22px; font-weight: 600; letter-spacing: -0.015em; padding-bottom: 4px;">How your body holds 37 &deg;C</div>
+            <div style="display: flex; align-items: baseline; gap: 12px; padding-bottom: 4px;"><div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 22px; font-weight: 600; letter-spacing: -0.015em;">Negative feedback: how your body holds 37 &deg;C</div><div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; color: #C9BCA7;">S1</div></div>
             <sc-for list="{{steps}}" as="step" hint-placeholder-count="6">
               <div style="display: flex; align-items: flex-start; gap: 15px; padding: 13px 16px; border: 1px solid #E3DACB; border-radius: 4px; background: #FFFDF8;">
                 <div style="width: 22px; height: 22px; border-radius: 4px; border: 2px solid #C9BCA7; flex-shrink: 0; margin-top: 1px;"></div>
@@ -137,7 +137,7 @@
           <div style="display: flex; flex-direction: column; gap: 20px; max-width: 700px;">
             <div style="display: flex; flex-direction: column; gap: 11px;">
               <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 22px; font-weight: 600; letter-spacing: -0.015em;">Ch. 12 &middot; The thermostat</div>
+                <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.015em;">Negative feedback: holding 37 &deg;C</div>
                 <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 16px; font-weight: 600; color: #C1643C;">2 of 6</div>
               </div>
               <div style="display: flex; gap: 6px;">
@@ -185,9 +185,9 @@ class Component extends DCLogic {
       { id: "S1", text: "Thermoregulation in endotherms is maintained by a negative feedback loop." },
       { id: "S2", text: "Thermoreceptors distributed in the skin and in the hypothalamus detect deviation from the body’s set point of approximately 37 °C." },
       { id: "S3", text: "Afferent signals are integrated by the preoptic area of the hypothalamus, which functions as the control center for the loop." },
-      { id: "S4", text: "When core temperature rises above the set point, efferent signals produce vasodilation of cutaneous arterioles and activation of the eccrine sweat glands." },
-      { id: "S5", text: "When core temperature falls below the set point, the hypothalamus initiates vasoconstriction, piloerection, and shivering thermogenesis, while the thyroid axis may sustain nonshivering thermogenesis." },
-      { id: "S6", text: "Because the corrective response opposes the initial deviation, the loop is self-limiting: as temperature returns to the set point, the effector response is withdrawn." }
+      { id: "S4", text: "When core temperature rises above the set point, efferent signals produce vasodilation of cutaneous arterioles and activation of the eccrine sweat glands, increasing radiative and evaporative heat loss respectively." },
+      { id: "S5", text: "When core temperature falls below the set point, the hypothalamus initiates vasoconstriction, piloerection, and shivering thermogenesis, while the thyroid axis may be recruited to sustain nonshivering thermogenesis over longer intervals." },
+      { id: "S6", text: "Because the corrective response in each case opposes the initial deviation rather than amplifying it, the loop is self-limiting: as core temperature returns toward the set point, receptor firing diminishes and the effector response is progressively withdrawn." }
     ];
 
     var stepText = [
