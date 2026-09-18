@@ -89,5 +89,3 @@
   }
   if (!customElements.get('reading-coach')) customElements.define('reading-coach', ReadingCoach);
 })();
-
-
