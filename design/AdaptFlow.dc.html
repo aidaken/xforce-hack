@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #F7F2E9; -webkit-font-smoothing: antialiased; }
+    * { box-sizing: border-box; }
+    a { color: #0D938B; text-decoration: none; }
+    a:hover { color: #0A716B; }
+  </style>
+</helmet>
+<div style="width: 1440px; height: 900px; background: #F7F2E9; color: #2B2621; font-family: 'Atkinson Hyperlegible', Verdana, sans-serif; display: flex; flex-direction: column;">
+
+  <div style="height: 62px; flex-shrink: 0; background: #FFFDF8; border-bottom: 1px solid #E3DACB; display: flex; align-items: center; justify-content: space-between; padding: 0 28px;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C1643C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H10a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H5.5A1.5 1.5 0 0 1 4 15.5z"></path>
+        <path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H14a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h4.5a1.5 1.5 0 0 0 1.5-1.5z"></path>
+      </svg>
+      <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 17px; font-weight: 600; letter-spacing: -0.015em;">Rechapter</div>
+      <div style="width: 1px; height: 20px; background: #E3DACB;"></div>
+      <div style="font-size: 15px; color: #6B6155;">Mara&rsquo;s session &middot; Ch. 12, p. 340</div>
+    </div>
+    <div style="font-size: 14px; color: #A89B89;">Pick what she said &mdash; the agent re-decides</div>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; align-items: stretch; min-height: 0;">
+
+    <div style="width: 470px; flex-shrink: 0; background: #FAF6EF; border-right: 1px solid #E3DACB; padding: 26px 28px; display: flex; flex-direction: column; gap: 16px;">
+
+      <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #6B6155;">This isn&rsquo;t working because&hellip;</div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <sc-for list="{{signals}}" as="sig" hint-placeholder-count="3">
+          <div style="{{sig.rowStyle}}" onClick="{{sig.pick}}">
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 20px; font-weight: 400; line-height: 1.4; letter-spacing: -0.01em;">{{sig.quote}}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="flex-grow: 1;"></div>
+
+      <div style="border-top: 1px solid #E3DACB; padding-top: 18px; display: flex; flex-direction: column; gap: 10px;">
+        <div style="font-size: 15px; line-height: 1.65; color: #6B6155;">She never picks a format, names a diagnosis, or fills in a quiz. She says what is wrong in her own words.</div>
+        <div style="font-size: 15px; line-height: 1.65; color: #6B6155;">Three complaints, three different repairs &mdash; an agent that answers all of them by &ldquo;simplifying&rdquo; would eventually simplify the biology away.</div>
+      </div>
+    </div>
+
+    <div style="flex-grow: 1; padding: 26px 32px; display: flex; flex-direction: column; gap: 18px; min-width: 0;">
+
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #6B6155;">What the agent reads that as</div>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 30px; font-weight: 600; letter-spacing: -0.02em; color: #9C4A26;">{{diagnosis}}</div>
+        </div>
+        <div style="font-size: 17px; line-height: 1.65; color: #4A4238; max-width: 780px;">{{reading}}</div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 11px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #6B6155;">What changes on the rebuild</div>
+        <div style="background: #FFFDF8; border: 1px solid #E3DACB; border-radius: 4px; display: flex; flex-direction: column;">
+          <sc-for list="{{changes}}" as="c" hint-placeholder-count="4">
+            <div style="{{c.rowStyle}}">
+              <div style="{{c.labelStyle}}">{{c.label}}</div>
+              <div style="font-size: 16px; line-height: 1.6; color: #4A4238; flex-grow: 1;">{{c.detail}}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="flex-grow: 1;"></div>
+
+      <div style="display: flex; gap: 16px; align-items: stretch;">
+        <div style="flex-grow: 1; background: #F0F5F4; border: 1px solid #C8DBD8; border-radius: 4px; padding: 18px 22px; display: flex; align-items: center; gap: 14px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D938B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M9 11l2.5 2.5L16 8"></path><path d="M20.5 12a8.5 8.5 0 1 1-4.3-7.4"></path></svg>
+          <div style="font-size: 16px; line-height: 1.6; color: #0A6B66;"><strong style="font-weight: 700;">Re-checked after the rebuild: 6 of 6 source claims present, 0 invented.</strong> The repair runs through the same gate as the first draft &mdash; adapting to a student never costs fidelity to the text.</div>
+        </div>
+        <div style="width: 230px; flex-shrink: 0; background: #FFFDF8; border: 1px solid #E3DACB; border-radius: 4px; padding: 16px 20px; display: flex; flex-direction: column; justify-content: center; gap: 5px;">
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #A89B89;">Stored on</div>
+          <div style="font-size: 15px; line-height: 1.55; color: #4A4238;">Mara&rsquo;s profile, not this passage &mdash; Ch. 13 opens already shaped this way.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var st = this.state || {};
+    var sel = st.sel || "place";
+    var self = this;
+
+    var data = {
+      place: {
+        quote: "“I keep losing my place.”",
+        diagnosis: "A re-entry failure",
+        reading: "Not “too hard”, not “too long”, not “wrong format”. The shape was right — her position in it was not being held for her, so every interruption cost her the whole screen.",
+        changes: [
+          { label: "Format", detail: "Staged quest → staged quest. Unchanged — the complaint was never about the format.", kind: "flat" },
+          { label: "Steps on screen", detail: "Six visible with one active → one visible. The rest collapse behind the progress bar.", kind: "flat" },
+          { label: "Added", detail: "A one-line recap of the step she finished last, pinned above the live step, so coming back costs nothing.", kind: "add" },
+          { label: "Removed", detail: "The XP counter — it was competing with the position marker for the same attention. Gamification that works against the learner is just noise.", kind: "cut" }
+        ]
+      },
+      fragment: {
+        quote: "“It’s too broken up. I can’t see how it fits together.”",
+        diagnosis: "Over-fragmentation",
+        reading: "The opposite complaint, and the one an agent tuned only for ‘less at a time’ would get catastrophically wrong. She has the steps; what she has lost is the loop they form.",
+        changes: [
+          { label: "Format", detail: "Staged quest → flowchart. The whole cycle now sits on one screen where the branch and the return are visible at once.", kind: "swap" },
+          { label: "Added", detail: "The return edge drawn explicitly, from ‘back on target’ to ‘sensors quiet down’ — the part that makes it a loop rather than a list.", kind: "add" },
+          { label: "Kept", detail: "Her completed steps carry over as ticks on the matching nodes. She does not restart.", kind: "flat" },
+          { label: "Removed", detail: "Step-by-step gating. Nothing is hidden any more.", kind: "cut" }
+        ]
+      },
+      why: {
+        quote: "“I still don’t get why it stops.”",
+        diagnosis: "One claim, not the whole page",
+        reading: "This is a comprehension gap on a specific sentence — S6, the self-limiting property. Rebuilding the entire artefact would be the wrong response, and would cost her the four steps she has already banked.",
+        changes: [
+          { label: "Format", detail: "Staged quest → staged quest. Only the S6 step is rebuilt; the other five are untouched.", kind: "flat" },
+          { label: "Expanded", detail: "S6 becomes three sub-steps: temperature comes back → the sensors stop firing → with no signal, the response stops. The mechanism, not the summary.", kind: "add" },
+          { label: "Added", detail: "A worked case in her own words: ‘you stop shivering once you are warm, without deciding to.’ Tagged as an illustration, not as source text.", kind: "add" },
+          { label: "Flagged", detail: "S6 marked as shaky on her profile. It comes back in the chapter recap whether or not she asks.", kind: "cut" }
+        ]
+      }
+    };
+
+    var keys = ["place", "fragment", "why"];
+    var cur = data[sel];
+
+    var signals = keys.map(function (k) {
+      var on = k === sel;
+      return {
+        quote: data[k].quote,
+        rowStyle: on
+          ? "padding: 18px 20px; border-radius: 6px; background: #FBF1EC; border: 2px solid #C1643C; color: #9C4A26; cursor: pointer;"
+          : "padding: 18px 20px; border-radius: 6px; background: #FFFDF8; border: 2px solid #E3DACB; color: #A89B89; cursor: pointer;",
+        pick: function () { self.setState({ sel: k }); }
+      };
+    });
+
+    var changes = cur.changes.map(function (c, i) {
+      var color = c.kind === "add" ? "#0A6B66" : c.kind === "cut" ? "#8F3527" : c.kind === "swap" ? "#9C4A26" : "#2B2621";
+      var last = i === cur.changes.length - 1;
+      return {
+        label: c.label,
+        detail: c.detail,
+        rowStyle: last
+          ? "display: flex; gap: 22px; padding: 16px 24px; align-items: baseline;"
+          : "display: flex; gap: 22px; padding: 16px 24px; align-items: baseline; border-bottom: 1px solid #F0EAE0;",
+        labelStyle: "font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 15px; font-weight: 600; color: " + color + "; width: 140px; flex-shrink: 0;"
+      };
+    });
+
+    return {
+      signals: signals,
+      diagnosis: cur.diagnosis,
+      reading: cur.reading,
+      changes: changes
+    };
+  }
+}
+</script>
+</body>
+</html>

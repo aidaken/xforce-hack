@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #F7F2E9; -webkit-font-smoothing: antialiased; }
+    * { box-sizing: border-box; }
+    a { color: #0D938B; text-decoration: none; }
+    a:hover { color: #0A716B; }
+  </style>
+</helmet>
+<div style="width: 1440px; height: 900px; background: #F7F2E9; color: #2B2621; font-family: 'Atkinson Hyperlegible', Verdana, sans-serif; padding: 68px 88px; display: flex; flex-direction: column; gap: 32px;">
+
+  <div style="display: flex; justify-content: space-between; align-items: baseline;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #6B6155;">How it works</div>
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.16em; color: #A89B89;">04 / 09</div>
+  </div>
+
+  <div style="display: flex; align-items: baseline; gap: 22px;">
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 46px; font-weight: 500; letter-spacing: -0.025em; line-height: 1.1;">The agent decides the shape.</div>
+    <div style="font-size: 17px; color: #6B6155; line-height: 1.5;">We never ask the student to pick a format they have never seen.</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px;">
+
+    <div style="background: #FFFDF8; border: 1px solid #E3DACB; border-radius: 3px; padding: 22px; display: flex; flex-direction: column; gap: 13px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #A89B89;">01</div>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.01em;">Read</div>
+      </div>
+      <div style="height: 1px; background: #E3DACB;"></div>
+      <div style="font-size: 16px; line-height: 1.6; color: #4A4238;">Split the source into atomic claims and number them. Six sentences became <strong style="font-weight: 700;">S1&ndash;S6</strong>. Nothing is summarised yet &mdash; this is only bookkeeping.</div>
+    </div>
+
+    <div style="background: #FFFDF8; border: 1px solid #C8DBD8; border-top: 3px solid #0D938B; border-radius: 3px; padding: 22px; display: flex; flex-direction: column; gap: 13px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #A89B89;">02</div>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: #0A6B66;">Decide</div>
+      </div>
+      <div style="height: 1px; background: #C8DBD8;"></div>
+      <div style="font-size: 16px; line-height: 1.6; color: #4A4238;">Score the <strong style="font-weight: 700;">material</strong> (sequential? branching? definitional?) against the <strong style="font-weight: 700;">learner</strong>. Branching process + high decode cost &rarr; flowchart. Same passage, low working memory &rarr; staged quest.</div>
+    </div>
+
+    <div style="background: #FFFDF8; border: 1px solid #E3DACB; border-radius: 3px; padding: 22px; display: flex; flex-direction: column; gap: 13px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #A89B89;">03</div>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.01em;">Produce</div>
+      </div>
+      <div style="height: 1px; background: #E3DACB;"></div>
+      <div style="font-size: 16px; line-height: 1.6; color: #4A4238;">Build the artefact. Every node, step and card carries the id of the claim it came from &mdash; so the next stage has something to check against.</div>
+    </div>
+
+    <div style="background: #FFFDF8; border: 1px solid #C8DBD8; border-top: 3px solid #0D938B; border-radius: 3px; padding: 22px; display: flex; flex-direction: column; gap: 13px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #A89B89;">04</div>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: #0A6B66;">Self-check</div>
+      </div>
+      <div style="height: 1px; background: #C8DBD8;"></div>
+      <div style="font-size: 16px; line-height: 1.6; color: #4A4238;">Re-read the output against the source and answer two questions only: <strong style="font-weight: 700;">is anything missing</strong>, and <strong style="font-weight: 700;">is anything here the source never said</strong>.</div>
+    </div>
+
+  </div>
+
+  <svg width="1264" height="72" viewBox="0 0 1264 72" fill="none" style="display: block;">
+    <path d="M1168 0 V34 M1168 34 H474 M474 34 V60" stroke="#C1643C" stroke-width="2" stroke-linecap="round" stroke-dasharray="7 6"></path>
+    <path d="M468.5 53 L474 60 L479.5 53" stroke="#C1643C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    <text x="700" y="26" font-family="Lexend, 'Trebuchet MS', sans-serif" font-size="14" font-weight="600" letter-spacing="1.6" fill="#C1643C">RE-ENTER AT DECIDE</text>
+  </svg>
+
+  <div style="background: #FBF1EC; border: 1px solid #EBD2C3; border-radius: 3px; padding: 26px 28px; display: flex; align-items: center; gap: 34px;">
+    <div style="display: flex; flex-direction: column; gap: 8px; width: 300px; flex-shrink: 0;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #C99B80;">05</div>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; color: #9C4A26;">Adapt</div>
+      </div>
+      <div style="font-size: 16px; line-height: 1.6; color: #9C4A26;">The student is the only judge that counts.</div>
+    </div>
+    <div style="width: 1px; align-self: stretch; background: #EBD2C3;"></div>
+    <div style="font-size: 18px; line-height: 1.65; color: #4A4238; text-wrap: pretty;">When Mara says <em style="font-style: normal; font-weight: 700;">&ldquo;I keep losing my place&rdquo;</em>, that sentence is not a support ticket &mdash; it is a new input to <strong style="font-weight: 700;">Decide</strong>. The agent re-runs the choice with her complaint added to her profile, rebuilds, and re-checks against the same source. The passage never changes. The shape does.</div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

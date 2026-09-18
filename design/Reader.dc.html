@@ -1,0 +1,276 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #F7F2E9; -webkit-font-smoothing: antialiased; }
+    * { box-sizing: border-box; }
+    a { color: #0D938B; text-decoration: none; }
+    a:hover { color: #0A716B; }
+  </style>
+</helmet>
+<div style="width: 1440px; height: 900px; background: #F7F2E9; color: #2B2621; font-family: 'Atkinson Hyperlegible', Verdana, sans-serif; display: flex; flex-direction: column;">
+
+  <div style="height: 62px; flex-shrink: 0; background: #FFFDF8; border-bottom: 1px solid #E3DACB; display: flex; align-items: center; justify-content: space-between; padding: 0 28px;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C1643C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H10a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H5.5A1.5 1.5 0 0 1 4 15.5z"></path>
+        <path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H14a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h4.5a1.5 1.5 0 0 0 1.5-1.5z"></path>
+      </svg>
+      <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 17px; font-weight: 600; letter-spacing: -0.015em;">Rechapter</div>
+      <div style="width: 1px; height: 20px; background: #E3DACB;"></div>
+      <div style="font-size: 15px; color: #6B6155;">Human Physiology, 8e &middot; Ch. 12, p. 340</div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 9px; background: #F0F5F4; border: 1px solid #C8DBD8; border-radius: 20px; padding: 7px 15px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D938B" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 L9 17 l-5-5"></path></svg>
+      <div style="font-size: 14px; font-weight: 700; color: #0A6B66;">6 of 6 claims traced</div>
+    </div>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; align-items: stretch; min-height: 0;">
+
+    <div style="width: 430px; flex-shrink: 0; background: #FAF6EF; border-right: 1px solid #E3DACB; padding: 26px 28px; display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #6B6155;">Source</div>
+        <div style="font-size: 13px; color: #A89B89;">unchanged</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 11px;">
+        <sc-for list="{{claims}}" as="claim" hint-placeholder-count="6">
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; color: #A89B89; padding-top: 3px; width: 22px; flex-shrink: 0;">{{claim.id}}</div>
+            <div style="font-size: 14px; line-height: 1.55; color: #6B6155;">{{claim.text}}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="flex-grow: 1; padding: 26px 32px; display: flex; flex-direction: column; gap: 18px; min-width: 0;">
+
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #6B6155;">Reading as</div>
+        <div style="display: flex; gap: 10px;">
+          <div style="{{devonChip}}" onClick="{{pickDevon}}">
+            <div style="width: 28px; height: 28px; border-radius: 14px; background: #0D938B; color: #FFFDF8; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">D</div>
+            <div style="display: flex; flex-direction: column; gap: 1px;">
+              <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 15px; font-weight: 600;">Devon, 20</div>
+              <div style="font-size: 12px; color: #6B6155;">dyslexia</div>
+            </div>
+          </div>
+          <div style="{{maraChip}}" onClick="{{pickMara}}">
+            <div style="width: 28px; height: 28px; border-radius: 14px; background: #C1643C; color: #FFFDF8; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">M</div>
+            <div style="display: flex; flex-direction: column; gap: 1px;">
+              <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 15px; font-weight: 600;">Mara, 19</div>
+              <div style="font-size: 12px; color: #6B6155;">ADHD</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="{{bannerStyle}}">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="{{accentColor}}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;"><path d="M12 3v5M12 16v5"></path><circle cx="12" cy="12" r="3"></circle><path d="M5 7l2.5 2.5M16.5 14.5L19 17"></path></svg>
+        <div style="font-size: 16px; line-height: 1.6;"><strong style="font-weight: 700;">{{decisionHead}}</strong> {{decisionWhy}}</div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="{{tabFlow}}" onClick="{{setFlow}}">Flowchart</div>
+        <div style="{{tabList}}" onClick="{{setList}}">Checklist</div>
+        <div style="{{tabQuest}}" onClick="{{setQuest}}">Quest</div>
+        <div style="flex-grow: 1;"></div>
+        <div style="font-size: 13px; color: #A89B89;">{{overrideNote}}</div>
+      </div>
+
+      <div style="flex-grow: 1; background: #FFFDF8; border: 1px solid #E3DACB; border-radius: 4px; padding: 26px 30px; min-height: 0; overflow: hidden;">
+
+        <sc-if value="{{isFlow}}" hint-placeholder-val="{{true}}">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 0;">
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <div style="border: 2px solid #0D938B; border-radius: 4px; background: #F0F5F4; padding: 13px 20px; font-size: 17px; font-weight: 700;">Body temp drifts off 37 &deg;C</div>
+              <svg width="30" height="14" viewBox="0 0 30 14" fill="none"><path d="M0 7 H25 M19.5 2 L25 7 L19.5 12" stroke="#9EBFBA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              <div style="border: 1.5px solid #C8DBD8; border-radius: 4px; background: #FFFDF8; padding: 13px 20px; font-size: 16px;">Sensors in skin + brain notice</div>
+              <svg width="30" height="14" viewBox="0 0 30 14" fill="none"><path d="M0 7 H25 M19.5 2 L25 7 L19.5 12" stroke="#9EBFBA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              <div style="border: 1.5px solid #C8DBD8; border-radius: 4px; background: #FFFDF8; padding: 13px 20px; font-size: 16px;">Hypothalamus calls it</div>
+            </div>
+
+            <svg width="560" height="46" viewBox="0 0 560 46" fill="none" style="display: block;"><path d="M280 0 V18 M140 18 H420 M140 18 V36 M420 18 V36" stroke="#9EBFBA" stroke-width="2" stroke-linecap="round"></path><path d="M135 31 L140 36 L145 31" stroke="#9EBFBA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M415 31 L420 36 L425 31" stroke="#9EBFBA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+            <div style="display: flex; gap: 28px; width: 560px;">
+              <div style="flex-grow: 1; border: 1.5px solid #C8DBD8; border-top: 3px solid #C1643C; border-radius: 4px; background: #FFFDF8; padding: 16px 20px; display: flex; flex-direction: column; gap: 9px;">
+                <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 15px; font-weight: 600; color: #C1643C;">TOO HOT</div>
+                <div style="font-size: 16px; line-height: 1.55;">Open blood vessels</div>
+                <div style="font-size: 16px; line-height: 1.55;">Sweat</div>
+              </div>
+              <div style="flex-grow: 1; border: 1.5px solid #C8DBD8; border-top: 3px solid #4A7FB5; border-radius: 4px; background: #FFFDF8; padding: 16px 20px; display: flex; flex-direction: column; gap: 9px;">
+                <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 15px; font-weight: 600; color: #4A7FB5;">TOO COLD</div>
+                <div style="font-size: 16px; line-height: 1.55;">Narrow blood vessels</div>
+                <div style="font-size: 16px; line-height: 1.55;">Hair up, shiver</div>
+                <div style="font-size: 16px; line-height: 1.55;">Thyroid, if it lasts</div>
+              </div>
+            </div>
+
+            <svg width="560" height="46" viewBox="0 0 560 46" fill="none" style="display: block;"><path d="M140 6 V26 M420 6 V26 M140 26 H420 M280 26 V40" stroke="#9EBFBA" stroke-width="2" stroke-linecap="round"></path><path d="M275 35 L280 40 L285 35" stroke="#9EBFBA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+            <div style="border: 2px solid #0D938B; border-radius: 4px; background: #F0F5F4; padding: 14px 24px; font-size: 17px; font-weight: 700; text-align: center;">Back on target &rarr; sensors quiet &rarr; the response switches itself off</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isList}}" hint-placeholder-val="{{true}}">
+          <div style="display: flex; flex-direction: column; gap: 14px; max-width: 700px;">
+            <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 22px; font-weight: 600; letter-spacing: -0.015em; padding-bottom: 4px;">How your body holds 37 &deg;C</div>
+            <sc-for list="{{steps}}" as="step" hint-placeholder-count="6">
+              <div style="display: flex; align-items: flex-start; gap: 15px; padding: 13px 16px; border: 1px solid #E3DACB; border-radius: 4px; background: #FFFDF8;">
+                <div style="width: 22px; height: 22px; border-radius: 4px; border: 2px solid #C9BCA7; flex-shrink: 0; margin-top: 1px;"></div>
+                <div style="font-size: 17px; line-height: 1.6;">{{step.text}}</div>
+                <div style="flex-grow: 1;"></div>
+                <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; color: #C9BCA7; flex-shrink: 0; margin-top: 4px;">{{step.id}}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isQuest}}" hint-placeholder-val="{{true}}">
+          <div style="display: flex; flex-direction: column; gap: 20px; max-width: 700px;">
+            <div style="display: flex; flex-direction: column; gap: 11px;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 22px; font-weight: 600; letter-spacing: -0.015em;">Ch. 12 &middot; The thermostat</div>
+                <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 16px; font-weight: 600; color: #C1643C;">2 of 6</div>
+              </div>
+              <div style="display: flex; gap: 6px;">
+                <div style="height: 9px; flex-grow: 1; border-radius: 5px; background: #C1643C;"></div>
+                <div style="height: 9px; flex-grow: 1; border-radius: 5px; background: #C1643C;"></div>
+                <div style="height: 9px; flex-grow: 1; border-radius: 5px; background: #EBD9CF;"></div>
+                <div style="height: 9px; flex-grow: 1; border-radius: 5px; background: #EBD9CF;"></div>
+                <div style="height: 9px; flex-grow: 1; border-radius: 5px; background: #EBD9CF;"></div>
+                <div style="height: 9px; flex-grow: 1; border-radius: 5px; background: #EBD9CF;"></div>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <sc-for list="{{quest}}" as="q" hint-placeholder-count="6">
+                <div style="{{q.rowStyle}}">
+                  <div style="{{q.markStyle}}"></div>
+                  <div style="{{q.textStyle}}">{{q.text}}</div>
+                  <div style="flex-grow: 1;"></div>
+                  <div style="{{q.tagStyle}}">{{q.tag}}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; border-top: 1px solid #E3DACB; padding-top: 16px;">
+              <div style="font-size: 15px; color: #6B6155;">Two steps banked. Four to go.</div>
+              <div style="background: #C1643C; color: #FFFDF8; border-radius: 5px; padding: 13px 24px; font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 16px; font-weight: 600; cursor: pointer;">Mark step 3 done</div>
+            </div>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var st = this.state || {};
+    var profile = st.profile || "devon";
+    var touched = st.touched || false;
+    var agentPick = profile === "devon" ? "flow" : "quest";
+    var format = st.format || agentPick;
+    var self = this;
+
+    var claims = [
+      { id: "S1", text: "Thermoregulation in endotherms is maintained by a negative feedback loop." },
+      { id: "S2", text: "Thermoreceptors distributed in the skin and in the hypothalamus detect deviation from the body’s set point of approximately 37 °C." },
+      { id: "S3", text: "Afferent signals are integrated by the preoptic area of the hypothalamus, which functions as the control center for the loop." },
+      { id: "S4", text: "When core temperature rises above the set point, efferent signals produce vasodilation of cutaneous arterioles and activation of the eccrine sweat glands." },
+      { id: "S5", text: "When core temperature falls below the set point, the hypothalamus initiates vasoconstriction, piloerection, and shivering thermogenesis, while the thyroid axis may sustain nonshivering thermogenesis." },
+      { id: "S6", text: "Because the corrective response opposes the initial deviation, the loop is self-limiting: as temperature returns to the set point, the effector response is withdrawn." }
+    ];
+
+    var stepText = [
+      "Your body aims for 37 °C",
+      "Sensors in your skin and brain watch it",
+      "The hypothalamus is the thermostat",
+      "Too hot? Open the vessels, start sweating",
+      "Too cold? Close them, shiver — thyroid if it lasts",
+      "Back on target? It shuts itself off"
+    ];
+    var stepSrc = ["S2", "S2", "S3", "S4", "S5", "S6"];
+
+    var steps = stepText.map(function (t, i) {
+      return { text: t, id: stepSrc[i] };
+    });
+
+    var quest = stepText.map(function (t, i) {
+      var done = i < 2;
+      var live = i === 2;
+      var row, mark, txt, tag, tagStyle;
+      if (done) {
+        row = "display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 5px; background: #F7F2E9; opacity: 0.6;";
+        mark = "width: 21px; height: 21px; border-radius: 4px; background: #C1643C; flex-shrink: 0;";
+        txt = "font-size: 16px; line-height: 1.5;";
+        tag = "done";
+        tagStyle = "font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; color: #A89B89; flex-shrink: 0;";
+      } else if (live) {
+        row = "display: flex; align-items: center; gap: 14px; padding: 16px 16px; border-radius: 5px; background: #FBF1EC; border: 2px solid #C1643C;";
+        mark = "width: 21px; height: 21px; border-radius: 4px; border: 3px solid #C1643C; flex-shrink: 0;";
+        txt = "font-size: 18px; font-weight: 700; line-height: 1.5;";
+        tag = "YOU ARE HERE";
+        tagStyle = "font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: #C1643C; flex-shrink: 0; white-space: nowrap;";
+      } else {
+        row = "display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 5px; border: 1px dashed #DED3C1;";
+        mark = "width: 21px; height: 21px; border-radius: 4px; border: 2px solid #DED3C1; flex-shrink: 0;";
+        txt = "font-size: 16px; line-height: 1.5; color: #A89B89;";
+        tag = "";
+        tagStyle = "font-size: 12px; color: #C9BCA7; flex-shrink: 0;";
+      }
+      return { text: t, rowStyle: row, markStyle: mark, textStyle: txt, tag: tag, tagStyle: tagStyle };
+    });
+
+    var chipBase = "display: flex; align-items: center; gap: 11px; padding: 10px 18px 10px 11px; border-radius: 7px; cursor: pointer; ";
+    var chipOn = chipBase + "border: 2px solid #2B2621; background: #FFFDF8;";
+    var chipOff = chipBase + "border: 2px solid #E3DACB; background: transparent;";
+
+    var tabBase = "font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 15px; font-weight: 600; padding: 9px 20px; border-radius: 6px; cursor: pointer; ";
+    var tabOn = tabBase + "background: #2B2621; color: #F7F2E9;";
+    var tabOff = tabBase + "background: transparent; color: #6B6155; border: 1px solid #E3DACB;";
+
+    var isDevon = profile === "devon";
+    var accent = isDevon ? "#0D938B" : "#C1643C";
+    var banner = isDevon
+      ? "display: flex; align-items: flex-start; gap: 13px; background: #F0F5F4; border: 1px solid #C8DBD8; border-radius: 4px; padding: 15px 18px; color: #0A6B66;"
+      : "display: flex; align-items: flex-start; gap: 13px; background: #FBF1EC; border: 1px solid #EBD2C3; border-radius: 4px; padding: 15px 18px; color: #9C4A26;";
+
+    return {
+      claims: claims,
+      steps: steps,
+      quest: quest,
+      isFlow: format === "flow",
+      isList: format === "list",
+      isQuest: format === "quest",
+      accentColor: accent,
+      bannerStyle: banner,
+      decisionHead: isDevon ? "Agent chose a flowchart." : "Agent chose a staged quest.",
+      decisionWhy: isDevon
+        ? "The passage is a branching process and Devon’s cost is per word — so the structure carries the branch and the words get out of the way."
+        : "Same branching process, but Mara’s cost is holding her place — so one step stays live, the finish line stays visible, and the position is kept for her.",
+      devonChip: isDevon ? chipOn : chipOff,
+      maraChip: isDevon ? chipOff : chipOn,
+      tabFlow: format === "flow" ? tabOn : tabOff,
+      tabList: format === "list" ? tabOn : tabOff,
+      tabQuest: format === "quest" ? tabOn : tabOff,
+      overrideNote: touched && format !== agentPick ? "Overriding the agent’s pick — logged against this profile" : "",
+      pickDevon: function () { self.setState({ profile: "devon", format: "flow", touched: false }); },
+      pickMara: function () { self.setState({ profile: "mara", format: "quest", touched: false }); },
+      setFlow: function () { self.setState({ format: "flow", touched: true }); },
+      setList: function () { self.setState({ format: "list", touched: true }); },
+      setQuest: function () { self.setState({ format: "quest", touched: true }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

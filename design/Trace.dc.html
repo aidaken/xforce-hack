@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #F7F2E9; -webkit-font-smoothing: antialiased; }
+    * { box-sizing: border-box; }
+    a { color: #0D938B; text-decoration: none; }
+    a:hover { color: #0A716B; }
+  </style>
+</helmet>
+<div style="width: 1440px; height: 900px; background: #F7F2E9; color: #2B2621; font-family: 'Atkinson Hyperlegible', Verdana, sans-serif; display: flex; flex-direction: column;">
+
+  <div style="height: 62px; flex-shrink: 0; background: #FFFDF8; border-bottom: 1px solid #E3DACB; display: flex; align-items: center; justify-content: space-between; padding: 0 28px;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C1643C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H10a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H5.5A1.5 1.5 0 0 1 4 15.5z"></path>
+        <path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H14a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h4.5a1.5 1.5 0 0 0 1.5-1.5z"></path>
+      </svg>
+      <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 17px; font-weight: 600; letter-spacing: -0.015em;">Rechapter</div>
+      <div style="width: 1px; height: 20px; background: #E3DACB;"></div>
+      <div style="font-size: 15px; color: #6B6155;">Fidelity check &middot; Ch. 12, p. 340</div>
+    </div>
+    <div style="font-size: 14px; color: #A89B89;">Click any line on the right to see where it came from</div>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; align-items: stretch; min-height: 0;">
+
+    <div style="width: 560px; flex-shrink: 0; background: #FAF6EF; border-right: 1px solid #E3DACB; padding: 24px 26px; display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #6B6155;">Source, as written</div>
+        <div style="font-size: 13px; color: #A89B89;">6 claims</div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <sc-for list="{{sources}}" as="s" hint-placeholder-count="6">
+          <div style="{{s.rowStyle}}">
+            <div style="{{s.idStyle}}">{{s.id}}</div>
+            <div style="{{s.textStyle}}">{{s.text}}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="{{noSourceStyle}}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B34A3A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M18 6 L6 18 M6 6 l12 12"></path></svg>
+        <div style="font-size: 15px; line-height: 1.55; color: #8F3527;"><strong style="font-weight: 700;">Nothing here says that.</strong> No sentence in the source supports the comparison, so the agent cut it before the student ever saw it.</div>
+      </div>
+    </div>
+
+    <div style="flex-grow: 1; padding: 24px 30px; display: flex; flex-direction: column; gap: 14px; min-width: 0;">
+
+      <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #6B6155;">What the output tells the student</div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <sc-for list="{{outputs}}" as="o" hint-placeholder-count="5">
+          <div style="{{o.rowStyle}}" onClick="{{o.pick}}">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0D938B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M20 6 L9 17 l-5-5"></path></svg>
+            <div style="font-size: 16px; line-height: 1.55; flex-grow: 1;">{{o.text}}</div>
+            <div style="{{o.tagStyle}}">{{o.src}}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="height: 1px; background: #E3DACB; margin: 4px 0;"></div>
+
+      <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #8A6A16;">Caught by the self-check</div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="{{flagDroppedStyle}}" onClick="{{pickDropped}}">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#C79A2E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;"><path d="M12 8 v5"></path><path d="M12 17 v.01"></path><circle cx="12" cy="12" r="9.5"></circle></svg>
+          <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 4px;">
+            <div style="font-size: 16px; line-height: 1.55; color: #8A6A16;"><strong style="font-weight: 700;">Dropped.</strong> The quest walked all six steps and never named the mechanism &mdash; a student could finish it without learning the phrase they will be examined on.</div>
+            <div style="font-size: 14px; line-height: 1.5; color: #6B6155;">Restored as the quest title: &ldquo;Negative feedback: how your body holds 37 &deg;C&rdquo;</div>
+          </div>
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; color: #8A6A16; flex-shrink: 0;">S1</div>
+        </div>
+
+        <div style="{{flagInventedStyle}}" onClick="{{pickInvented}}">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#B34A3A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;"><path d="M18 6 L6 18 M6 6 l12 12"></path></svg>
+          <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 4px;">
+            <div style="font-size: 16px; line-height: 1.55; color: #8F3527;"><strong style="font-weight: 700;">Invented.</strong> Draft&nbsp;1 added &ldquo;sweating cools you faster than shivering warms you&rdquo; &mdash; a plausible comparison the passage never makes.</div>
+            <div style="font-size: 14px; line-height: 1.5; color: #6B6155;">Deleted. This is the failure mode that makes teachers refuse AI study aids.</div>
+          </div>
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; color: #8F3527; flex-shrink: 0;">&mdash;</div>
+        </div>
+      </div>
+
+      <div style="flex-grow: 1;"></div>
+
+      <div style="display: flex; gap: 16px; align-items: stretch;">
+        <div style="flex-grow: 1; background: #FFFDF8; border: 1px solid #E3DACB; border-radius: 4px; padding: 16px 20px; display: flex; align-items: center; gap: 14px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2B2621" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><circle cx="12" cy="8" r="3.6"></circle><path d="M4.5 20a7.5 7.5 0 0 1 15 0"></path></svg>
+          <div style="font-size: 15px; line-height: 1.6; color: #4A4238;"><strong style="font-weight: 700;">Human check &mdash; [TEAMMATE NAME].</strong> Read all six source sentences against the final output, side by side. Agreed with both flags, found no third.</div>
+        </div>
+        <div style="width: 200px; flex-shrink: 0; background: #F0F5F4; border: 1px solid #C8DBD8; border-radius: 4px; padding: 14px 20px; display: flex; flex-direction: column; justify-content: center; gap: 3px;">
+          <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 30px; font-weight: 600; letter-spacing: -0.02em; color: #0A6B66;">6 of 6</div>
+          <div style="font-size: 14px; line-height: 1.45; color: #0A6B66;">present &middot; 0 unsupported</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var st = this.state || {};
+    var sel = st.sel || "S3";
+    var self = this;
+
+    var srcText = {
+      S1: "Thermoregulation in endotherms is maintained by a negative feedback loop.",
+      S2: "Thermoreceptors distributed in the skin and in the hypothalamus detect deviation from the body’s set point of approximately 37 °C.",
+      S3: "Afferent signals are integrated by the preoptic area of the hypothalamus, which functions as the control center for the loop.",
+      S4: "When core temperature rises above the set point, efferent signals produce vasodilation of cutaneous arterioles and activation of the eccrine sweat glands.",
+      S5: "When core temperature falls below the set point, the hypothalamus initiates vasoconstriction, piloerection, and shivering thermogenesis, while the thyroid axis may sustain nonshivering thermogenesis.",
+      S6: "Because the corrective response opposes the initial deviation, the loop is self-limiting: as temperature returns to the set point, the effector response is withdrawn."
+    };
+    var order = ["S1", "S2", "S3", "S4", "S5", "S6"];
+
+    var sources = order.map(function (id) {
+      var on = id === sel;
+      var warn = on && id === "S1";
+      var border = warn ? "#C79A2E" : "#0D938B";
+      var bg = warn ? "#FDF8EC" : "#F0F5F4";
+      return {
+        id: id,
+        text: srcText[id],
+        rowStyle: on
+          ? "display: flex; gap: 12px; align-items: flex-start; padding: 13px 15px; border-radius: 4px; background: " + bg + "; border-left: 3px solid " + border + ";"
+          : "display: flex; gap: 12px; align-items: flex-start; padding: 13px 15px; border-radius: 4px; background: transparent; border-left: 3px solid transparent;",
+        idStyle: on
+          ? "font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600; color: " + border + "; width: 24px; flex-shrink: 0; padding-top: 2px;"
+          : "font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 600; color: #C9BCA7; width: 24px; flex-shrink: 0; padding-top: 2px;",
+        textStyle: on
+          ? "font-size: 15px; line-height: 1.6; color: #2B2621;"
+          : "font-size: 15px; line-height: 1.6; color: #A89B89;"
+      };
+    });
+
+    var outRows = [
+      { text: "Your body aims for 37 °C, and sensors watch it", src: "S2" },
+      { text: "The hypothalamus is the thermostat", src: "S3" },
+      { text: "Too hot? Open the vessels, start sweating", src: "S4" },
+      { text: "Too cold? Close them, shiver — thyroid if it lasts", src: "S5" },
+      { text: "Back on target? It shuts itself off", src: "S6" }
+    ];
+
+    var outputs = outRows.map(function (r) {
+      var on = r.src === sel;
+      return {
+        text: r.text,
+        src: r.src,
+        rowStyle: on
+          ? "display: flex; align-items: center; gap: 13px; padding: 13px 16px; border-radius: 4px; background: #F0F5F4; border: 1px solid #0D938B; cursor: pointer;"
+          : "display: flex; align-items: center; gap: 13px; padding: 13px 16px; border-radius: 4px; background: #FFFDF8; border: 1px solid #E3DACB; cursor: pointer;",
+        tagStyle: on
+          ? "font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; color: #0A6B66; flex-shrink: 0;"
+          : "font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; color: #C9BCA7; flex-shrink: 0;",
+        pick: function () { self.setState({ sel: r.src }); }
+      };
+    });
+
+    var flagBase = "display: flex; align-items: flex-start; gap: 13px; padding: 15px 16px; border-radius: 4px; cursor: pointer; ";
+
+    return {
+      sources: sources,
+      outputs: outputs,
+      flagDroppedStyle: sel === "S1"
+        ? flagBase + "background: #FDF8EC; border: 1px solid #C79A2E;"
+        : flagBase + "background: #FFFDF8; border: 1px solid #EFE2C4;",
+      flagInventedStyle: sel === "none"
+        ? flagBase + "background: #FCF0EE; border: 1px solid #B34A3A;"
+        : flagBase + "background: #FFFDF8; border: 1px solid #EFD6D1;",
+      noSourceStyle: sel === "none"
+        ? "display: flex; align-items: flex-start; gap: 12px; margin-top: 8px; padding: 15px 16px; border-radius: 4px; background: #FCF0EE; border: 1px solid #B34A3A;"
+        : "display: none;",
+      pickDropped: function () { self.setState({ sel: "S1" }); },
+      pickInvented: function () { self.setState({ sel: "none" }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
