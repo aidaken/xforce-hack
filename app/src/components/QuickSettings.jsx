@@ -84,13 +84,13 @@ export function ReduceMotionToggle({ minHeight = 44 }) {
 }
 
 export function FontSelect({ fontSize = 16 }) {
-  const { state, patch } = useAddy();
+  const { font, patch } = useAddy();
   return (
     <select
       className="select"
       style={{ minHeight: 44, fontSize }}
-      value={state.font}
-      onChange={(e) => patch({ font: e.target.value })}
+      value={font}
+      onChange={(e) => patch({ font: e.target.value, fontTouched: true })}
       aria-label="Reading font"
     >
       {FONT_OPTIONS.map((f) => (

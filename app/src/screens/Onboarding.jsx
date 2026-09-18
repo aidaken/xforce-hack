@@ -75,7 +75,7 @@ function FormatArt({ index }) {
 }
 
 export default function Onboarding() {
-  const { state, patch, sel, toggleIn } = useAddy();
+  const { state, patch, sel, toggleIn, font } = useAddy();
   const st = state;
   const name = st.name.trim();
 
@@ -259,8 +259,10 @@ export default function Onboarding() {
                   Reading font
                   <select
                     className="select"
-                    value={st.font}
-                    onChange={(e) => patch({ font: e.target.value })}
+                    value={font}
+                    onChange={(e) =>
+                      patch({ font: e.target.value, fontTouched: true })
+                    }
                   >
                     {FONT_OPTIONS.map((f) => (
                       <option key={f} value={f} style={{ fontFamily: f }}>
@@ -305,7 +307,7 @@ export default function Onboarding() {
                     margin: 0,
                     maxWidth: "65ch",
                     textAlign: "left",
-                    fontFamily: fontStack(st.font),
+                    fontFamily: fontStack(font),
                     fontSize: st.size,
                     lineHeight: st.lh,
                     letterSpacing: "0.02em",
