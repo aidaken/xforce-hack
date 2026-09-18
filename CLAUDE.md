@@ -93,11 +93,12 @@ One hosted project. GitHub `aidaken/xforce-hack` is already linked. Do **not** c
 product_info.md        live product record (update after every task)
 ideas/                 challenge 2 brainstorm (pick-list)
 config/                cloud project IDs (supabase + vercel)
-docs/                  teammate setup (supabase.md, vercel.md, frontend.md)
+docs/                  teammate setup (supabase.md, vercel.md, frontend.md, study-activities.md)
 lib/supabase.js        browser-safe client
 app/                   React SPA (Vite) — the real UI, edit here
 public/index.html      landing page (plain HTML, outside the Vite build)
 public/app.html        BUILD OUTPUT — gitignored, never edit or commit
+public/study-activities/ Charlotte’s portable coach + play widgets (mount, don’t rewrite)
 server/                ingest, classify, OpenRouter, chat
 api/                   Vercel serverless wrappers
 scripts/               link + connectivity check

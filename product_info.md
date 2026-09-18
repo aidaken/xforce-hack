@@ -2,7 +2,7 @@
 
 **This is the live product record.** Agents and humans update it **after every finished task**, before they stop. Do not wait for someone to ask. If the code, API, deploy, limits, or a locked decision changed, this file must match reality.
 
-Last updated: 2026-09-18 (dashboard ingest drop box → reading workspace)
+Last updated: 2026-09-18 (guided reading + play widgets on main / prod)
 
 Companion files (conventions only, not the product record): [`CLAUDE.md`](CLAUDE.md), [`CURSOR.md`](CURSOR.md), [`.cursor/rules/`](.cursor/rules/). Frontend map: [`docs/frontend.md`](docs/frontend.md). Pitch/MVP draft: [`README.md`](README.md).
 
@@ -97,7 +97,7 @@ After ingest the client **must keep `document` in memory** and send it back on e
 | Onboarding | `Onboarding.jsx` | ~9 steps: name, ADHD/dyslexia reason, struggles, prefs, focus, sound, buddy |
 | Dashboard | `Dashboard.jsx` | Quick settings (left) · **ingest drop box** · continue-reading card · folders |
 | Folder | `Folder.jsx` | Readings in a class folder |
-| Reading | `Reading.jsx` | Split source / remake: Flowchart, Checklist, Quest. **This isn’t working** POSTs `/api/chat` |
+| Reading | `Reading.jsx` | **Guided** (Charlotte’s reading-coach after ingest) · Flowchart · Checklist · Quest. **This isn’t working** POSTs `/api/chat` |
 | Profile | `Profile.jsx` | Theme, font, size, reduce-motion |
 | Focus | `Focus.jsx` | Timer + read-aloud-style walk |
 
@@ -109,6 +109,8 @@ Add-a-reading lives in two places and shares [`app/src/lib/ingestReading.js`](ap
 - Folders **Add a reading** (`AddReading.jsx`) — same ingest path, then opens Reading.
 
 `ingestTypeForFile` in `app/src/lib/api.js`. Concept types map to UI formats in `FORMAT_BY_CONCEPT`. Seed readings in `app/src/data/readings.js`. Ingested passages have no generated quiz; Quest uses read-through beats.
+
+After ingest (dashboard drop or Add a reading), ADDY opens the **Guided** tab: Charlotte’s `<reading-coach>` walks the passage one idea at a time. Finishing a section earns a basketball throw (`<study-hoops>`); finishing the reading opens the alpaca house (`<alpaca-house>`). Her files live as-is under [`public/study-activities/`](public/study-activities/) — we only adapt ADDY readings into her lesson schema ([`app/src/lib/coachLesson.js`](app/src/lib/coachLesson.js)). Standalone demos stay at `/study-activities/`. See [`docs/study-activities.md`](docs/study-activities.md). [PR #6](https://github.com/aidaken/xforce-hack/pull/6) is not merged wholesale (avoids README conflicts).
 
 The old `public/app.html` chat stub is **gone** (replaced by this SPA).
 
@@ -139,7 +141,7 @@ The old `public/app.html` chat stub is **gone** (replaced by this SPA).
 
 1. Demo slice (no accounts) vs full MVP (login, uploads, lock screen). **UI has login/onboarding/focus; auth is still fake.**
 2. Two named modes vs preference toggles + free text as the primary model. **API still `adhd`\|`dyslexia`; UI maps onboarding via `learnerFromProfile`.**
-3. Planner picks one renderer vs always show both ADHD checklist and dyslexia flowchart for the judge toggle. **Reading screen has three tabs; “This isn’t working” can switch tab + call chat.**
+3. Planner picks one renderer vs always show both ADHD checklist and dyslexia flowchart for the judge toggle. **Reading screen has Guided + three remake tabs; “This isn’t working” can switch tab + call chat.**
 
 ---
 
@@ -154,6 +156,7 @@ In order, on `aidar-kenzhebaev`, pushed to GitHub `main` and Vercel production w
 5. PR #4 `main` → `dev` conflicts resolved (merge-ort, pushed).
 6. **This session:** ingest limitations closed (docx / public Google Docs / scanned PDF OCR).
 7. Tao’s `3bd65dd` ported the Addy design into a React + Vite SPA (`app/`, 7 screens). `9d3e357` merged that with ingest on `dev` (did **not** create the pages — it merged them). Pulled onto `aidar-kenzhebaev` and deployed.
+8. Charlotte’s portable study activities from [PR #6](https://github.com/aidaken/xforce-hack/pull/6) (`charlotte-chen`) copied without her README. Guided reading + hoops + alpaca house open after ingest.
 
 ---
 
@@ -179,6 +182,7 @@ Frontend: edit [`app/src/`](app/src/). Keep calling `/api/ingest` and `/api/chat
 
 | Date | What landed |
 | --- | --- |
+| 2026-09-18 | PR #6 study activities copied (no README merge); Guided tab + hoops/alpaca after ingest |
 | 2026-09-18 | Dashboard ingest box between Quick settings and continue-reading; drop/paste/URL ingest opens Reading |
 | 2026-09-18 | Merged React + Vite SPA from `dev` (`3bd65dd` created screens; `9d3e357` merged ingest). Stub `app.html` retired |
 | 2026-09-18 | `product_info.md` added; agents must update it after every finished task |

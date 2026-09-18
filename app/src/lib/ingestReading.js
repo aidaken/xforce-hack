@@ -35,7 +35,7 @@ export function openReadingPatch(reading) {
     screen: "reading",
     reading: reading.id,
     folder: reading.folder,
-    tab: null,
+    tab: "guided",
     quest: 0,
     pick: null,
     questDone: false,

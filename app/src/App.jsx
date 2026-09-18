@@ -1,5 +1,6 @@
 import { useAddy } from "./state/store.jsx";
 import AppHeader from "./components/AppHeader.jsx";
+import StudyPlay from "./components/StudyPlay.jsx";
 import Login from "./screens/Login.jsx";
 import Onboarding from "./screens/Onboarding.jsx";
 import Dashboard from "./screens/Dashboard.jsx";
@@ -30,6 +31,7 @@ export default function App() {
       )}
 
       {screen === "focus" && <Focus />}
+      <StudyPlay active={screen === "reading"} />
     </div>
   );
 }

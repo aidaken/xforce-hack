@@ -98,5 +98,5 @@ export const FOLDER_TINTS = {
   'History Essay': 'var(--warn)',
 };
 
-export const FORMAT_NAMES = { flowchart: 'Flowchart', checklist: 'Checklist', quest: 'Quest' };
-export const FORMAT_ICONS = { flowchart: '⌗', checklist: '✓', quest: '★' };
+export const FORMAT_NAMES = { guided: 'Guided', flowchart: 'Flowchart', checklist: 'Checklist', quest: 'Quest' };
+export const FORMAT_ICONS = { guided: '◇', flowchart: '⌗', checklist: '✓', quest: '★' };

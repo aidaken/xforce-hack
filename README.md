@@ -153,6 +153,7 @@ Then open http://localhost:3000/app.
 - `product_info.md` — **live product record** (update after every task)
 - `ideas/` — earlier pick-list (formats, agent loop, judge demo)
 - `app/` — React SPA (Vite). Edit here. Builds to gitignored `public/app.html`
+- `public/study-activities/` — Charlotte's portable guided reading + play widgets (wired into `/app` after ingest)
 - `public/index.html` — landing page (plain HTML)
 - `server/` — ingest, classify, OpenRouter
 - `api/` — Vercel serverless wrappers
