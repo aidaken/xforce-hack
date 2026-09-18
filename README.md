@@ -165,3 +165,7 @@ Not locked yet. Highest-tension items:
 3. **Planner picks one of three renderers** vs **always show both ADHD checklist and dyslexia flowchart** for the judge toggle.
 
 Full question list is in the current planning thread; answers should land back here and in `CURSOR.md` / `CLAUDE.md`.
+
+## Portable study activities
+
+Charlotte's standalone prototype, video sidekick, reading-reward basketball, and alpaca house are in [public/study-activities](public/study-activities). See [preview and integration instructions](docs/study-activities.md).
