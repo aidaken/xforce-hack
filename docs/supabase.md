@@ -37,7 +37,7 @@ Use the **anon** key in the browser. Use **service_role** only on a trusted serv
 
 ## Schema / migrations
 
-When we add tables, put SQL in `supabase/migrations/` and push with `supabase db push` against **this** project. Until then the cloud DB is empty by design.
+When we add tables, put SQL in `supabase/migrations/` and push with `supabase db push` against **this** project. Until then the cloud DB is empty by design. Record new tables in [`product_info.md`](../product_info.md).
 
 ## Do not
 

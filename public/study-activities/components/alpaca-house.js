@@ -1,0 +1,105 @@
+/* Portable reading rewards. Images resolve relative to this script. */
+(() => {
+  if(customElements.get('alpaca-house'))return;
+  const root=new URL('.',document.currentScript.src);
+  const asset=name=>new URL('assets/'+name,root).href;
+  const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
+  const demo={id:'italian-renaissance-chapter',title:'The Italian Renaissance',topic:'Italian Renaissance'};
+  class AlpacaHouse extends HTMLElement {
+    constructor(){
+      super();this.attachShadow({mode:'open'});this.items=[];this.selected=null;this.pending=false;this.houseName='My little alpaca house';this.saveAvailable=true;this.drag=null;
+      this.shadowRoot.innerHTML=`<style>
+      :host{font:15px/1.6 'DM Sans',Arial,sans-serif;color:#284c40;--house-accent:#285d4c}*{box-sizing:border-box}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid #789fbd;outline-offset:3px}[hidden]{display:none!important}.launcher{position:fixed;right:18px;bottom:80px;z-index:1000;display:flex;align-items:center;gap:10px;background:#fffdf6;color:#365648;border:1px solid #d6ddc9;border-radius:30px;box-shadow:0 5px 20px #24483820;padding:11px 17px;font-weight:700;font-size:14px}.badge{background:#e9eedb;border-radius:20px;padding:0 8px;font-size:12px}dialog{width:min(1100px,calc(100% - 28px));max-height:94dvh;border:1px solid #d5dfca;border-radius:20px;padding:0;color:#284c40;background:#fafbf5;box-shadow:0 24px 90px #183b3440}dialog::backdrop{background:#18372d80;backdrop-filter:blur(5px)}.head{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 28px;border-bottom:1px solid #e1e6d7}.eyebrow{font-size:11px;font-weight:700;letter-spacing:2px;color:#64836d}h1{font-size:25px;letter-spacing:-.6px;margin:3px 0 0}.head p{margin:3px 0 0;font-size:13px;color:#697969}.close{border:0;background:#edf1e7;border-radius:50%;width:38px;height:38px;font-size:21px;color:#365648}.layout{display:grid;grid-template-columns:minmax(0,1fr) 290px}.living{padding:23px;min-width:0}.room-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;font-size:13px}.room-head input{min-width:0;width:75%;background:transparent;border:0;border-bottom:1px dashed #aab9a0;color:#365648;padding:5px 0;font-size:15px;font-weight:600}.room{position:relative;aspect-ratio:3/2;border-radius:14px;overflow:hidden;background:#e5eed9;border:1px solid #d4dccb;touch-action:none}.room-bg{position:absolute;width:100%;height:100%;object-fit:cover;inset:0;pointer-events:none;user-select:none}.room.placing{cursor:crosshair}.decoration{position:absolute;transform:translate(-50%,-50%);width:15%;border:0;padding:0;background:none;cursor:grab;touch-action:none;z-index:1;border-radius:3px}.decoration img{width:100%;display:block;pointer-events:none;filter:drop-shadow(2px 4px 3px #40301755);user-select:none}.decoration.selected{outline:2px dashed #366b59;outline-offset:5px}.decoration:active{cursor:grabbing}.instructions{font-size:13px;color:#617763;margin:13px 0}.editbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;border:1px solid #dce4d1;border-radius:10px;background:white;padding:12px;font-size:13px}.editbar strong{margin-right:auto}.small{padding:7px 10px;border:1px solid #cfdcc6;border-radius:7px;background:#f7faef;color:#315441;font-size:13px}.shelf{border-left:1px solid #e1e6d7;padding:22px 20px;background:#f2f5eb}.shelf h2{font-size:16px;margin:0 0 3px}.shelf p{font-size:13px;color:#657860;margin:0 0 17px}.collection{display:flex;flex-direction:column;gap:10px}.empty{padding:25px 17px;border:1px dashed #bccbab;border-radius:12px;text-align:center;background:#f8faef;color:#657860;font-size:14px}.reward{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #d7e1cc;border-radius:12px;padding:10px;text-align:left;width:100%;color:#284c40}.reward[aria-pressed=true]{border:2px solid #5e8764;padding:9px;background:#f4f8ea}.reward img{width:49px;height:68px;object-fit:contain}.reward strong{display:block;font-size:14px;line-height:1.4}.reward small{display:block;font-size:12px;line-height:1.6;color:#6c7e65;margin-top:4px}.reading{margin-top:20px;background:#fffdf4;border:1px solid #e4dfc4;border-radius:12px;padding:16px}.reading .eyebrow{font-size:10px;color:#9a7b40}.reading h3{font-size:16px;line-height:1.5;margin:7px 0}.reading p{font-size:13px;margin-bottom:14px}.primary{background:var(--house-accent);color:white;border:0;border-radius:8px;padding:11px 14px;font-weight:600;font-size:14px;width:100%}button:disabled{opacity:.55;cursor:default}.result{padding:12px 0 0;font-size:13px;line-height:1.6;color:#3c674b;min-height:32px}.bottom{padding:15px 27px;border-top:1px solid #dfe6d5;display:flex;gap:15px;justify-content:space-between;font-size:12px;color:#6b7d64}.error{color:#914725}.toast{background:#e9f2d9;padding:13px 16px;border-radius:10px;margin-bottom:14px;font-size:14px}.details{font-size:13px;color:#597158;margin:12px 0 0}.room-empty{position:absolute;left:40%;top:30%;padding:6px 12px;border:1px dashed #90a381;color:#567249;background:#ffffff88;border-radius:6px;font-size:12px;pointer-events:none}.demo-note{font-size:12px;color:#76816a;margin-top:12px}.storage-note{max-width:65%}@media(max-width:800px){.layout{grid-template-columns:1fr}.shelf{border-left:0;border-top:1px solid #e1e6d7}.collection{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}.reading{max-width:100%}.head{padding:19px}.living{padding:16px}.bottom{padding:15px 18px;flex-direction:column;gap:5px}.storage-note{max-width:100%}.launcher{bottom:132px;right:12px;font-size:13px}h1{font-size:22px}.room-empty{font-size:10px;left:36%}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+      </style><button class="launcher" aria-haspopup="dialog">⌂ Alpaca house <span class="badge">0</span></button>
+      <dialog aria-labelledby="house-title"><header class="head"><div><div class="eyebrow">A LITTLE HOME FOR BIG IDEAS</div><h1 id="house-title">Your reading becomes a home.</h1><p>One finished reading. One keepsake. A room that grows with you.</p></div><button class="close" aria-label="Close alpaca house">×</button></header>
+      <div class="layout"><section class="living"><div class="room-head"><input class="name" maxlength="45" aria-label="House name"><span>YOUR ROOM</span></div><div class="toast" hidden></div><div class="room" aria-label="Your decorated alpaca room"><img class="room-bg" alt="A cozy alpaca reading room with open wall space for decorations"><span class="room-empty">Your first treasure goes here</span></div><p class="instructions">Choose a keepsake, then click a spot in your room. Drag to rearrange.</p><div class="editbar" hidden><strong class="selected-name"></strong><button class="small smaller" aria-label="Make decoration smaller">−</button><button class="small larger" aria-label="Make decoration larger">＋</button><button class="small put-away">Put away</button></div><p class="details"></p></section>
+      <aside class="shelf"><h2>Your keepsakes <span class="count">0</span></h2><p>Earned by finishing full readings.</p><div class="collection"></div><section class="reading"><div class="eyebrow">TRY A READING REWARD</div><h3>The Italian Renaissance</h3><p>You reached the end of the chapter. A little piece of its world is coming home with you.</p><button class="primary finish">Finish reading & reveal keepsake</button><div class="result" role="status"></div></section><div class="demo-note">Demo: a prepared AI-created keepsake. Connect your own image generator for new topics.</div></aside></div><footer class="bottom"><span class="storage-note">Saved in this browser on this device. No account needed.</span><span>No streaks. No chores. Just your little world.</span></footer></dialog>`;
+      this.q('.room-bg').src=asset('alpaca-room.png');
+      this.q('.launcher').onclick=()=>this.open();this.q('.close').onclick=()=>this.close();
+      this.q('dialog').addEventListener('cancel',()=>this.cancelPlacement());
+      this.q('.finish').onclick=async()=>{try{await this.completeReading(demo)}catch(error){this.showResult(error.message,true)}};
+      this.q('.name').addEventListener('change',()=>{this.houseName=this.q('.name').value.trim()||'My little alpaca house';this.q('.name').value=this.houseName;this.save()});
+      this.q('.room').onclick=e=>{if(e.target.closest('.decoration'))return;const item=this.items.find(i=>i.id===this.selected);if(item){const rect=this.q('.room').getBoundingClientRect();item.x=clamp((e.clientX-rect.left)/rect.width*100,10,90);item.y=clamp((e.clientY-rect.top)/rect.height*100,17,83);item.placed=true;this.save();this.render();this.focusItem(item.id)}};
+      this.q('.put-away').onclick=()=>{const item=this.activeItem();if(item){item.placed=false;this.save();this.render()}};
+      this.q('.smaller').onclick=()=>this.resizeItem(-2);this.q('.larger').onclick=()=>this.resizeItem(2);
+      this.simplify();
+    }
+    q(s){return this.shadowRoot.querySelector(s)}
+    get storageKey(){return this.getAttribute('storage-key')||'unfold-alpaca-house-v1'}
+    safeImage(url){try{const u=new URL(url,root);if(!['https:','http:','file:'].includes(u.protocol))return null;return u.href}catch{return null}}
+    connectedCallback(){this.load();this.render();if(this.hasAttribute('open'))this.open()}
+    activeItem(){return this.items.find(i=>i.id===this.selected)}
+    load(){try{const data=JSON.parse(localStorage.getItem(this.storageKey)||'null');if(data?.version===1){this.houseName=typeof data.name==='string'?data.name.slice(0,45):this.houseName;this.items=(Array.isArray(data.items)?data.items:[]).filter(i=>typeof i.id==='string'&&typeof i.title==='string'&&this.safeImage(i.imageUrl)).slice(0,200).map(i=>({...i,imageUrl:this.safeImage(i.imageUrl),x:clamp(Number(i.x)||50,10,90),y:clamp(Number(i.y)||35,17,83),size:clamp(Number(i.size)||15,9,25),placed:i.placed===true}));this.items=this.items.filter((item,index,all)=>all.findIndex(i=>i.id===item.id)===index)}}catch{this.saveAvailable=false}this.q('.name').value=this.houseName;this.storageStatus()}
+    storageStatus(){this.q('.storage-note').textContent=this.saveAvailable?'Saved in this browser on this device. No account needed.':'Browser storage is unavailable. Changes last for this visit only.'}
+    save(){try{localStorage.setItem(this.storageKey,JSON.stringify({version:1,name:this.houseName,items:this.items}));this.saveAvailable=true}catch{this.saveAvailable=false}this.storageStatus()}
+    open(){this.render();if(!this.q('dialog').open)this.q('dialog').showModal()}
+    close(){this.cancelPlacement();this.q('dialog').close();this.q('.launcher').focus()}
+    cancelPlacement(){this.drag=null}
+    showResult(text,error=false){this.q('.result').textContent=text;this.q('.result').classList.toggle('error',error)}
+    async completeReading(reading){
+      if(!reading||typeof reading.id!=='string'||!reading.id.trim()||typeof reading.title!=='string')throw new Error('A reading needs a stable id and title.');
+      const existing=this.items.find(i=>i.id===reading.id);if(existing){this.selected=existing.id;this.render();this.showResult('This keepsake is already yours.');return existing}
+      if(this.pending)throw new Error('One keepsake is being prepared. Try again when it is ready.');
+      this.pending=true;this.q('.finish').disabled=true;this.render();this.showResult('Preparing your reading keepsake…');
+      try{
+        let reward;
+        if(typeof this.generateReward==='function')reward=await this.generateReward({...reading});
+        else if(reading.id===demo.id)reward={title:'Mona Llama',description:'An alpaca take on the Mona Lisa — a souvenir of Renaissance art and portraiture.',imageUrl:asset('mona-alpaca.png')};
+        else throw new Error('Connect generateReward(reading) to create keepsakes for new topics.');
+        const imageUrl=this.safeImage(reward?.imageUrl);if(!imageUrl||typeof reward.title!=='string'||!reward.title.trim())throw new Error('The generator must return a title and a valid image URL.');
+        await new Promise((resolve,reject)=>{const img=new Image();const timer=setTimeout(()=>reject(new Error('Artwork took too long to load. Your reward was not lost; please try again.')),15000);img.onload=()=>{clearTimeout(timer);resolve()};img.onerror=()=>{clearTimeout(timer);reject(new Error('Could not load this artwork. Please try again.'))};img.src=imageUrl});
+        const item={id:reading.id,title:reward.title.slice(0,100),description:String(reward.description||'').slice(0,500),readingTitle:reading.title.slice(0,150),imageUrl,x:50,y:34,size:15,placed:false};this.items.push(item);this.selected=item.id;this.save();this.render();
+        this.q('.toast').textContent='New keepsake unlocked: '+item.title+'. Choose a spot on your wall.';this.q('.toast').hidden=false;this.showResult('');
+        this.dispatchEvent(new CustomEvent('keepsake-earned',{detail:{readingId:reading.id,item:{...item}},bubbles:true,composed:true}));return item;
+      }finally{this.pending=false;this.q('.finish').disabled=false;this.render()}
+    }
+    renderFull(){
+      this.q('.count').textContent=this.items.length;this.q('.room-empty').hidden=this.items.some(i=>i.placed);this.q('.room').classList.toggle('placing',!!this.selected);
+      this.q('.collection').replaceChildren();this.shadowRoot.querySelectorAll('.decoration').forEach(n=>n.remove());
+      if(!this.items.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='An empty shelf, a fresh start. Finish your first reading to bring something home.';this.q('.collection').append(empty)}
+      for(const item of this.items){const card=document.createElement('button');card.className='reward';card.setAttribute('aria-pressed',String(item.id===this.selected));const img=document.createElement('img');img.src=item.imageUrl;img.alt='';const label=document.createElement('span');const title=document.createElement('strong');title.textContent=item.title;const detail=document.createElement('small');detail.textContent=item.placed?'In your room · click to select':'Click to hang in your room';label.append(title,detail);card.append(img,label);card.onclick=()=>{this.selected=item.id;if(!item.placed){item.placed=true;this.save()}this.render();this.focusItem(item.id)};this.q('.collection').append(card);if(item.placed)this.renderDecoration(item)}
+      const selected=this.activeItem();this.q('.editbar').hidden=!selected;this.q('.selected-name').textContent=selected?.title||'';this.q('.details').textContent=selected?(selected.description+' Earned from “'+selected.readingTitle+'”.'):'';
+    }
+    renderDecoration(item){const el=document.createElement(this.arranging?'button':'div');el.className='decoration'+(this.arranging?' selected':'');el.dataset.item=item.id;if(this.arranging)el.setAttribute('aria-label',item.title+'. Drag to move; arrow keys adjust position.');el.style.left=item.x+'%';el.style.top=item.y+'%';el.style.width=item.size+'%';const img=document.createElement('img');img.src=item.imageUrl;img.alt=item.title;el.append(img);this.q('.room').append(el);if(!this.arranging)return;
+      el.onclick=e=>{e.stopPropagation();this.selected=item.id;this.q('.editbar').hidden=false;this.q('.selected-name').textContent=item.title;this.q('.details').textContent=item.description+' Earned from “'+item.readingTitle+'”.';this.shadowRoot.querySelectorAll('.decoration').forEach(n=>n.classList.toggle('selected',n===el))};
+      el.onpointerdown=e=>{if(e.button!==0)return;e.preventDefault();this.selected=item.id;const rect=this.q('.room').getBoundingClientRect();this.drag={id:e.pointerId,x:e.clientX,y:e.clientY,originX:item.x,originY:item.y,rect};el.setPointerCapture(e.pointerId);el.focus({preventScroll:true})};
+      el.onpointermove=e=>{if(!this.drag||e.pointerId!==this.drag.id)return;item.x=clamp(this.drag.originX+(e.clientX-this.drag.x)/this.drag.rect.width*100,10,90);item.y=clamp(this.drag.originY+(e.clientY-this.drag.y)/this.drag.rect.height*100,17,83);el.style.left=item.x+'%';el.style.top=item.y+'%'};
+      const end=e=>{if(this.drag&&e.pointerId===this.drag.id){this.drag=null;this.save();if(el.hasPointerCapture(e.pointerId))el.releasePointerCapture(e.pointerId)}};el.onpointerup=end;el.onpointercancel=end;el.onlostpointercapture=()=>{if(this.drag){this.drag=null;this.save()}};
+      el.onkeydown=e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)){e.preventDefault();item.x=clamp(item.x+(e.key==='ArrowLeft'?-2:e.key==='ArrowRight'?2:0),10,90);item.y=clamp(item.y+(e.key==='ArrowUp'?-2:e.key==='ArrowDown'?2:0),17,83);el.style.left=item.x+'%';el.style.top=item.y+'%';this.save()}};
+    }
+    focusItem(id){const node=[...this.shadowRoot.querySelectorAll('.decoration')].find(n=>n.dataset.item===id);node?.focus({preventScroll:true})}
+    resizeItem(amount){const item=this.activeItem();if(item){item.size=clamp(item.size+amount,9,25);this.save();this.render()}}
+    simplify(){
+      this.arranging=false;
+      const style=document.createElement('style');style.textContent=`
+      dialog{width:min(700px,calc(100% - 28px));max-height:92dvh;padding:22px}.head{padding:0 0 16px;border:0}.head .eyebrow,.head p,.room-head,.toast,.shelf,.instructions,.editbar,.details,.bottom,.room-empty,.badge{display:none!important}.head h1{font-size:22px}.layout{display:block}.living{padding:0}.room{cursor:default!important;touch-action:auto}.decoration{cursor:default;pointer-events:none}.room.arranging .decoration{pointer-events:auto;cursor:grab;touch-action:none}.simple-reward{display:flex;align-items:center;gap:14px;margin-top:18px}.simple-reward img{width:44px;height:64px;object-fit:contain}.simple-reward strong{display:block;font-size:17px}.simple-reward p{font-size:14px;color:#657762;margin:2px 0 0}.simple-actions{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:18px}.simple-actions .primary{width:auto;font-size:15px;padding:11px 18px}.arrange-button{border:0;background:none;color:#5b735e;font-size:14px;padding:8px 0}.simple-hint,.simple-status{font-size:14px;color:#617660;margin:12px 0 0}.simple-status:empty{display:none}.simple-storage{font-size:12px;color:#8f5034;margin:12px 0 0}.launcher{box-shadow:none;font-weight:400;padding:9px 16px}@media(max-width:600px){dialog{padding:16px}.head{padding:0 0 12px}.living{padding:0}}
+      `;this.shadowRoot.append(style);
+      this.q('.launcher').textContent='⌂ My house';
+      this.q('.room').onclick=null;
+      this.q('dialog').insertAdjacentHTML('beforeend','<section class="simple-reward" hidden><img alt=""><div><strong></strong><p></p></div></section><p class="simple-hint" hidden>Drag a keepsake to move it, or use the arrow keys.</p><p class="simple-status" role="status"></p><div class="simple-actions"><button class="arrange-button">Arrange</button><button class="primary simple-action">Back to reading</button></div><p class="simple-storage" hidden>Browser storage is unavailable. Changes last for this visit only.</p>');
+      this.q('.arrange-button').onclick=()=>{this.arranging=!this.arranging;this.render()};
+      this.q('.simple-action').onclick=()=>{if(this.arranging){this.arranging=false;this.render();return}const next=this.items.find(item=>!item.placed);if(next){next.placed=true;this.save();this.render();this.showResult('Added to your house.')}else this.close()};
+      this.q('dialog').addEventListener('cancel',()=>{this.arranging=false;this.drag=null;this.render()});
+    }
+    render(){
+      // Keep persisted collections compatible, but expose only the current reward.
+      // The quiet view has no interactive decorations until Arrange is chosen.
+      this.renderFull();
+      const next=this.items.find(item=>!item.placed);
+      this.q('#house-title').textContent=next&&!this.arranging?'Reading complete.':'Your alpaca house';
+      this.q('.simple-reward').hidden=!next||this.arranging;
+      if(next){this.q('.simple-reward img').src=next.imageUrl;this.q('.simple-reward strong').textContent='You earned '+next.title;this.q('.simple-reward p').textContent='From “'+next.readingTitle+'”.'}
+      this.q('.arrange-button').hidden=!this.items.some(item=>item.placed)||!!next;
+      this.q('.arrange-button').textContent=this.arranging?'Finish arranging':'Arrange';
+      this.q('.simple-action').textContent=this.arranging?'Done':next?'Add to my house':'Back to reading';
+      this.q('.simple-action').disabled=this.pending;
+      this.q('.simple-hint').hidden=!this.arranging;
+      this.q('.room').classList.toggle('arranging',this.arranging);
+      this.q('.simple-storage').hidden=this.saveAvailable;
+    }
+    open(){this.arranging=false;this.showResult('');this.render();if(!this.q('dialog').open)this.q('dialog').showModal()}
+    close(){this.arranging=false;this.drag=null;this.q('dialog').close();this.q('.launcher').focus()}
+    showResult(text,error=false){const node=this.q('.simple-status');if(node){node.textContent=text;node.classList.toggle('error',error)}}
+  }
+  customElements.define('alpaca-house',AlpacaHouse);
+})();
