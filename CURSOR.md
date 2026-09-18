@@ -25,8 +25,9 @@ is now a **React SPA in `app/`** (Vite), built into `public/app.html` +
 `public/assets/` — both are gitignored build output, so edit `app/src/`, never
 `public/app.html`. Charlotte’s portable guided reading + play widgets live under
 `public/study-activities/` — mount them, don’t rewrite. Run `npm run build` once
-before `npm run dev`, or use `npm run dev:web` for HMR on :5173. Landing is still
-`public/index.html`. Keep calling `/api/ingest` and `/api/chat`.
+before `npm run dev`, or use `npm run dev:web` for HMR on :5173. The SPA serves
+at both `/` and `/app`; there is no separate landing page any more.
+Keep calling `/api/ingest` and `/api/chat`.
 
 **Backend:** `server/` (ingest + OpenRouter). Wrappers: `api/`. Prompts: `server/llm/prompts.js`. Ingest: paste, PDF (text or scanned OCR), Word `.docx`, public Google Doc URL / `.gdoc`, URL, samples.
 

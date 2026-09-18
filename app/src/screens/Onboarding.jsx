@@ -35,7 +35,7 @@ const SOUNDS = ["Silence", "Lo-fi", "Classical", "Nature sounds", "Brown noise"]
 const BUDDIES = [
   { label: "Calm", sub: "Only reacts when you finish something" },
   { label: "Playful", sub: "Cheers you on along the way" },
-  { label: "None", sub: "No buddy, no reactions" },
+  { label: "Off", sub: "No buddy, no reactions" },
 ];
 
 function FormatArt({ index }) {
@@ -355,7 +355,7 @@ export default function Onboarding() {
 
         {st.step === LAST && (
           <div className="stack" style={{ gap: 18, alignItems: "flex-start" }}>
-            <Logo size={56} fill="var(--sage)" eyes="var(--surface)" />
+            <Logo size={72} />
             <h1 style={{ fontSize: 34 }}>
               {`You're all set${name ? `, ${name}` : ""}`}
             </h1>

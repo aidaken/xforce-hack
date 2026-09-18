@@ -179,11 +179,26 @@ export const Speaker = ({ size = 15 }) => (
   </svg>
 );
 
-export const Upload = ({ size = 34 }) => (
+export const Lines = ({ size = 17 }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" aria-hidden="true">
+    <line x1="2.5" y1="4" x2="13.5" y2="4" {...stroke} />
+    <line x1="2.5" y1="8" x2="13.5" y2="8" {...stroke} />
+    <line x1="2.5" y1="12" x2="9.5" y2="12" {...stroke} />
+  </svg>
+);
+
+export const Link = ({ size = 17 }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" aria-hidden="true">
+    <path d="M6.5 9.5 a3 3 0 0 0 4.2 0 l1.8 -1.8 a3 3 0 0 0 -4.2 -4.2 l-0.9 0.9" {...stroke} />
+    <path d="M9.5 6.5 a3 3 0 0 0 -4.2 0 l-1.8 1.8 a3 3 0 0 0 4.2 4.2 l0.9 -0.9" {...stroke} />
+  </svg>
+);
+
+export const Upload = ({ size = 34, color = "var(--clay)" }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M12 16 V4" fill="none" stroke="var(--clay)" strokeWidth="2" strokeLinecap="round" />
-    <polyline points="7,9 12,4 17,9" fill="none" stroke="var(--clay)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M4 16 v3 a1 1 0 0 0 1 1 h14 a1 1 0 0 0 1 -1 v-3" fill="none" stroke="var(--clay)" strokeWidth="2" strokeLinecap="round" />
+    <path d="M12 16 V4" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" />
+    <polyline points="7,9 12,4 17,9" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M4 16 v3 a1 1 0 0 0 1 1 h14 a1 1 0 0 0 1 -1 v-3" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" />
   </svg>
 );
 

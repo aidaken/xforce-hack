@@ -1,6 +1,6 @@
 # Portable study activities and Unfold prototype
 
-Charlotte's guided reading (`<reading-coach>`), basketball (`<study-hoops>`), and alpaca house (`<alpaca-house>`). ADDY copies these files as-is and mounts them after a student ingests a passage (Guided tab on `/app`). Standalone demos still work at the paths below.
+Charlotte's guided reading (`<reading-coach>`), basketball (`<study-hoops>`), alpaca house (`<alpaca-house>`), and study-video sidekick (`<study-video>`). ADDY copies these files as-is. Guided reading + hoops/house mount after ingest; **Playful** in Quick settings mounts the Subway Surfers sidekick.
 
 ## Preview
 

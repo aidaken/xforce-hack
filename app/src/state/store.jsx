@@ -59,13 +59,16 @@ const initialState = {
   addOpen: false,
   split: 52,
   monthOffset: 0,
-  // add-a-reading form
+  // add-a-reading panel (Dashboard → "Add a reading")
   addMode: "text",
   addText: "",
   addLink: "",
   addFile: null,
+  // client-side PDF extraction result: { text, pages, totalPages, scanned, truncated }
+  addPdf: null,
+  addPdfBusy: false,
   addFolder: "Biology 101",
-  addDone: "",
+  addStage: "",
   addError: "",
   addBusy: false,
   dragOver: false,
@@ -105,7 +108,9 @@ export function AddyProvider({ children, startScreen, theme, buddyMode }) {
     el.className = `theme-${state.theme}${state.rm ? " rm" : ""}`;
     el.style.setProperty("--fs", `${state.size}px`);
     el.style.setProperty("--lh", String(state.lh));
-  }, [state.theme, state.rm, state.size, state.lh]);
+    el.style.setProperty("--font", fontStack(state.font));
+    el.style.fontFamily = fontStack(state.font);
+  }, [state.theme, state.rm, state.size, state.lh, state.font]);
 
   // --- focus timer ---
   useEffect(() => {

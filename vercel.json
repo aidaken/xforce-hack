@@ -5,10 +5,21 @@
   "buildCommand": "npm run build",
   "outputDirectory": "public",
   "functions": {
-    "api/ingest.js": { "maxDuration": 60 },
-    "api/chat.js": { "maxDuration": 60 }
+    "api/ingest.js": {
+      "maxDuration": 60
+    },
+    "api/chat.js": {
+      "maxDuration": 60
+    }
   },
   "rewrites": [
-    { "source": "/app", "destination": "/app.html" }
+    {
+      "source": "/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/app",
+      "destination": "/app.html"
+    }
   ]
 }

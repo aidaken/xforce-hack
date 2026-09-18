@@ -11,6 +11,7 @@ export default function AppHeader() {
         type="button"
         onClick={() => patch({ screen: "dashboard" })}
         className="row"
+        aria-label="Addy home"
         style={{
           gap: 10,
           background: "transparent",
@@ -20,8 +21,7 @@ export default function AppHeader() {
           padding: 6,
         }}
       >
-        <Logo size={30} />
-        <span style={{ fontSize: 22, fontWeight: 600 }}>Addy</span>
+        <Logo size={44} alt="" />
       </button>
 
       <label

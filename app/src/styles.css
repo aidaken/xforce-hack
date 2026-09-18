@@ -1,17 +1,24 @@
 @font-face {
   font-family: "OpenDyslexic";
-  src: url("https://cdn.jsdelivr.net/npm/@fontsource/opendyslexic@5.3.0/files/opendyslexic-latin-400-normal.woff2")
-    format("woff2");
+  src: url("/fonts/opendyslexic-latin-400-normal.woff2") format("woff2");
   font-weight: 400;
+  font-style: normal;
   font-display: swap;
 }
-/* Without a real bold the browser smears the 400 face, which thickens the
-   weighted bottoms OpenDyslexic relies on and undoes the point of it. */
+
 @font-face {
   font-family: "OpenDyslexic";
-  src: url("https://cdn.jsdelivr.net/npm/@fontsource/opendyslexic@5.3.0/files/opendyslexic-latin-700-normal.woff2")
-    format("woff2");
+  src: url("/fonts/opendyslexic-latin-700-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("/fonts/opendyslexic-latin-700-normal.woff2") format("woff2");
   font-weight: 700;
+  font-style: normal;
   font-display: swap;
 }
 
@@ -28,6 +35,10 @@
   --border: #e3daca;
   --ok: #5e7d4f;
   --warn: #b08a3e;
+  /* #b08a3e is only 2.9:1 on cream, so amber TEXT and amber ICONS use the
+     darker tone and #b08a3e stays a border / fill. Both read as the same
+     warm amber, and nothing in Addy is ever red. */
+  --warn-text: #7e5c1b;
   --hl: #ebd9a6;
   --soft: #f1e9d7;
   --fs: 18px;
@@ -46,6 +57,7 @@
   --border: #d8dcc7;
   --ok: #55743f;
   --warn: #9e7c34;
+  --warn-text: #75551a;
   --hl: #e4dca4;
   --soft: #e3e8d6;
 }
@@ -62,6 +74,7 @@
   --border: #3d3830;
   --ok: #8fad7c;
   --warn: #d8ae60;
+  --warn-text: #d8ae60;
   --hl: #6e5e35;
   --soft: #343029;
 }
@@ -148,7 +161,7 @@ textarea {
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
-  font-family: "Lexend", "Atkinson Hyperlegible", Verdana, Arial, sans-serif;
+  font-family: var(--font, Lexend, "Atkinson Hyperlegible", Verdana, Arial, sans-serif);
   letter-spacing: 0.02em;
   line-height: 1.55;
 }
@@ -399,6 +412,101 @@ textarea:focus-visible,
 [tabindex]:focus-visible {
   outline: 3px solid var(--clay);
   outline-offset: 2px;
+}
+
+/* ---------- add a reading ----------
+   The panel is inline, never a modal: a dialog that steals the page is
+   disorienting, and this one appears right under the button that opened it. */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.seg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.seg-btn {
+  flex: 1 1 180px;
+  min-height: 48px;
+  padding: 0 16px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+  background: transparent;
+  color: var(--text);
+  font-size: 17px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.seg-btn[aria-pressed="true"] {
+  background: var(--clay);
+  border-color: var(--clay);
+  color: var(--clayfg);
+}
+.drop {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 150px;
+  padding: 22px;
+  border-radius: 12px;
+  border: 2px dashed var(--border);
+  background: var(--bg);
+  cursor: pointer;
+  text-align: left;
+}
+.drop.over {
+  border-color: var(--clay);
+  background: var(--ochre);
+}
+/* The file input is the focusable thing inside the label, so the ring has to
+   be drawn on the zone itself or keyboard users get no focus at all. */
+.drop:focus-within {
+  outline: 3px solid var(--clay);
+  outline-offset: 2px;
+}
+.drop input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 18px;
+  line-height: 1.55;
+  text-align: left;
+}
+.note-warn {
+  color: var(--warn-text);
+  background: var(--bg);
+  border: 1px solid var(--warn);
+}
+.note-ok {
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+.note-icon {
+  flex: 0 0 18px;
+  margin-top: 3px;
 }
 
 /* ---------- bars ---------- */

@@ -13,6 +13,8 @@ const TYPES = {
   ".json": "application/json",
   ".svg": "image/svg+xml",
   ".png": "image/png",
+  ".woff2": "font/woff2",
+  ".txt": "text/plain; charset=utf-8",
   ".ico": "image/x-icon",
 };
 
@@ -26,7 +28,7 @@ const server = createServer(async (req, res) => {
 });
 
 function serveStatic(pathname, res) {
-  let rel = pathname === "/" ? "/index.html" : pathname;
+  let rel = pathname === "/" ? "/app.html" : pathname;
   if (rel === "/app") rel = "/app.html";
   const file = normalize(join(publicDir, rel));
   if (!file.startsWith(publicDir) || !existsSync(file) || statSync(file).isDirectory()) {

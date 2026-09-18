@@ -259,7 +259,7 @@ export function Quest() {
                 </div>
               )}
               {wrong && (
-                <div className="row f17" style={{ gap: 8, color: "var(--warn)" }}>
+                <div className="row f17" style={{ gap: 8, color: "var(--warn-text)" }}>
                   <Warn />
                   Not quite — the answer is in the step above. Try again.
                 </div>

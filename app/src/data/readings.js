@@ -1,6 +1,10 @@
-// Seed readings, lifted verbatim from the Addy design project so the demo
-// content matches the approved copy. Anything a user ingests at runtime is
-// appended to this list in state, not written back here.
+// Seed readings. The two Biology 101 entries are lifted verbatim from the Addy
+// design project so the demo matches the approved copy. The class folders after
+// them are remade from real course sources (URL on each entry's `source`), hand
+// written in the same schema the design set: `sents` stays faithful to the
+// source, `steps` is the remake, and `flags` names whatever the remake dropped
+// or compressed. Anything a user ingests at runtime is appended to this list in
+// state, not written back here.
 export const SEED_READINGS = [
     {id:'bio1',folder:'Biology 101',title:'Cellular respiration',mins:6,status:'In progress',rec:'flowchart',
      rationale:'This passage describes a step-by-step process, so I made it a flowchart.',
@@ -39,63 +43,141 @@ export const SEED_READINGS = [
       {t:'Facilitated diffusion',b:'Bigger molecules like glucose ride a transport protein, still without spending energy.',s:['m4'],q:'Does facilitated diffusion cost the cell energy?',o:['Yes, always','No','Only at night'],a:1},
       {t:'Active transport',b:'Going against the gradient costs ATP.',s:['m5'],q:'What does the cell spend on active transport?',o:['ATP','Water','Carbon dioxide'],a:0}]},
 
-    {id:'econ1',folder:'Intro to Economics',title:'Supply and demand',mins:5,status:'In progress',rec:'checklist',
-     rationale:'This passage lays out rules you check one at a time, so I made it a checklist.',
-     why:'Each sentence states a rule that stands on its own. Numbering them as a flow would suggest an order the source never claims.',
-     flags:['"A change in income, tastes, or the price of a related good" is compressed to "income, tastes, or related prices" in the last item.'],
-     sents:[
-      {id:'e1',t:'A market price settles where the plans of buyers and sellers agree.'},
-      {id:'e2',t:'The demand curve slopes downward: as price falls, buyers want more.'},
-      {id:'e3',t:'The supply curve slopes upward: as price rises, sellers offer more.'},
-      {id:'e4',t:'Equilibrium is the price at which quantity demanded equals quantity supplied.'},
-      {id:'e5',t:'If the price sits above equilibrium a surplus builds up and sellers cut prices.'},
-      {id:'e6',t:'If the price sits below equilibrium a shortage appears and buyers bid the price up.'},
-      {id:'e7',t:'A change in income, tastes, or the price of a related good shifts the whole demand curve rather than moving along it.'}],
-     steps:[
-      {t:'Demand slopes down',b:'Lower price, buyers want more.',s:['e2'],q:'When price falls, quantity demanded...',o:['Rises','Falls','Stays put'],a:0},
-      {t:'Supply slopes up',b:'Higher price, sellers offer more.',s:['e3'],q:'What makes sellers offer more?',o:['A higher price','A lower price','Nothing'],a:0},
-      {t:'Equilibrium',b:'The price where the two quantities match, and where the market settles.',s:['e1','e4'],q:'At equilibrium, quantity demanded is...',o:['Above supply','Equal to supply','Below supply'],a:1},
-      {t:'Surplus and shortage',b:'Price above equilibrium leaves a surplus; price below leaves a shortage.',s:['e5','e6'],q:'A price below equilibrium causes a...',o:['Surplus','Shortage','Tax'],a:1},
-      {t:'Shifts vs movements',b:'Income, tastes, or related prices move the whole curve. Price alone just moves you along it.',s:['e7'],q:'What shifts the whole demand curve?',o:['A change in price','A change in income','Nothing'],a:1}]},
 
-    {id:'econ2',folder:'Intro to Economics',title:'Elasticity',mins:4,status:'Not started',rec:'quest',
-     rationale:'This one is short and easy to mix up, so I turned it into a quest with quick checks.',
-     why:'Elastic and inelastic get confused constantly. Answering after each step is a cheap way to catch that early.',
+    // Source: OpenStax Calculus Volume 1 § 3.6 The Chain Rule
+    // https://openstax.org/books/calculus-volume-1/pages/3-6-the-chain-rule
+    {id:'calc1',folder:'Calculus I',title:'The chain rule',mins:6,status:'In progress',rec:'flowchart',
+     source:{id:'calc1',conceptType:'process',url:'https://openstax.org/books/calculus-volume-1/pages/3-6-the-chain-rule'},
+     rationale:'The source gives a four-step procedure you run in order, so I made it a flowchart.',
+     why:"The section is built around a problem-solving strategy where each step feeds the next: you cannot evaluate f' at g(x) before you have named g. A flowchart holds that order so you are not tracking which layer you are on while you differentiate.",
+     flags:["The source's worked examples were left out; only the rule and its steps are shown.",
+            "The source's warning not to evaluate a derivative at another derivative is folded into the third box."],
+     sents:[
+      {id:'c1',t:'The chain rule tells you how to differentiate a composite function, one function wrapped inside another.'},
+      {id:'c2',t:"The derivative of h(x) = f(g(x)) is h'(x) = f'(g(x)) · g'(x)."},
+      {id:'c3',t:'In Leibniz notation, if y is a function of u and u is a function of x, then dy/dx = dy/du · du/dx.'},
+      {id:'c4',t:'The first step is to identify the outer function f and the inner function g.'},
+      {id:'c5',t:"Next, find f'(x) and evaluate it at g(x) to obtain f'(g(x)), leaving the inside untouched."},
+      {id:'c6',t:"Then find g'(x), the derivative of the inner function on its own."},
+      {id:'c7',t:"Finally, write h'(x) = f'(g(x)) · g'(x)."},
+      {id:'c8',t:"When the outer function is a power, the rule shortens to h'(x) = n(g(x))^(n-1) · g'(x)."},
+      {id:'c9',t:"For three layers, k(x) = h(f(g(x))), the derivative is k'(x) = h'(f(g(x))) · f'(g(x)) · g'(x)."}],
+     steps:[
+      {t:'What the rule is for',b:'A composite function is one function inside another. The chain rule differentiates it.',s:['c1','c2','c3'],q:'The chain rule applies when...',o:['Two functions are added','One function is inside another','A function is squared'],a:1},
+      {t:'Name the outer and the inner',b:'Decide which function is f (the outer) and which is g (the inner). Work from the outside in.',s:['c4'],q:'Which function do you name first?',o:['The outer one','The inner one','Either, it does not matter'],a:0},
+      {t:"Differentiate the outer, keep the inside",b:"Find f'(x), then plug g(x) into it. The inside stays exactly as it was.",s:['c5'],q:"Where do you evaluate f'?",o:["At x","At g(x)","At g'(x)"],a:1},
+      {t:'Differentiate the inner',b:"Find g'(x) by itself.",s:['c6'],q:"What is g'(x)?",o:['The derivative of the inner function','The derivative of the whole thing','The inner function again'],a:0},
+      {t:'Multiply the layers',b:"h'(x) = f'(g(x)) · g'(x). Forgetting this multiplication is the most common mistake.",s:['c7'],q:'What joins the two derivatives?',o:['Addition','Multiplication','Division'],a:1},
+      {t:'Shortcut: a power on the outside',b:"If the outer function is a power, h'(x) = n(g(x))^(n-1) · g'(x).",s:['c8'],q:'What still has to be multiplied on at the end?',o:["g'(x)","n","g(x)"],a:0},
+      {t:'Three layers instead of two',b:"Apply the rule twice: k'(x) = h'(f(g(x))) · f'(g(x)) · g'(x). One derivative per layer.",s:['c9'],q:'How many factors does a three-function composition give?',o:['Two','Three','Four'],a:1}]},
+
+    // Source: OpenStax University Physics Volume 2 § 6.3 Applying Gauss's Law
+    // https://openstax.org/books/university-physics-volume-2/pages/6-3-applying-gausss-law
+    {id:'phys1',folder:'Physics II',title:"Applying Gauss's law",mins:7,status:'Not started',rec:'flowchart',
+     source:{id:'phys1',conceptType:'process',url:'https://openstax.org/books/university-physics-volume-2/pages/6-3-applying-gausss-law'},
+     rationale:'The source lays out a five-step strategy you run in order, so I made it a flowchart.',
+     why:'Every step depends on the one before it: the symmetry decides the surface, the surface decides how the flux integral collapses, and only then can you solve for the field. Keeping the order visible stops you from picking a surface before you have looked at the symmetry.',
+     flags:["The source writes the flux as the integral of E · n dA. The boxes say \"field magnitude times area\", which is only true once step 2 has chosen a surface where the magnitude is constant."],
+     sents:[
+      {id:'g1',t:"Gauss's law relates the electric flux through a closed surface to the charge enclosed by that surface."},
+      {id:'g2',t:'It is a shortcut only when the charge distribution is symmetric enough that you can find a surface where the field has constant magnitude.'},
+      {id:'g3',t:'The first step is to identify the spatial symmetry of the charge distribution.'},
+      {id:'g4',t:'The symmetry tells you which Gaussian surface to choose, so that the direction of the field relative to the surface is determinate at every point.'},
+      {id:'g5',t:'On such a surface the flux integral collapses to the field magnitude times the area, with constants pulled outside.'},
+      {id:'g6',t:'Next, work out the enclosed charge, which sometimes takes an integral of its own.'},
+      {id:'g7',t:"Finally, solve Gauss's law for the field magnitude."}],
+     steps:[
+      {t:'Identify the symmetry',b:'Look at the charge distribution first. Spherical, cylindrical, or planar. This choice drives everything after it.',s:['g1','g2','g3'],q:'What is the first step?',o:['Pick a surface','Identify the symmetry','Find the enclosed charge'],a:1},
+      {t:'Choose the Gaussian surface',b:'Pick a closed surface that matches the symmetry, so the field is the same size everywhere on it.',s:['g4'],q:'What makes a Gaussian surface a good one?',o:['It is the smallest possible','The field has constant magnitude on it','It touches the charge'],a:1},
+      {t:'Evaluate the flux',b:'With the right surface the integral becomes field magnitude times area. Constants come outside.',s:['g5'],q:'Why does the integral simplify?',o:['The charge is zero','The field magnitude is constant on the surface','Area is always one'],a:1},
+      {t:'Find the enclosed charge',b:'Add up only the charge inside the surface. A spread-out distribution may need its own integral.',s:['g6'],q:'Which charge counts?',o:['All the charge in the problem','Only the charge inside the surface','Only the charge on the surface'],a:1},
+      {t:'Solve for the field',b:"Put the flux and the enclosed charge into Gauss's law and read off the field magnitude.",s:['g7'],q:'What do you get out at the end?',o:['The field magnitude','The total charge','The surface area'],a:0}]},
+
+    {id:'phys2',folder:'Physics II',title:'Choosing a Gaussian surface',mins:5,status:'Not started',rec:'checklist',
+     source:{id:'phys2',conceptType:'rule_system',url:'https://openstax.org/books/university-physics-volume-2/pages/6-3-applying-gausss-law'},
+     rationale:'These are three separate cases you match against, not a sequence, so I made it a checklist.',
+     why:'Nothing here happens in an order. You look at your charge distribution, find the case it fits, and take the surface that goes with it. Numbering them as a flow would suggest a sequence the source never claims.',
      flags:[],
      sents:[
-      {id:'x1',t:'Elasticity measures how much quantity responds to a change in price.'},
-      {id:'x2',t:'Demand is elastic when a small price rise causes a large drop in quantity, which is common for goods with close substitutes.'},
-      {id:'x3',t:'Demand is inelastic when quantity barely moves, as with insulin or petrol in the short run.'},
-      {id:'x4',t:'Total revenue rises with a price cut when demand is elastic and falls when demand is inelastic.'}],
+      {id:'p1',t:"Three kinds of symmetry make Gauss's law easy, and each one has its own Gaussian surface."},
+      {id:'p2',t:'A distribution has spherical symmetry when the charge density depends only on distance from a center point.'},
+      {id:'p3',t:'The field is then directed radially, and a concentric sphere gives a flux of E times 4(pi)r^2.'},
+      {id:'p4',t:'A distribution has cylindrical symmetry when the density varies only with perpendicular distance from an axis.'},
+      {id:'p5',t:'The field points radially away from the axis, and a coaxial cylinder of length L gives a flux of E times 2(pi)rL.'},
+      {id:'p6',t:'A distribution has planar symmetry when the charge is spread uniformly across a flat sheet.'},
+      {id:'p7',t:'The field is perpendicular to the sheet, and a box straddling the plane gives a flux of E times 2A through the two parallel faces.'}],
      steps:[
-      {t:'What elasticity measures',b:'How strongly quantity reacts when price changes.',s:['x1'],q:'Elasticity compares quantity to...',o:['Price','Income','Time'],a:0},
-      {t:'Elastic vs inelastic',b:'Elastic: quantity swings a lot, usually where substitutes exist. Inelastic: quantity barely moves, like insulin.',s:['x2','x3'],q:'Insulin demand is...',o:['Elastic','Inelastic','Neither'],a:1},
-      {t:'Why it matters',b:'Cutting price raises revenue when demand is elastic, and lowers it when demand is inelastic.',s:['x4'],q:'A price cut on an elastic good does what to revenue?',o:['Raises it','Lowers it','No effect'],a:0}]},
+      {t:'Check the symmetry first',b:'Which of the three cases does your charge distribution fit? Everything else follows from that.',s:['p1'],q:'How many symmetry cases does the section give?',o:['Two','Three','Five'],a:1},
+      {t:'Spherical · use a concentric sphere',b:'Density depends only on distance from a point. Field is radial. Flux = E · 4(pi)r^2.',s:['p2','p3'],q:'Spherical symmetry pairs with which surface?',o:['A concentric sphere','A coaxial cylinder','A box'],a:0},
+      {t:'Cylindrical · use a coaxial cylinder',b:'Density depends only on distance from an axis. Field points away from the axis. Flux = E · 2(pi)rL.',s:['p4','p5'],q:'What does L stand for in the cylindrical flux?',o:['The radius','The length of the cylinder','The charge'],a:1},
+      {t:'Planar · use a box through the sheet',b:'Charge spread evenly on a flat sheet. Field is perpendicular to it. Only the two parallel faces carry flux: E · 2A.',s:['p6','p7'],q:'How many faces of the box carry flux?',o:['All six','Two','One'],a:1}]},
 
-    {id:'hist1',folder:'History Essay',title:'The Marshall Plan',mins:8,status:'Not started',rec:'quest',
-     rationale:'This reads as a story with a clear order of events, so I turned it into a quest you move through one step at a time.',
-     why:'Dates and names pile up quickly here. Revealing one beat at a time, with a question after each, keeps the sequence from blurring together.',
-     flags:['The figure "about thirteen billion dollars" is kept verbatim; no adjusted-for-inflation number was added.'],
+    // Source: React docs - useEffect reference
+    // https://react.dev/reference/react/useEffect
+    {id:'react1',folder:'Web Development',title:'useEffect',mins:6,status:'In progress',rec:'checklist',
+     source:{id:'react1',conceptType:'rule_system',url:'https://react.dev/reference/react/useEffect'},
+     rationale:'This is a set of rules you check one at a time rather than a process, so I made it a checklist.',
+     why:'The reference page is a list of independent rules: where you may call the Hook, when setup and cleanup run, what the dependency array does. None of them has to happen before another, so a checklist fits and a flowchart would invent an order.',
+     flags:["The caveats about object and function dependencies, and about switching to useLayoutEffect, were left out."],
      sents:[
-      {id:'h1',t:'By 1947 much of Western Europe was still in ruins, with factories idle and food rationed.'},
-      {id:'h2',t:'American officials worried that hunger and unemployment would push voters toward communist parties.'},
-      {id:'h3',t:'In June 1947 Secretary of State George Marshall proposed that the United States fund a recovery plan the Europeans would design themselves.'},
-      {id:'h4',t:'Sixteen countries met in Paris and drew up a joint request for aid.'},
-      {id:'h5',t:'Congress approved the European Recovery Program in April 1948, and about thirteen billion dollars flowed to Europe over four years.'},
-      {id:'h6',t:'The Soviet Union rejected the plan and pressed its neighbours to do the same, deepening the divide across the continent.'}],
+      {id:'u1',t:'useEffect lets a component synchronize with an external system.'},
+      {id:'u2',t:'If you are not synchronizing with an external system, you probably do not need an effect.'},
+      {id:'u3',t:'It is a Hook, so you can only call it at the top level of a component or of your own Hook, never inside a loop or a condition.'},
+      {id:'u4',t:'You call it with a setup function and an optional list of dependencies.'},
+      {id:'u5',t:'React runs the setup function after the component commits.'},
+      {id:'u6',t:'The setup function may return a cleanup function, which React runs with the old values before the next setup and once more after the component is removed from the DOM.'},
+      {id:'u7',t:'The dependency list must name every reactive value the setup code reads: props, state, and anything declared in the component body.'},
+      {id:'u8',t:'React compares each dependency with its previous value using Object.is.'},
+      {id:'u9',t:'If you omit the dependency argument, the effect re-runs after every commit.'},
+      {id:'u10',t:'If you pass an empty array, the effect runs only after the initial commit.'},
+      {id:'u11',t:'In Strict Mode, React runs one extra development-only setup and cleanup cycle before the first real setup, to check that cleanup mirrors setup.'},
+      {id:'u12',t:'Effects only run on the client; they do not run during server rendering.'}],
      steps:[
-      {t:'The problem, 1947',b:'Europe was still wrecked, and Washington feared hunger would turn voters toward communist parties.',s:['h1','h2'],q:'What worried American officials most?',o:['A new war','Communist parties gaining votes','Falling exports'],a:1},
-      {t:"Marshall's proposal",b:'June 1947: the United States would pay for recovery, but Europeans would write the plan.',s:['h3'],q:'Who was to design the plan?',o:['The Europeans','The US Army','The United Nations'],a:0},
-      {t:'Europe responds',b:'Sixteen countries met in Paris. Congress approved the programme in April 1948 and about thirteen billion dollars followed over four years.',s:['h4','h5'],q:'How many countries met in Paris?',o:['Six','Sixteen','Sixty'],a:1},
-      {t:'The split',b:'The Soviet Union refused and pushed its neighbours to refuse too, widening the divide.',s:['h6'],q:'What was the effect of the Soviet refusal?',o:['A wider divide in Europe','More aid for Moscow','The plan was cancelled'],a:0}]}
+      {t:'Use it to sync with something outside React',b:'That is what it is for. If you are only transforming data for rendering, you do not need it.',s:['u1','u2'],q:'What is useEffect for?',o:['Transforming data for render','Synchronizing with an external system','Storing state'],a:1},
+      {t:'Call it at the top level',b:'Never inside a loop, a condition, or a nested function. Component body or your own Hook only.',s:['u3'],q:'Can you call useEffect inside an if statement?',o:['Yes','No','Only in development'],a:1},
+      {t:'Setup runs after commit; cleanup mirrors it',b:'React runs setup after the commit. If setup returns a cleanup, React runs it with the old values before the next setup, and again on unmount.',s:['u4','u5','u6'],q:'When does cleanup run with the old values?',o:['Before the next setup','After the next setup','Never'],a:0},
+      {t:'List every reactive value you read',b:'Props, state, and anything declared in the component body. React compares them with Object.is.',s:['u7','u8'],q:'What does React use to compare dependencies?',o:['Object.is','JSON.stringify','Strict equality on the array'],a:0},
+      {t:'Omitted vs [] vs a list',b:'No array: re-runs after every commit. Empty array: runs once after the initial commit. A list: re-runs when one of those values changes.',s:['u9','u10'],q:'What does an empty dependency array mean?',o:['Runs after every commit','Runs only after the initial commit','Never runs'],a:1},
+      {t:'Strict Mode double-runs, and the client only',b:'In development, Strict Mode adds one extra setup and cleanup cycle to test your cleanup. Effects never run during server rendering.',s:['u11','u12'],q:'Why does Strict Mode run the effect twice in development?',o:['To make it faster','To stress-test your cleanup','It is a bug'],a:1}]},
+
+    // Source: OpenStax U.S. History § 1.1 The Americas
+    // https://openstax.org/books/us-history/pages/1-1-the-americas
+    {id:'ushist1',folder:'US History',title:'The Americas before 1492',mins:9,status:'Not started',rec:'quest',
+     source:{id:'ushist1',conceptType:'definition_cluster',url:'https://openstax.org/books/us-history/pages/1-1-the-americas'},
+     rationale:'This is a run of names, places, and dates that blur together, so I turned it into a quest you move through one civilization at a time.',
+     why:'Five peoples across four thousand years is a lot to hold at once. Revealing one at a time, with a question after each, keeps the Olmec from sliding into the Maya before you have finished reading about them.',
+     flags:["The section on Eastern Woodland clans and their matriarchal councils is not in this remake.",
+            "Dates are kept as the source gives them, including the wide 9,000 to 15,000 year range for the crossing."],
+     sents:[
+      {id:'a1',t:'Between 9,000 and 15,000 years ago, people crossed a land bridge called Beringia from Asia into the Americas in search of food.'},
+      {id:'a2',t:'When the glaciers melted, water engulfed Beringia and the Bering Strait was formed.'},
+      {id:'a3',t:"From about 1200 to 400 BCE the Olmec lived on Mexico's Gulf Coast, and later peoples borrowed so much from them that they are called the mother of Mesoamerican cultures."},
+      {id:'a4',t:'The Olmec built the pyramid at La Venta, carved giant stone heads, and left the only known written language in the Western Hemisphere.'},
+      {id:'a5',t:'The Maya perfected the calendar and written language the Olmec had begun, and built city-states such as Copan, Tikal, and Chichen Itza.'},
+      {id:'a6',t:'Poor soil and a drought that lasted nearly two centuries pushed the Maya into decline by 900 CE.'},
+      {id:'a7',t:'The Aztec founded Tenochtitlan in 1325 on an island in Lake Texcoco, and by 1519 it held upwards of 200,000 people, the largest city in the Western Hemisphere.'},
+      {id:'a8',t:'Tenochtitlan was fed by chinampas, floating gardens built out into the lake, and served by aqueducts and markets.'},
+      {id:'a9',t:'The Inca empire extended some twenty-five hundred miles down the Andes, tied together by a road system that rivaled that of the Romans.'},
+      {id:'a10',t:'Having no written language, the Inca kept records on the quipu, a system of colored strings and knots.'},
+      {id:'a11',t:'In the Southwest the Ancestral Puebloans carved homes from steep cliffs reached by ladders or ropes, and linked their centers with roads running some 180 miles.'},
+      {id:'a12',t:'Near present-day St. Louis, Cahokia peaked around 1100 CE with more than 10,000 residents and 120 earthen mounds.'}],
+     steps:[
+      {t:'Arrival · Beringia',b:'People crossed a land bridge from Asia between 9,000 and 15,000 years ago. The melting glaciers drowned it and left the Bering Strait.',s:['a1','a2'],q:'What was Beringia?',o:['A land bridge from Asia','An early Maya city','A trade route by sea'],a:0},
+      {t:'The Olmec · 1200 to 400 BCE',b:"On Mexico's Gulf Coast. Giant stone heads, the pyramid at La Venta, and the only known written language in the Western Hemisphere. Later cultures borrowed so much that the Olmec are called the mother culture.",s:['a3','a4'],q:'Why are the Olmec called the mother of Mesoamerican cultures?',o:['They were the largest','Later peoples borrowed heavily from them','They lasted the longest'],a:1},
+      {t:'The Maya',b:'They perfected the Olmec calendar and writing and built city-states like Copan, Tikal, and Chichen Itza. Poor soil and a two-century drought brought decline by 900 CE.',s:['a5','a6'],q:'What pushed the Maya into decline?',o:['Invasion','Poor soil and a long drought','A flood'],a:1},
+      {t:'The Aztec · Tenochtitlan',b:'Founded 1325 on an island in Lake Texcoco. By 1519 it held upwards of 200,000 people, fed by chinampas, the floating gardens, and served by aqueducts and markets.',s:['a7','a8'],q:'When was Tenochtitlan founded?',o:['1325','1519','900'],a:0},
+      {t:'The Inca · the Andes',b:'An empire some twenty-five hundred miles long, held together by roads that rivaled the Romans. With no writing, records were kept on the quipu, colored strings and knots.',s:['a9','a10'],q:'What was a quipu?',o:['A road','A record kept in colored strings and knots','A temple'],a:1},
+      {t:'North of Mexico',b:'The Ancestral Puebloans carved cliff homes reached by ladders and linked their centers with 180 miles of roads. Cahokia, near present-day St. Louis, peaked around 1100 CE with 10,000 residents and 120 mounds.',s:['a11','a12'],q:'What was Cahokia?',o:['A cliff dwelling in the Southwest','A large mound-building center near present-day St. Louis','An Inca road'],a:1}]}
   ];
 
-export const FOLDER_NAMES = ['Biology 101', 'Intro to Economics', 'History Essay'];
+export const FOLDER_NAMES = ['Biology 101', 'Calculus I', 'Physics II', 'Web Development', 'US History'];
 
 export const FOLDER_TINTS = {
   'Biology 101': 'var(--sage)',
-  'Intro to Economics': 'var(--clay)',
-  'History Essay': 'var(--warn)',
+  'Calculus I': 'var(--clay)',
+  'Physics II': 'var(--warn)',
+  'Web Development': 'var(--ok)',
+  'US History': 'var(--ochre)',
 };
 
 export const FORMAT_NAMES = { guided: 'Guided', flowchart: 'Flowchart', checklist: 'Checklist', quest: 'Quest' };

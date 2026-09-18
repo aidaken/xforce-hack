@@ -1,57 +1,152 @@
 import { useAddy } from "../state/store.jsx";
 import { FOLDER_NAMES } from "../data/readings.js";
-import { ingestAsReading, openReadingPatch } from "../lib/ingestReading.js";
 import {
-  FILE_ACCEPT,
-  INGEST_ERRORS,
-} from "../lib/api.js";
-import { Check, Upload, Warn } from "./Icons.jsx";
+  ingestAsReading,
+  openReadingPatch,
+  SERVER_UPLOAD_MAX,
+} from "../lib/ingestReading.js";
+import { INGEST_ERRORS } from "../lib/api.js";
+import {
+  extractPdfText,
+  isPdfFile,
+  PDF_MAX_BYTES,
+} from "../lib/pdfText.js";
+import { Check, Lines, Link, Upload, Warn } from "./Icons.jsx";
 
 const MODES = [
-  { k: "text", label: "Paste text" },
-  { k: "pdf", label: "Upload a file" },
-  { k: "link", label: "Paste a link" },
+  { k: "text", label: "Paste text", Icon: Lines },
+  { k: "pdf", label: "Upload a PDF", Icon: Upload },
+  { k: "link", label: "Paste a link", Icon: Link },
 ];
 
-export default function AddReading() {
-  const { state, patch, setReadings } = useAddy();
-  const st = state;
+const CTA = {
+  text: "Restructure this",
+  pdf: "Upload and restructure",
+  link: "Fetch and restructure",
+};
 
+/** What the processing state says it is doing, in order. */
+const STAGES = [
+  ["extract", "Reading the text"],
+  ["plan", "Choosing a format"],
+  ["check", "Checking nothing was lost"],
+];
+
+const WPM = 180;
+const MB = (bytes) => Math.round((bytes / (1024 * 1024)) * 10) / 10;
+
+function wordStats(text) {
+  const words = String(text || "").trim() ? text.trim().split(/\s+/).length : 0;
+  return { words, mins: Math.max(1, Math.round(words / WPM)) };
+}
+
+/** Amber, an icon and words — never red, and never colour on its own. */
+function Note({ tone = "warn", children }) {
+  return (
+    <div className={`note note-${tone}`} role={tone === "warn" ? "alert" : undefined}>
+      <span className="note-icon">
+        {tone === "warn" ? (
+          <Warn size={18} color="var(--warn-text)" />
+        ) : (
+          <Check size={18} color="var(--ok)" />
+        )}
+      </span>
+      <span>{children}</span>
+    </div>
+  );
+}
+
+/**
+ * "Add a reading" — the inline panel under the My folders heading.
+ *
+ * Not a modal on purpose: a dialog that blanks the page and traps focus is
+ * disorienting, so this opens in place and leaves the dashboard visible.
+ *
+ * Each mode keeps its own slot in the store, so switching between paste /
+ * upload / link never throws away what is already typed, and closing the
+ * panel keeps the draft too.
+ */
+export default function AddReading() {
+  const { state: st, patch, setReadings } = useAddy();
+
+  const pdfReady = !!st.addPdf && !st.addPdf.scanned && !!st.addPdf.text;
   const ready =
     st.addMode === "pdf"
-      ? !!st.addFile
+      ? pdfReady
       : st.addMode === "link"
-        ? st.addLink.startsWith("http")
+        ? /^https?:\/\//i.test(st.addLink.trim())
         : st.addText.trim().length > 0;
 
-  const words = st.addText.trim() ? st.addText.trim().split(/\s+/).length : 0;
-  const countLabel = words
-    ? `${words} words · about ${Math.max(1, Math.round(words / 180))} min read`
-    : "Nothing pasted yet.";
+  const linkTyped = st.addLink.trim().length > 0;
+  const linkLooksWrong = linkTyped && !/^http/i.test(st.addLink.trim());
+  const busy = st.addBusy || st.addPdfBusy;
+  const canSubmit = ready && !busy;
 
-  const cta =
-    st.addMode === "pdf"
-      ? "Upload and restructure"
-      : st.addMode === "link"
-        ? "Fetch and restructure"
-        : "Restructure this";
+  const typed = wordStats(st.addText);
+  const pdfStats = wordStats(st.addPdf?.text);
 
-  async function submit() {
-    if (!ready || st.addBusy) return;
-    patch({ addBusy: true, addError: "", addDone: "" });
+  function reset(extra = {}) {
+    patch({ addError: "", addStage: "", ...extra });
+  }
+
+  /* ---------- PDF: read the text layer here, in the browser ---------- */
+
+  async function takeFile(file) {
+    if (!file) return;
+    if (!isPdfFile(file)) {
+      patch({
+        addFile: null,
+        addPdf: null,
+        addError:
+          "This box takes PDFs. For a Word or Google Doc, paste a link to it, " +
+          "or copy the text into “Paste text”.",
+      });
+      return;
+    }
+    if (file.size > PDF_MAX_BYTES) {
+      patch({
+        addFile: null,
+        addPdf: null,
+        addError: `That PDF is ${MB(file.size)} MB. The limit is 40 MB.`,
+      });
+      return;
+    }
+
+    patch({ addFile: file, addPdf: null, addPdfBusy: true, addError: "", addStage: "" });
+    try {
+      const pdf = await extractPdfText(file);
+      patch({ addPdf: pdf, addPdfBusy: false });
+    } catch (err) {
+      patch({
+        addPdfBusy: false,
+        addPdf: null,
+        addError:
+          INGEST_ERRORS[err.code] || "That PDF could not be opened. Try another file.",
+      });
+    }
+  }
+
+  /* ---------- submit ---------- */
+
+  async function submit(mode = st.addMode) {
+    if (busy) return;
+    patch({ addBusy: true, addError: "", addStage: "extract" });
     try {
       const reading = await ingestAsReading({
-        mode: st.addMode === "pdf" ? "file" : st.addMode,
+        mode,
         file: st.addFile,
+        pdf: st.addPdf,
         text: st.addText,
         url: st.addLink,
         folder: st.addFolder,
+        onStage: (addStage) => patch({ addStage }),
       });
       setReadings((list) => [...list, reading]);
       patch(openReadingPatch(reading));
     } catch (err) {
       patch({
         addBusy: false,
+        addStage: "",
         addError:
           INGEST_ERRORS[err.code] ||
           err.message ||
@@ -60,51 +155,92 @@ export default function AddReading() {
     }
   }
 
+  /* ---------- processing ---------- */
+
+  if (st.addBusy) {
+    const at = STAGES.findIndex(([k]) => k === st.addStage);
+    return (
+      <section className="panel" aria-label="Adding your reading" aria-busy="true">
+        <div style={{ fontSize: 19 }}>Addy is working on it</div>
+        <ul className="stack" style={{ gap: 12, margin: 0, padding: 0, listStyle: "none" }}>
+          {STAGES.map(([key, label], i) => {
+            const done = at > i;
+            const now = at === i;
+            return (
+              <li key={key} className="row f18" style={{ gap: 12 }}>
+                <span style={{ flex: "0 0 18px" }}>
+                  {done ? (
+                    <Check size={18} color="var(--ok)" />
+                  ) : (
+                    <span
+                      style={{
+                        display: "block",
+                        width: 10,
+                        height: 10,
+                        marginLeft: 4,
+                        borderRadius: 999,
+                        background: now ? "var(--clay)" : "var(--border)",
+                      }}
+                    />
+                  )}
+                </span>
+                <span className={now || done ? "" : "muted"}>{label}</span>
+              </li>
+            );
+          })}
+        </ul>
+        <div className="muted f16">
+          This stays on your screen — nothing opens until it is finished.
+        </div>
+      </section>
+    );
+  }
+
+  /* ---------- the form ---------- */
+
   return (
-    <div className="card stack pad-18" style={{ gap: 16 }}>
-      <div className="row wrap" style={{ gap: 10 }}>
-        {MODES.map((m) => {
-          const on = st.addMode === m.k;
-          return (
-            <button
-              key={m.k}
-              type="button"
-              className="btn"
-              aria-pressed={on}
-              onClick={() => patch({ addMode: m.k, addDone: "", addError: "" })}
-              style={{
-                fontSize: 16,
-                color: on ? "var(--clayfg)" : "var(--text)",
-                background: on ? "var(--clay)" : "var(--bg)",
-                borderColor: on ? "var(--clay)" : "var(--border)",
-              }}
-            >
-              {m.label}
-            </button>
-          );
-        })}
+    <section className="panel" aria-label="Add a reading">
+      <div className="seg" role="group" aria-label="Where the reading comes from">
+        {MODES.map(({ k, label, Icon }) => (
+          <button
+            key={k}
+            type="button"
+            className="seg-btn"
+            aria-pressed={st.addMode === k}
+            onClick={() => reset({ addMode: k, dragOver: false })}
+          >
+            <Icon size={17} color="currentColor" />
+            {label}
+          </button>
+        ))}
       </div>
 
       {st.addMode === "text" && (
-        <>
-          <label className="label f15">
+        <div className="stack" style={{ gap: 10 }}>
+          <label className="label f16" htmlFor="add-text">
             Paste your reading
-            <textarea
-              className="textarea"
-              rows="5"
-              value={st.addText}
-              onChange={(e) => patch({ addText: e.target.value, addDone: "" })}
-              placeholder="Paste a passage here and Addy will restructure it."
-              style={{ fontSize: 17, background: "var(--bg)" }}
-            />
           </label>
-          <div className="muted f15">{countLabel}</div>
-        </>
+          <textarea
+            id="add-text"
+            className="textarea"
+            rows="7"
+            value={st.addText}
+            onChange={(e) => reset({ addText: e.target.value })}
+            placeholder="Paste a passage here and Addy will restructure it."
+            style={{ fontSize: 18, lineHeight: 1.55, background: "var(--bg)" }}
+          />
+          <div className="muted f16" aria-live="polite">
+            {typed.words
+              ? `${typed.words.toLocaleString()} words · about ${typed.mins} min to read`
+              : "Nothing pasted yet."}
+          </div>
+        </div>
       )}
 
       {st.addMode === "pdf" && (
-        <>
+        <div className="stack" style={{ gap: 12 }}>
           <label
+            className={`drop${st.dragOver ? " over" : ""}`}
             onDragOver={(e) => {
               e.preventDefault();
               if (!st.dragOver) patch({ dragOver: true });
@@ -112,43 +248,38 @@ export default function AddReading() {
             onDragLeave={() => patch({ dragOver: false })}
             onDrop={(e) => {
               e.preventDefault();
-              const f = e.dataTransfer?.files?.[0];
-              patch({ dragOver: false, addFile: f || st.addFile, addDone: "" });
-            }}
-            className="stack"
-            style={{
-              position: "relative",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 10,
-              minHeight: 160,
-              padding: 24,
-              borderRadius: 12,
-              cursor: "pointer",
-              textAlign: "center",
-              border: `2px dashed ${st.dragOver ? "var(--clay)" : "var(--border)"}`,
-              background: st.dragOver ? "var(--ochre)" : "var(--bg)",
+              patch({ dragOver: false });
+              takeFile(e.dataTransfer?.files?.[0]);
             }}
           >
-            <Upload />
-            <span className="f18">Drop a file here, or choose one</span>
-            <span className="muted f15">PDF, Word, Google Doc or text · up to 8 MB</span>
+            <Upload size={34} />
+            <span className="stack" style={{ gap: 6 }}>
+              <span className="f18">Drop a PDF here, or choose a file</span>
+              <span className="muted f16">PDF only · up to 40 MB</span>
+              <span className="muted f16">
+                The file stays on your computer. Addy reads the text out of it
+                here and only sends the words.
+              </span>
+            </span>
             <input
               type="file"
-              accept={FILE_ACCEPT}
+              accept="application/pdf,.pdf"
+              disabled={busy}
               onChange={(e) => {
                 const f = e.target.files?.[0];
-                if (f) patch({ addFile: f, addDone: "" });
-              }}
-              style={{
-                position: "absolute",
-                width: 1,
-                height: 1,
-                opacity: 0,
+                e.target.value = "";
+                takeFile(f);
               }}
             />
           </label>
-          {st.addFile && (
+
+          {st.addPdfBusy && (
+            <div className="muted f18" aria-live="polite">
+              Reading the pages…
+            </div>
+          )}
+
+          {st.addFile && !st.addPdfBusy && (
             <div
               className="row wrap"
               style={{
@@ -156,58 +287,108 @@ export default function AddReading() {
                 background: "var(--bg)",
                 border: "1px solid var(--border)",
                 borderRadius: 12,
-                padding: "14px 16px",
+                padding: "12px 16px",
               }}
             >
               <Check size={18} color="var(--ok)" />
-              <span
-                className="f16"
-                style={{ flex: 1, minWidth: 160, wordBreak: "break-all" }}
-              >
-                {st.addFile.name}
+              <span className="stack" style={{ flex: 1, minWidth: 180, gap: 4 }}>
+                <span className="f18" style={{ wordBreak: "break-word" }}>
+                  {st.addFile.name}
+                </span>
+                {st.addPdf && !st.addPdf.scanned && (
+                  <span className="muted f16">
+                    {st.addPdf.pages} {st.addPdf.pages === 1 ? "page" : "pages"} ·{" "}
+                    {pdfStats.words.toLocaleString()} words · about {pdfStats.mins} min
+                    to read
+                  </span>
+                )}
               </span>
               <button
                 type="button"
-                className="btn f15"
-                style={{ color: "var(--text2)" }}
-                onClick={() => patch({ addFile: null })}
+                className="btn f16"
+                onClick={() => reset({ addFile: null, addPdf: null })}
               >
                 Remove
               </button>
             </div>
           )}
-        </>
+
+          {st.addPdf?.scanned && (
+            <Note>
+              <div className="stack" style={{ gap: 12 }}>
+                <span>
+                  This PDF is pictures of pages, not text, so there is nothing
+                  for Addy to read out of it. Copying the passage into “Paste
+                  text” is the quickest way through.
+                </span>
+                <div className="row wrap" style={{ gap: 10 }}>
+                  <button
+                    type="button"
+                    className="btn btn-48"
+                    onClick={() => reset({ addMode: "text" })}
+                  >
+                    <Lines size={17} />
+                    Switch to paste text
+                  </button>
+                  {st.addFile?.size <= SERVER_UPLOAD_MAX && (
+                    <button
+                      type="button"
+                      className="btn btn-48"
+                      onClick={() => submit("pdfOcr")}
+                    >
+                      <Upload size={17} color="currentColor" />
+                      Let Addy try to read the pictures
+                    </button>
+                  )}
+                </div>
+              </div>
+            </Note>
+          )}
+
+          {st.addPdf?.truncated && !st.addPdf.scanned && (
+            <Note>
+              This PDF has {st.addPdf.totalPages} pages. Addy read the first{" "}
+              {st.addPdf.pages} — that is about as much as one sitting holds.
+            </Note>
+          )}
+        </div>
       )}
 
       {st.addMode === "link" && (
-        <>
-          <label className="label f15">
+        <div className="stack" style={{ gap: 10 }}>
+          <label className="label f16" htmlFor="add-link">
             Paste a link
-            <input
-              className="field"
-              type="url"
-              value={st.addLink}
-              onChange={(e) => patch({ addLink: e.target.value, addDone: "" })}
-              placeholder="https:// article or public Google Doc"
-              style={{ minHeight: 52, fontSize: 17 }}
-            />
           </label>
-          {st.addLink.length > 3 && !st.addLink.startsWith("http") && (
-            <div className="row f15" style={{ gap: 8, color: "var(--warn)" }}>
-              <Warn size={15} />
-              That doesn't look like a web address yet. It should start with
-              http.
+          <input
+            id="add-link"
+            className="field"
+            type="url"
+            value={st.addLink}
+            onChange={(e) => reset({ addLink: e.target.value })}
+            placeholder="https://… an article or a public Google Doc"
+            style={{ minHeight: 52, fontSize: 18 }}
+          />
+          {linkLooksWrong ? (
+            <Note>That doesn't look like a web address yet. It starts with http.</Note>
+          ) : (
+            <div className="muted f16">
+              A Google Doc has to be shared as “Anyone with the link” for Addy to
+              open it.
             </div>
           )}
-        </>
+        </div>
       )}
 
-      <div className="row wrap" style={{ gap: 12, alignItems: "flex-end" }}>
-        <label className="label f15" style={{ flex: 1, minWidth: 200 }}>
+      {st.addError && <Note>{st.addError}</Note>}
+
+      <div
+        className="row wrap"
+        style={{ gap: 12, alignItems: "flex-end", justifyContent: "space-between" }}
+      >
+        <label className="label f16" style={{ flex: 1, minWidth: 220 }}>
           Add to folder
           <select
             className="select"
-            style={{ fontSize: 16 }}
             value={st.addFolder}
             onChange={(e) => patch({ addFolder: e.target.value })}
           >
@@ -218,39 +399,28 @@ export default function AddReading() {
             ))}
           </select>
         </label>
-        <button
-          type="button"
-          className="btn btn-primary btn-48"
-          onClick={submit}
-          disabled={!ready || st.addBusy}
-          style={{
-            cursor: ready && !st.addBusy ? "pointer" : "not-allowed",
-            opacity: ready && !st.addBusy ? 1 : 0.5,
-          }}
-        >
-          {st.addBusy ? "Reading it…" : cta}
-        </button>
-        <button
-          type="button"
-          className="btn btn-48"
-          onClick={() => patch({ addOpen: false, addDone: "", addError: "", dragOver: false })}
-        >
-          Cancel
-        </button>
+        <div className="row wrap" style={{ gap: 12 }}>
+          <button
+            type="button"
+            className="btn btn-48"
+            onClick={() => patch({ addOpen: false, dragOver: false, addError: "" })}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary btn-48"
+            onClick={() => submit()}
+            disabled={!canSubmit}
+            style={{
+              opacity: canSubmit ? 1 : 0.5,
+              cursor: canSubmit ? "pointer" : "not-allowed",
+            }}
+          >
+            {CTA[st.addMode]}
+          </button>
+        </div>
       </div>
-
-      {st.addDone && (
-        <div className="row f16" style={{ gap: 8, color: "var(--ok)" }}>
-          <Check />
-          {st.addDone}
-        </div>
-      )}
-      {st.addError && (
-        <div className="row f16" style={{ gap: 8, color: "var(--warn)" }}>
-          <Warn />
-          {st.addError}
-        </div>
-      )}
-    </div>
+    </section>
   );
 }
