@@ -2,6 +2,7 @@ import { useAddy } from "./state/store.jsx";
 import AppHeader from "./components/AppHeader.jsx";
 import StudyPlay from "./components/StudyPlay.jsx";
 import StudyBuddy from "./components/StudyBuddy.jsx";
+import AddyCompanion from "./components/AddyCompanion.jsx";
 import Login from "./screens/Login.jsx";
 import Onboarding from "./screens/Onboarding.jsx";
 import Dashboard from "./screens/Dashboard.jsx";
@@ -33,7 +34,12 @@ export default function App() {
 
       {screen === "focus" && <Focus />}
       <StudyPlay active={screen === "reading" && tab === "guided"} />
-      {screen !== "login" && screen !== "onboarding" && <StudyBuddy />}
+      {screen !== "login" && screen !== "onboarding" && (
+        <>
+          <AddyCompanion />
+          <StudyBuddy />
+        </>
+      )}
     </div>
   );
 }
