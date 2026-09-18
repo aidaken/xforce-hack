@@ -17,6 +17,7 @@ Live product + API record: [`product_info.md`](../product_info.md). Agents updat
 | Demo seed readings | [`app/src/data/readings.js`](../app/src/data/readings.js) | Copy is from the design; keep it verbatim |
 | Marketing / landing page | [`public/index.html`](../public/index.html) | Plain HTML, not part of the Vite build |
 | Brand logo / favicon | [`app/public/addy-logo.png`](../app/public/addy-logo.png) | Vite copies this to `/addy-logo.png` on build. Keep a copy in [`public/addy-logo.png`](../public/addy-logo.png) for the node static server |
+| OpenDyslexic | [`app/public/fonts/`](../app/public/fonts/) | Vite copies to `/fonts/` on build. Keep the same files in [`public/fonts/`](../public/fonts/) for the node static server |
 | Charlotte’s portable widgets | [`public/study-activities/`](../public/study-activities/) | Do not rewrite; ADDY only mounts them |
 | Ingest, classify, OpenRouter, prompts | [`server/`](../server/) | Backend owns this |
 | Vercel function entrypoints | [`api/`](../api/) | Thin wrappers only |
@@ -31,7 +32,7 @@ app/src/App.jsx           screen router + app shell
 app/src/state/store.jsx   all app state, theme/font effects, timers
 app/src/styles.css        design tokens (paper/sage/dusk) + component classes
 app/src/screens/          Login, Onboarding, Dashboard, Folder, Reading, Profile, Focus
-app/src/components/       header, ingest drop, reading-coach embed, study play, formats
+app/src/components/       header, ingest drop, reading-coach embed, study play, StudyBuddy, formats
 app/src/lib/api.js        /api wrappers + concept→format mapping
 app/src/lib/adapt.js      turns an ingested document into a reading
 app/src/lib/coachLesson.js maps a reading onto Charlotte’s <reading-coach> schema
@@ -108,3 +109,5 @@ read-through beats instead of inventing a question the source never asked.
   neurodivergent readers shouldn't need to be asked twice.
 - Font, size, line-height and theme are applied to `<html>` from one effect in
   `store.jsx`, so every screen inherits them.
+- OpenDyslexic is self-hosted (`public/fonts/*.woff2`, SIL OFL). Do not load it
+  from a CDN — the old `@fontsource/opendyslexic` jsDelivr URLs 404.

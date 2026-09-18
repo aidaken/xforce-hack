@@ -35,7 +35,7 @@ const SOUNDS = ["Silence", "Lo-fi", "Classical", "Nature sounds", "Brown noise"]
 const BUDDIES = [
   { label: "Calm", sub: "Only reacts when you finish something" },
   { label: "Playful", sub: "Cheers you on along the way" },
-  { label: "None", sub: "No buddy, no reactions" },
+  { label: "Off", sub: "No buddy, no reactions" },
 ];
 
 function FormatArt({ index }) {
