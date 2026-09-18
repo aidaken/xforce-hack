@@ -28,7 +28,8 @@ export const getHealth = () => call("/api/health");
 export const getSamples = () => call("/api/samples");
 
 /**
- * payload: { type: "text"|"pdf"|"url"|"sample", text?, url?, sampleId?, filename?, base64? }
+ * payload: { type: "text"|"pdf"|"docx"|"gdoc"|"url"|"sample",
+ *            text?, url?, sampleId?, filename?, base64? }
  * resolves to { ok, document }
  */
 export const ingest = (payload) => call("/api/ingest", json(payload));
@@ -39,6 +40,52 @@ export const ingest = (payload) => call("/api/ingest", json(payload));
  */
 export const chat = ({ learner, message, documentId, document, history }) =>
   call("/api/chat", json({ learner, message, documentId, document, history }));
+
+/**
+ * Which ingest type the server wants for a dropped file. Mirrors the
+ * accept list below; .gdoc and plain text are sent as text, everything else
+ * goes up as base64 (PDFs may be scanned — the server OCRs those).
+ */
+export function ingestTypeForFile(name) {
+  const lower = String(name || "").toLowerCase();
+  if (lower.endsWith(".docx")) return "docx";
+  if (lower.endsWith(".gdoc")) return "gdoc";
+  if (lower.endsWith(".txt") || lower.endsWith(".md")) return "text";
+  return "pdf";
+}
+
+export const FILE_ACCEPT =
+  ".pdf,.docx,.gdoc,.txt,.md,application/pdf," +
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain";
+
+export function fileToText(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("Could not read that file."));
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.readAsText(file);
+  });
+}
+
+/** Human-readable messages for the ingest error codes server/router.js maps. */
+export const INGEST_ERRORS = {
+  PDF_SCANNED: "That PDF looks scanned and the text could not be read.",
+  PDF_EMPTY: "That PDF had no readable text.",
+  PDF_MISSING: "That file did not come through. Try again.",
+  DOCX_PARSE: "That Word file could not be opened.",
+  DOCX_EMPTY: "That Word file had no readable text.",
+  GDOC_INVALID: "That does not look like a valid Google Doc link.",
+  GDOC_PRIVATE:
+    "That Google Doc is private. Share it as “Anyone with the link” and try again.",
+  OCR_FAILED: "Addy could not read the text off that scan.",
+  BLOCKED_URL: "That link cannot be fetched.",
+  BAD_URL: "That does not look like a web address.",
+  TOO_LARGE: "That file is too big.",
+  EMPTY_SOURCE: "There was no text to read in that.",
+  FETCH_FAILED: "That link could not be fetched.",
+  LLM_UNCONFIGURED:
+    "The OpenRouter key is not set, so Addy used its local reader instead.",
+};
 
 export function fileToBase64(file) {
   return new Promise((resolve, reject) => {

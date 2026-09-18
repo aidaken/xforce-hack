@@ -19,7 +19,7 @@ is now a **React SPA in `app/`** (Vite), built into `public/app.html` +
 `npm run dev:web` for HMR on :5173. Landing is still `public/index.html`.
 Keep calling `/api/ingest` and `/api/chat`.
 
-**Backend:** `server/` (ingest + OpenRouter). Wrappers: `api/`. Prompts: `server/llm/prompts.js`.
+**Backend:** `server/` (ingest + OpenRouter). Wrappers: `api/`. Prompts: `server/llm/prompts.js`. Ingest: paste, PDF (text or scanned OCR), Word `.docx`, public Google Doc URL / `.gdoc`, URL, samples.
 
 Learner toggle is ADHD / Dyslexia. OpenRouter key: local `secrets.toml` (`[openrouter] api_key`) or `.env` / Vercel — never in git, never in this file. Model: `deepseek/deepseek-v4.1-flash`. Copy `secrets.toml.example` → `secrets.toml`.
 

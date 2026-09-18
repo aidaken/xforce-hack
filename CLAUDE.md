@@ -11,7 +11,7 @@ Last updated: 2026-09-18
 - Challenge **[2]** Neurodiversity-adaptive study workspace. Product name: **ADDY**.
 - Working MVP is in `README.md`.
 - **Frontend teammates:** [`docs/frontend.md`](docs/frontend.md) — the app is a **React SPA in [`app/`](app/)** (Vite). Edit `app/src/`; `public/app.html` and `public/assets/` are gitignored build output. [`public/index.html`](public/index.html) is still the plain-HTML landing page. Do not rewrite `server/` or `api/` unless you are changing the HTTP contract.
-- **Backend:** [`server/`](server/) (ingest, classify, OpenRouter prompts/chat). Vercel wrappers in [`api/`](api/).
+- **Backend:** [`server/`](server/) (ingest, classify, OpenRouter prompts/chat). Vercel wrappers in [`api/`](api/). Ingest types: `text`, `pdf` (text layer or scanned OCR), `docx`, `gdoc`, `url` (including public Google Docs), `sample`. Google Docs must be shared “Anyone with the link”.
 
 ## Git
 

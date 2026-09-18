@@ -1,12 +1,19 @@
 import { useAddy } from "../state/store.jsx";
 import { FOLDER_NAMES } from "../data/readings.js";
-import { ingest, fileToBase64 } from "../lib/api.js";
+import {
+  ingest,
+  fileToBase64,
+  fileToText,
+  ingestTypeForFile,
+  FILE_ACCEPT,
+  INGEST_ERRORS,
+} from "../lib/api.js";
 import { documentToReading } from "../lib/adapt.js";
 import { Check, Upload, Warn } from "./Icons.jsx";
 
 const MODES = [
   { k: "text", label: "Paste text" },
-  { k: "pdf", label: "Upload a PDF" },
+  { k: "pdf", label: "Upload a file" },
   { k: "link", label: "Paste a link" },
 ];
 
@@ -39,11 +46,13 @@ export default function AddReading() {
     try {
       let payload;
       if (st.addMode === "pdf") {
-        payload = {
-          type: "pdf",
-          filename: st.addFile.name,
-          base64: await fileToBase64(st.addFile),
-        };
+        // PDF, Word, Google Doc export or plain text — the server picks the
+        // extractor from `type`, and OCRs PDFs that have no text layer.
+        const type = ingestTypeForFile(st.addFile.name);
+        payload =
+          type === "gdoc" || type === "text"
+            ? { type, filename: st.addFile.name, text: await fileToText(st.addFile) }
+            : { type, filename: st.addFile.name, base64: await fileToBase64(st.addFile) };
       } else if (st.addMode === "link") {
         payload = { type: "url", url: st.addLink.trim() };
       } else {
@@ -64,9 +73,9 @@ export default function AddReading() {
       patch({
         addBusy: false,
         addError:
-          err.code === "LLM_UNCONFIGURED"
-            ? "The OpenRouter key is not set, so Addy used its local reader instead."
-            : err.message || "That did not go through. Try again.",
+          INGEST_ERRORS[err.code] ||
+          err.message ||
+          "That did not go through. Try again.",
       });
     }
   }
@@ -142,11 +151,11 @@ export default function AddReading() {
             }}
           >
             <Upload />
-            <span className="f18">Drop a PDF here, or choose a file</span>
-            <span className="muted f15">PDF, up to 40 MB</span>
+            <span className="f18">Drop a file here, or choose one</span>
+            <span className="muted f15">PDF, Word, Google Doc or text · up to 40 MB</span>
             <input
               type="file"
-              accept="application/pdf,.pdf"
+              accept={FILE_ACCEPT}
               onChange={(e) => {
                 const f = e.target.files?.[0];
                 if (f) patch({ addFile: f, addDone: "" });
@@ -199,7 +208,7 @@ export default function AddReading() {
               type="url"
               value={st.addLink}
               onChange={(e) => patch({ addLink: e.target.value, addDone: "" })}
-              placeholder="https://"
+              placeholder="https:// article or public Google Doc"
               style={{ minHeight: 52, fontSize: 17 }}
             />
           </label>
