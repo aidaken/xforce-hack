@@ -12,7 +12,9 @@
 | GitHub | `aidaken/xforce-hack` (already linked) |
 | Pinned file | `config/vercel.json` |
 
-GitHub integration is on. A push to GitHub creates a deployment. Feature branches get preview URLs like `xforce-hack-git-<branch>-aidars-projects-c6143ce8.vercel.app`. Production URL aliases the latest production deploy (as of 2026-09-18 that was `dev`, not `main`).
+GitHub integration is on. A push to GitHub creates a deployment. Feature branches get preview URLs like `xforce-hack-git-<branch>-aidars-projects-c6143ce8.vercel.app`. Production URL: https://xforce-hack.vercel.app.
+
+**Aidar standing order:** “push to prod” means update GitHub `main` and run `vercel --prod --yes` against this project. Never force-push `main`.
 
 ## After you clone
 
@@ -34,7 +36,8 @@ The GitHub integration already synced Supabase vars onto this Vercel project (an
 | `SUPABASE_URL` | Production + Preview + Development |
 | `SUPABASE_ANON_KEY` | Production + Preview + Development |
 | `NEXT_PUBLIC_SUPABASE_URL` | same (for Next.js later) |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | same |
+| `OPENROUTER_API_KEY` | Production + Preview + Development (server only, never frontend) |
+| `OPENROUTER_MODEL` | `deepseek/deepseek-v4.1-flash` |
 
 Dashboard: Project → Settings → Environment Variables.
 

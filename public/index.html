@@ -3,91 +3,490 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Study Remix — TAPIA 2026</title>
+    <title>ADDY — one passage, two learners</title>
+    <meta
+      name="description"
+      content="ADDY restructures textbooks for ADHD and dyslexic learners, then checks every claim against the source."
+    />
+    <meta name="theme-color" content="#efe6d4" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Lexend:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
-        --paper: #f4efe4;
-        --ink: #1b2430;
-        --rule: #c9bba3;
-        --accent: #0f6b4c;
+        --paper: #efe6d4;
+        --paper-2: #f7f1e4;
+        --ink: #172033;
+        --muted: #4d5a6a;
+        --rule: #cbbfa8;
+        --accent: #0c5d47;
+        --accent-2: #e07a2f;
+        --adhd: #e8f3ec;
+        --dys: #fbf7ee;
+        --shadow: 0 18px 40px rgba(23, 32, 51, 0.08);
       }
+
       * {
         box-sizing: border-box;
       }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
       body {
         margin: 0;
-        min-height: 100vh;
-        background: var(--paper);
+        background:
+          radial-gradient(circle at 12% 8%, #fbf6ea 0, transparent 42%),
+          linear-gradient(180deg, var(--paper) 0%, #e7dcc6 100%);
         color: var(--ink);
         font-family: "Lexend", "Verdana", sans-serif;
         line-height: 1.55;
-        letter-spacing: 0.01em;
+        letter-spacing: 0.012em;
       }
-      main {
-        max-width: 42rem;
-        margin: 0 auto;
-        padding: 4rem 1.5rem;
-      }
-      p.kicker {
-        font-family: "Atkinson Hyperlegible", sans-serif;
-        font-size: 0.85rem;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin: 0 0 1rem;
-      }
-      h1 {
-        font-size: clamp(2rem, 5vw, 3.1rem);
-        font-weight: 600;
-        letter-spacing: -0.03em;
-        line-height: 1.15;
-        margin: 0 0 1rem;
-      }
-      p.lede {
-        font-size: 1.15rem;
-        max-width: 36rem;
-        margin: 0 0 2rem;
-      }
-      hr {
-        border: 0;
-        border-top: 1px solid var(--rule);
-        margin: 0 0 2rem;
-      }
-      ul {
-        padding-left: 1.2rem;
-      }
+
       a {
         color: var(--accent);
+      }
+
+      .skip {
+        position: absolute;
+        left: 1rem;
+        top: -3rem;
+        background: var(--ink);
+        color: var(--paper);
+        padding: 0.5rem 0.8rem;
+        z-index: 10;
+      }
+
+      .skip:focus {
+        top: 1rem;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.1rem 6vw;
+        border-bottom: 1px solid var(--rule);
+        font-family: "Atkinson Hyperlegible", sans-serif;
+      }
+
+      .mark {
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        font-size: 1.05rem;
+      }
+
+      nav {
+        display: flex;
+        gap: 1.25rem;
+        font-size: 0.95rem;
+      }
+
+      nav a {
+        color: var(--ink);
+        text-decoration: none;
+      }
+
+      nav a:hover,
+      nav a:focus-visible {
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+        gap: 3.5rem;
+        align-items: center;
+        padding: 5.5rem 6vw 4rem;
+        min-height: calc(100vh - 4rem);
+      }
+
+      .kicker {
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-size: 0.78rem;
+        color: var(--accent);
+        margin: 0 0 1rem;
+      }
+
+      h1 {
+        font-size: clamp(2.4rem, 6vw, 4.6rem);
+        line-height: 0.98;
+        letter-spacing: -0.045em;
+        margin: 0 0 1.1rem;
+        font-weight: 600;
+        max-width: 11ch;
+      }
+
+      .lede {
+        font-size: 1.15rem;
+        max-width: 38rem;
+        color: var(--muted);
+        margin: 0 0 2rem;
+      }
+
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        align-items: center;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--ink);
+        color: var(--paper);
+        text-decoration: none;
+        padding: 0.85rem 1.2rem;
+        font-weight: 600;
+        border-radius: 999px;
+        transition: transform 160ms ease, background 160ms ease;
+      }
+
+      .btn:hover,
+      .btn:focus-visible {
+        background: var(--accent);
+        transform: translateY(-1px);
+      }
+
+      .ghost {
+        background: transparent;
+        color: var(--ink);
+        border: 1px solid var(--ink);
+      }
+
+      .ghost:hover,
+      .ghost:focus-visible {
+        background: var(--ink);
+        color: var(--paper);
+      }
+
+      .spread {
+        background: var(--paper-2);
+        box-shadow: var(--shadow);
+        border: 1px solid var(--rule);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: 26rem;
+        animation: rise 700ms 120ms ease both;
+      }
+
+      .page {
+        padding: 1.4rem 1.3rem 1.5rem;
+      }
+
+      .page + .page {
+        border-left: 1px solid var(--rule);
+        background: var(--adhd);
+      }
+
+      .page h2 {
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin: 0 0 0.8rem;
+        color: var(--accent);
+      }
+
+      .source p {
+        font-size: 0.92rem;
+        margin: 0;
+        color: #2a3546;
+      }
+
+      ol.steps {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        counter-reset: step;
+      }
+
+      ol.steps li {
+        counter-increment: step;
+        display: grid;
+        grid-template-columns: 1.6rem 1fr;
+        gap: 0.55rem;
+        margin: 0 0 0.7rem;
+        font-size: 0.92rem;
+      }
+
+      ol.steps li::before {
+        content: counter(step);
+        width: 1.45rem;
+        height: 1.45rem;
+        border-radius: 999px;
+        background: var(--ink);
+        color: var(--paper);
+        display: grid;
+        place-items: center;
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+
+      .modes {
+        padding: 1rem 6vw 4.5rem;
+      }
+
+      .modes h2,
+      .check h2 {
+        font-size: clamp(1.6rem, 3vw, 2.2rem);
+        letter-spacing: -0.03em;
+        margin: 0 0 1.4rem;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.2rem;
+      }
+
+      .panel {
+        padding: 1.4rem;
+        border: 1px solid var(--rule);
+        background: var(--paper-2);
+        min-height: 16rem;
+      }
+
+      .panel.dyslexia {
+        background: var(--dys);
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-size: 1.2rem;
+        letter-spacing: 0.04em;
+        word-spacing: 0.12em;
+        line-height: 1.7;
+      }
+
+      .panel h3 {
+        margin: 0 0 0.8rem;
+        font-size: 1rem;
+      }
+
+      .flow {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.45rem;
+        font-weight: 700;
+      }
+
+      .node {
+        background: var(--ink);
+        color: var(--paper);
+        padding: 0.45rem 0.7rem;
+      }
+
+      .arrow {
+        color: var(--accent-2);
+        font-weight: 700;
+      }
+
+      .caption {
+        margin: 1rem 0 0;
+        font-size: 1rem;
+        color: var(--muted);
+      }
+
+      .check {
+        padding: 0 6vw 5rem;
+      }
+
+      .beats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        counter-reset: beat;
+      }
+
+      .beats li {
+        list-style: none;
+        counter-increment: beat;
+        padding-top: 0.2rem;
+      }
+
+      .beats li::before {
+        content: "0" counter(beat);
+        display: block;
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        color: var(--accent);
+        font-weight: 700;
+        margin-bottom: 0.4rem;
+      }
+
+      footer {
+        padding: 1.4rem 6vw 2.2rem;
+        border-top: 1px solid var(--rule);
+        color: var(--muted);
+        font-size: 0.92rem;
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+        font-family: "Atkinson Hyperlegible", sans-serif;
+      }
+
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      @media (max-width: 880px) {
+        .hero,
+        .spread,
+        .grid,
+        .beats {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          padding-top: 3rem;
+          min-height: auto;
+        }
+
+        h1 {
+          max-width: none;
+        }
+
+        .page + .page {
+          border-left: 0;
+          border-top: 1px solid var(--rule);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        .spread,
+        .btn {
+          animation: none;
+          transition: none;
+        }
       }
     </style>
   </head>
   <body>
-    <main>
-      <p class="kicker">TAPIA 2026 · Challenge 2</p>
-      <h1>Study Remix</h1>
-      <p class="lede">
-        One passage in. Two remakes out — an ADHD-friendly checklist and a
-        dyslexia-friendly flowchart — then a source check so nothing was invented
-        or dropped.
-      </p>
-      <hr />
-      <p>
-        This URL is the team Vercel deployment for
-        <code>aidaken/xforce-hack</code>. The workspace app is still being built.
-        Live site:
-        <a href="https://xforce-hack.vercel.app">xforce-hack.vercel.app</a>
-      </p>
-      <ul>
-        <li>Vercel project: <code>xforce-hack</code></li>
-        <li>Supabase: shared project <code>tfmzjvoqsktlzwnrzdzr</code></li>
-        <li>Docs: <code>docs/vercel.md</code> and <code>docs/supabase.md</code></li>
-      </ul>
+    <a class="skip" href="#main">Skip to content</a>
+    <header>
+      <div class="mark">ADDY</div>
+      <nav aria-label="Primary">
+        <a href="/app.html">Open workspace</a>
+        <a href="#demo">Demo</a>
+        <a href="#how">How it works</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div>
+          <p class="kicker">TAPIA 2026 · Challenge 2</p>
+          <h1>The textbook stays. The format doesn’t.</h1>
+          <p class="lede">
+            Paste a dense passage. Get an ADHD-friendly checklist and a
+            dyslexia-friendly flowchart — then a source check so nothing was
+            invented or dropped.
+          </p>
+          <div class="cta-row">
+            <a class="btn" href="/app.html">Open ADDY workspace</a>
+            <a class="btn ghost" href="#demo">See the same passage two ways</a>
+          </div>
+        </div>
+
+        <aside class="spread" aria-label="Sample remake of cellular respiration">
+          <div class="page source">
+            <h2>Source</h2>
+            <p>
+              Cellular respiration releases energy from glucose in three linked
+              stages: glycolysis, the citric acid cycle, and oxidative
+              phosphorylation. Most ATP is made in the electron transport chain,
+              with carbon dioxide and water as waste.
+            </p>
+          </div>
+          <div class="page">
+            <h2>ADHD remake</h2>
+            <ol class="steps">
+              <li>Break glucose into pyruvate.</li>
+              <li>Run the citric acid cycle.</li>
+              <li>Use the electron transport chain.</li>
+              <li>Collect ATP. Waste: CO<sub>2</sub> + water.</li>
+            </ol>
+          </div>
+        </aside>
+      </section>
+
+      <section class="modes" id="demo">
+        <h2>Same facts. Two working memories.</h2>
+        <div class="grid">
+          <article class="panel">
+            <h3>ADHD — one step at a time</h3>
+            <ol class="steps">
+              <li>Do this next: glycolysis.</li>
+              <li>Then: citric acid cycle.</li>
+              <li>Then: electron transport chain.</li>
+              <li>Check: ATP is the point, not extra story.</li>
+            </ol>
+          </article>
+          <article class="panel dyslexia">
+            <h3>Dyslexia — short labels, big type</h3>
+            <div class="flow">
+              <span class="node">Glucose</span>
+              <span class="arrow" aria-hidden="true">→</span>
+              <span class="node">Pyruvate</span>
+              <span class="arrow" aria-hidden="true">→</span>
+              <span class="node">Krebs</span>
+              <span class="arrow" aria-hidden="true">→</span>
+              <span class="node">ETC</span>
+              <span class="arrow" aria-hidden="true">→</span>
+              <span class="node">ATP</span>
+            </div>
+            <p class="caption">Keep the real terms. Don’t rename pyruvate.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="check" id="how">
+        <h2>The agent has to choose, check, and adapt.</h2>
+        <ol class="beats">
+          <li>
+            <strong>Plan.</strong> Is this a process, a rule system, or a pile of
+            definitions? The rationale stays on screen.
+          </li>
+          <li>
+            <strong>Remake.</strong> Checklist, flowchart, or a short quest —
+            not a smaller wall of text.
+          </li>
+          <li>
+            <strong>Check.</strong> Every node maps to a source span. Invented
+            or missing facts light up.
+          </li>
+          <li>
+            <strong>Adapt.</strong> “This isn’t working” switches format instead
+            of repeating the same prose.
+          </li>
+        </ol>
+      </section>
     </main>
+
+    <footer>
+      <span>Designed around common ADHD / dyslexia study preferences. Not a diagnosis.</span>
+      <span>aidaken/xforce-hack · ADDY · xforce-hack.vercel.app</span>
+    </footer>
   </body>
 </html>

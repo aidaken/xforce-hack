@@ -2,5 +2,6 @@
 .env
 .env.local
 .env.*.local
+secrets.toml
 node_modules/
 .vercel/

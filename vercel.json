@@ -1,7 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "",
-  "outputDirectory": "public",
+  "framework": null,
   "installCommand": "npm install",
-  "framework": null
+  "rewrites": [
+    { "source": "/app", "destination": "/app.html" }
+  ]
 }
