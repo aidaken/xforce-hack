@@ -14,7 +14,7 @@ Working MVP: `README.md`. Product name: **ADDY**.
 
 **Frontend (friends):** start at [`docs/frontend.md`](docs/frontend.md). Replace the stub in `public/app.html`. Landing is `public/index.html`. Keep calling `/api/ingest` and `/api/chat`.
 
-**Backend:** `server/` (ingest + OpenRouter). Wrappers: `api/`. Prompts: `server/llm/prompts.js`.
+**Backend:** `server/` (ingest + OpenRouter). Wrappers: `api/`. Prompts: `server/llm/prompts.js`. Ingest: paste, PDF (text or scanned OCR), Word `.docx`, public Google Doc URL / `.gdoc`, URL, samples.
 
 Learner toggle is ADHD / Dyslexia. OpenRouter key: local `secrets.toml` (`[openrouter] api_key`) or `.env` / Vercel — never in git, never in this file. Model: `deepseek/deepseek-v4.1-flash`. Copy `secrets.toml.example` → `secrets.toml`.
 

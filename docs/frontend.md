@@ -26,8 +26,16 @@ Base: same origin (`/api/...`) locally on `http://localhost:3000` and on Vercel.
 | --- | --- | --- |
 | `GET` | `/api/health` | `{ ok, name: "ADDY", llm: "openrouter"\|"heuristic", openrouter: boolean }` |
 | `GET` | `/api/samples` | Preloaded demo passages |
-| `POST` | `/api/ingest` | `{ type: "text"\|"pdf"\|"url"\|"sample", text?, url?, sampleId?, filename?, base64? }` → `{ document }` |
+| `POST` | `/api/ingest` | `{ type: "text"\|"pdf"\|"docx"\|"gdoc"\|"url"\|"sample", text?, url?, sampleId?, filename?, base64? }` → `{ document }` |
 | `POST` | `/api/chat` | `{ learner, message, documentId, document?, history? }` → `{ text, rationale, llm }` |
+
+Ingest sources:
+
+- **text** — pasted or `.txt` / `.md` file (`text`)
+- **pdf** — text-layer PDF, or scanned/image-only PDF (vision OCR via OpenRouter, first 3 pages)
+- **docx** — Word `.docx` (`base64` or `buffer`)
+- **gdoc** — Drive `.gdoc` JSON (`text` or `base64`). The Doc must be **Anyone with the link**
+- **url** — article HTML, `.pdf`, `.docx`, or a public `docs.google.com/document/...` link (exported as txt)
 
 After ingest, keep `document` in client memory and send it back on chat (Vercel functions are stateless).
 

@@ -273,12 +273,17 @@
       <section class="ingest">
         <div class="row samples" id="samples"></div>
         <label class="drop" id="drop">
-          Drop a PDF here, or click to upload
-          <input id="file" type="file" accept="application/pdf" hidden />
+          Drop a PDF, Word, or Google Doc file, or click to upload
+          <input
+            id="file"
+            type="file"
+            accept=".pdf,.docx,.gdoc,.txt,.md,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"
+            hidden
+          />
         </label>
         <textarea id="paste" placeholder="Or paste a textbook paragraph…"></textarea>
         <div class="row">
-          <input id="url" type="url" placeholder="https:// article or docs URL" style="flex: 1; min-width: 12rem" />
+          <input id="url" type="url" placeholder="https:// article or public Google Doc" style="flex: 1; min-width: 12rem" />
           <button class="act" id="eat" type="button">Eat & chew</button>
         </div>
         <div class="meta" id="status">No passage yet. Load a sample or drop a file.</div>
@@ -379,7 +384,7 @@
         const text = $("paste").value.trim();
         if (url) return ingest({ type: "url", url });
         if (text) return ingest({ type: "text", text });
-        $("status").textContent = "Paste text, drop a PDF, or add a URL.";
+        $("status").textContent = "Paste text, drop a file, or add a URL.";
       };
 
       const drop = $("drop");
@@ -393,17 +398,33 @@
       drop.ondrop = (e) => {
         e.preventDefault();
         drop.classList.remove("hot");
-        if (e.dataTransfer.files[0]) readPdf(e.dataTransfer.files[0]);
+        if (e.dataTransfer.files[0]) readFile(e.dataTransfer.files[0]);
       };
       file.onchange = () => {
-        if (file.files[0]) readPdf(file.files[0]);
+        if (file.files[0]) readFile(file.files[0]);
       };
 
-      function readPdf(blob) {
+      function ingestTypeFor(name) {
+        const lower = String(name || "").toLowerCase();
+        if (lower.endsWith(".docx")) return "docx";
+        if (lower.endsWith(".gdoc")) return "gdoc";
+        if (lower.endsWith(".txt") || lower.endsWith(".md")) return "text";
+        return "pdf";
+      }
+
+      function readFile(blob) {
+        const type = ingestTypeFor(blob.name);
         const reader = new FileReader();
+        if (type === "gdoc" || type === "text") {
+          reader.onload = () => {
+            ingest({ type, filename: blob.name, text: String(reader.result || "") });
+          };
+          reader.readAsText(blob);
+          return;
+        }
         reader.onload = () => {
           ingest({
-            type: "pdf",
+            type,
             filename: blob.name,
             base64: String(reader.result).split(",")[1] || reader.result,
           });

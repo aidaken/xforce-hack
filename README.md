@@ -46,7 +46,7 @@ Tight ship slice if time is short: **one screen, one OpenStax passage, three but
 | --- | --- |
 | Login / profiles | Saved learner profiles. **Demo slice may skip this.** |
 | Preference profile | Color theme, music, fonts, interests, 3–5 toggles, plus free-text “what trips me up.” |
-| Input | Paste text, PDF, or URL. **Always** preload the three challenge passages so the demo cannot fail on paste. |
+| Input | Paste text, PDF (including scans), Word `.docx`, Google Doc (public link or `.gdoc`), or URL. **Always** preload the three challenge passages so the demo cannot fail on paste. |
 | Planner agent | Classifies the passage (sequential process / decision logic / definition-heavy), picks a format, shows a **one-line rationale**. That line is what proves it is agentic, not a template. |
 | Renderers | Flowchart (Mermaid), checklist, gamified summary (step reveal + quick-check questions). |
 | Fidelity checker | Decompose source into atomic claims; map each output element to a source span. Flag unsupported (invented) and uncovered (lost). Show as a report. |
