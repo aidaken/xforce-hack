@@ -8,7 +8,10 @@ import { toSentences } from "./adapt.js";
  */
 export function readingToCoachLesson(reading) {
   const sents = Array.isArray(reading?.sents) ? reading.sents : [];
-  const source = sents.map((s) => s.t).join(" ").trim() || String(reading?.source?.text || "").replace(/\s+/g, " ").trim();
+  // Join on newline, matching how adapt.js builds step bodies. Joining on a
+  // space here would re-weld the blocks and break `source.includes(step.b)`.
+  const source = sents.map((s) => s.t).join("\n").trim()
+    || String(reading?.source?.text || "").trim();
   if (!source) {
     throw new Error("That reading has no source text for guided mode.");
   }

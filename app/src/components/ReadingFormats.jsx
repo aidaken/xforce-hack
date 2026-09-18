@@ -68,7 +68,7 @@ export function Flowchart() {
             </span>
             <span className="stack" style={{ gap: 6 }}>
               <span style={{ fontSize: 19 }}>{s.t}</span>
-              <span className="muted f16" style={{ lineHeight: 1.55 }}>
+              <span className="muted f16" style={{ lineHeight: 1.55, whiteSpace: "pre-wrap" }}>
                 {s.b}
               </span>
             </span>
@@ -131,7 +131,7 @@ export function Checklist() {
             >
               {s.t}
             </span>
-            <span className="muted f16" style={{ lineHeight: 1.55 }}>
+            <span className="muted f16" style={{ lineHeight: 1.55, whiteSpace: "pre-wrap" }}>
               {s.b}
             </span>
           </span>
@@ -198,7 +198,7 @@ export function Quest() {
           style={{ gap: 14, borderWidth: 1.5 }}
         >
           <div style={{ fontSize: 22 }}>{qs.t}</div>
-          <p className="muted" style={{ margin: 0, fontSize: 17, lineHeight: 1.6 }}>
+          <p className="muted" style={{ margin: 0, fontSize: 17, lineHeight: 1.6, whiteSpace: "pre-wrap" }}>
             {qs.b}
           </p>
           <div style={{ height: 1, background: "var(--border)" }} />

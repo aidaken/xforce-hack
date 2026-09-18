@@ -1,20 +1,59 @@
 // Every SVG from the Addy design, kept as-is so the visual language is
 // unchanged. All are decorative unless a label is passed.
 
-export function Logo({ size = 40, fill = "var(--clay)", eyes = "var(--clayfg)", eyesHidden = false }) {
+import logoUrl from "../assets/addy-logo.png";
+
+/**
+ * The Addy mark.
+ *
+ * The artwork is one lockup: the alpaca above, the ADDY wordmark below. Beside
+ * a place that already prints "Addy" in text — the app header — the wordmark
+ * would say it twice and be unreadable at 30px anyway, so `wordmark={false}`
+ * crops to the alpaca. Standalone placements use the whole lockup.
+ *
+ * The old prop signature (fill / eyes / eyesHidden) tinted a flat SVG. The
+ * artwork has its own colours, so those are accepted and ignored rather than
+ * removed — every call site keeps working.
+ */
+export function Logo({ size = 40, wordmark = false, alt = "" }) {
+  if (wordmark) {
+    return (
+      <img
+        src={logoUrl}
+        alt={alt}
+        aria-hidden={alt ? undefined : "true"}
+        style={{ width: size, height: "auto", display: "block" }}
+      />
+    );
+  }
+
+  // Crop to the alpaca. The figure sits at roughly x 24-82%, y 10-67% of the
+  // source, so scale up and offset rather than object-fit, which can only trim
+  // the 14% difference between the source aspect and a square.
   return (
-    <svg width={size} height={size} viewBox="0 0 40 40" aria-hidden="true">
-      <circle cx="8" cy="13" r="6.5" fill={fill} />
-      <circle cx="32" cy="13" r="6.5" fill={fill} />
-      <circle cx="20" cy="22" r="13" fill={fill} />
-      {!eyesHidden && (
-        <>
-          <circle cx="15" cy="20" r="2" fill={eyes} />
-          <circle cx="25" cy="20" r="2" fill={eyes} />
-          <circle cx="20" cy="26" r="3" fill={eyes} />
-        </>
-      )}
-    </svg>
+    <span
+      aria-hidden={alt ? undefined : "true"}
+      style={{
+        width: size,
+        height: size,
+        display: "inline-block",
+        position: "relative",
+        overflow: "hidden",
+        flex: "none",
+      }}
+    >
+      <img
+        src={logoUrl}
+        alt={alt}
+        style={{
+          position: "absolute",
+          width: size * 1.51,
+          maxWidth: "none",
+          left: size * -0.3,
+          top: size * -0.175,
+        }}
+      />
+    </span>
   );
 }
 

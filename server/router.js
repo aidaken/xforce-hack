@@ -1,6 +1,7 @@
 import { ingest } from "./ingest/pipeline.js";
 import { SAMPLES } from "./ingest/samples.js";
 import { runChat } from "./chat/handler.js";
+import { remake } from "./verify/pipeline.js";
 import { llmReady } from "./env.js";
 import { cors, fail, readJson, send } from "./http.js";
 
@@ -43,6 +44,16 @@ export async function handleApi(req, res) {
       return send(res, 200, result);
     }
 
+    if (req.method === "POST" && path === "/api/remake") {
+      const payload = await readJson(req);
+      const result = await remake({
+        document: payload.document,
+        learners: payload.learners,
+        formatPrefs: payload.formatPrefs,
+      });
+      return send(res, 200, result);
+    }
+
     return fail(res, 404, "NOT_FOUND", "Unknown API route.");
   } catch (err) {
     const code = err.code || "SERVER";
@@ -67,6 +78,8 @@ export async function handleApi(req, res) {
         LLM_UNCONFIGURED: 503,
         LLM_UPSTREAM: err.status || 502,
         LLM_EMPTY: 502,
+        LLM_BAD_JSON: 502,
+        VERIFY_NO_CLAIMS: 502,
         FETCH_FAILED: 502,
       }[code] || 500;
     return fail(res, status, code, err.message);

@@ -5,6 +5,7 @@ import { chat, formatPrefsFrom, learnerFromProfile } from "../lib/api.js";
 import { readingToCoachLesson } from "../lib/coachLesson.js";
 import { Flowchart, Checklist, Quest } from "../components/ReadingFormats.jsx";
 import ReadingCoachEmbed from "../components/ReadingCoachEmbed.jsx";
+import CornerFeed from "../components/CornerFeed.jsx";
 import {
   Check,
   ChevronLeft,
@@ -81,7 +82,9 @@ export default function Reading() {
         documentId: current.source?.id,
         document: {
           title: current.title,
-          text: current.sents.map((s) => s.t).join(" "),
+          // Newline, not space — the model should see the passage's headings
+          // and bullets as separate lines, the same way the reader does.
+          text: current.sents.map((s) => s.t).join("\n"),
           conceptType: current.source?.conceptType || "process",
         },
       });
@@ -396,6 +399,12 @@ export default function Reading() {
           </p>
         </div>
       )}
+
+      {/* Split-attention feed. Mounted on every reading — seeded or uploaded —
+          because the passage is what the student is trying to stay with, and
+          that is the same job whichever document they opened. It pins itself
+          bottom-right, starts muted, and holds still under reduce-motion. */}
+      <CornerFeed />
     </div>
   );
 }
