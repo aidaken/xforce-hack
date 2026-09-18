@@ -11,78 +11,77 @@
   <style>
     body { margin: 0; background: #F7F1E3; -webkit-font-smoothing: antialiased; }
     * { box-sizing: border-box; }
-    a { color: #6B7F5E; text-decoration: none; }
-    a:hover { color: #0A716B; }
+    a { color: #9C4F2E; text-decoration: none; }
+    a:hover { color: #6B7F5E; }
   </style>
 </helmet>
-<div style="width: 1440px; height: 900px; background: #F7F1E3; color: #2B2A26; font-family: 'Atkinson Hyperlegible', Verdana, sans-serif; padding: 50px 88px; display: flex; flex-direction: column; gap: 24px;">
+<div style="width: 1440px; height: 900px; background: #F7F1E3; color: #2B2A26; font-family: 'Atkinson Hyperlegible', Verdana, sans-serif; padding: 48px 88px; display: flex; flex-direction: column; gap: 24px;">
 
   <div style="display: flex; justify-content: space-between; align-items: baseline;">
-    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #5C574E;">How it works</div>
-    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.16em; color: #8E8877;">04 / 11</div>
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #9C4F2E;">Our solution &middot; the loop</div>
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.16em; color: #8E8877;">05 / 11</div>
   </div>
 
   <div style="display: flex; align-items: baseline; gap: 22px;">
-    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 46px; font-weight: 500; letter-spacing: -0.025em; line-height: 1.1;">The planner decides the shape.</div>
-    <div style="font-size: 17px; color: #5C574E; line-height: 1.5;">We never ask the student to pick a format they have never seen.</div>
+    <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 44px; font-weight: 500; letter-spacing: -0.025em; line-height: 1.1;">The planner picks the shape.</div>
+    <div style="font-size: 17px; color: #5C574E; line-height: 1.5;">We never ask a student to choose a format they have not seen.</div>
   </div>
 
-  <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px;">
+  <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px;">
 
-    <div style="background: #FBF8F1; border: 1px solid #E3DACA; border-radius: 3px; padding: 22px; display: flex; flex-direction: column; gap: 13px;">
-      <div style="display: flex; align-items: center; gap: 10px;">
+    <div style="background: #FBF8F1; border: 1px solid #E3DACA; border-radius: 4px; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+      <div style="display: flex; align-items: baseline; gap: 10px;">
         <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #8E8877;">01</div>
-        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.01em;">Read</div>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.01em;">Ingest</div>
       </div>
-      <div style="height: 1px; background: #E3DACA;"></div>
-      <div style="font-size: 16px; line-height: 1.6; color: #46423A;">Split the source into atomic claims and number them. Nine sentences became <strong style="font-weight: 700;">S1&ndash;S8</strong>. Nothing is summarised yet &mdash; this is only bookkeeping.</div>
+      <div style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 12px; color: #5C574E; background: #F1E9D7; border-radius: 3px; padding: 5px 9px; align-self: flex-start;">POST /api/ingest</div>
+      <div style="font-size: 15px; line-height: 1.55; color: #46423A;">Extract, classify, chunk. Text, PDF, <strong style="font-weight: 700;">.docx</strong>, a public Google Doc, a URL, or a preloaded sample. Scanned PDFs go through vision OCR.</div>
     </div>
 
-    <div style="background: #FBF8F1; border: 1px solid #CBD6C0; border-top: 3px solid #6B7F5E; border-radius: 3px; padding: 22px; display: flex; flex-direction: column; gap: 13px;">
-      <div style="display: flex; align-items: center; gap: 10px;">
+    <div style="background: #FBF8F1; border: 1px solid #CBD6C0; border-top: 3px solid #6B7F5E; border-radius: 4px; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+      <div style="display: flex; align-items: baseline; gap: 10px;">
         <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #8E8877;">02</div>
-        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: #4F6245;">Decide</div>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: #4F6245;">Classify</div>
       </div>
-      <div style="height: 1px; background: #CBD6C0;"></div>
-      <div style="font-size: 16px; line-height: 1.6; color: #46423A;">Classify the <strong style="font-weight: 700;">material</strong> (sequential process? decision logic? definition-heavy?) against the <strong style="font-weight: 700;">learner</strong>, and print the reason on screen. Three-stage process with a branch + high decode cost &rarr; flowchart. Same passage, low working memory &rarr; staged quest.</div>
+      <div style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 12px; color: #5C574E; background: #EDF1E8; border-radius: 3px; padding: 5px 9px; align-self: flex-start;">ingest/classify.js</div>
+      <div style="font-size: 15px; line-height: 1.55; color: #46423A;">A cheap classifier runs <em style="font-style: normal; font-weight: 700;">before</em> the model: <strong style="font-weight: 700;">process</strong>, <strong style="font-weight: 700;">rule&nbsp;system</strong>, or <strong style="font-weight: 700;">definition cluster</strong>. Crossed with the learner mode, that is the decision.</div>
     </div>
 
-    <div style="background: #FBF8F1; border: 1px solid #E3DACA; border-radius: 3px; padding: 22px; display: flex; flex-direction: column; gap: 13px;">
-      <div style="display: flex; align-items: center; gap: 10px;">
+    <div style="background: #FBF8F1; border: 1px solid #CBD6C0; border-top: 3px solid #6B7F5E; border-radius: 4px; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+      <div style="display: flex; align-items: baseline; gap: 10px;">
         <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #8E8877;">03</div>
-        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.01em;">Produce</div>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: #4F6245;">Remake</div>
       </div>
-      <div style="height: 1px; background: #E3DACA;"></div>
-      <div style="font-size: 16px; line-height: 1.6; color: #46423A;">Build the artefact. Every node, step and card carries the id of the claim it came from &mdash; so the next stage has something to check against.</div>
+      <div style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 12px; color: #5C574E; background: #EDF1E8; border-radius: 3px; padding: 5px 9px; align-self: flex-start;">POST /api/chat</div>
+      <div style="font-size: 15px; line-height: 1.55; color: #46423A;">DeepSeek V4.1 Flash over OpenRouter. The prompt bans invented facts and holds scientific terms verbatim. No key? A local heuristic still returns a remake.</div>
     </div>
 
-    <div style="background: #FBF8F1; border: 1px solid #CBD6C0; border-top: 3px solid #6B7F5E; border-radius: 3px; padding: 22px; display: flex; flex-direction: column; gap: 13px;">
-      <div style="display: flex; align-items: center; gap: 10px;">
+    <div style="background: #FBF8F1; border: 1px solid #E6CDBA; border-top: 3px solid #9C4F2E; border-radius: 4px; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+      <div style="display: flex; align-items: baseline; gap: 10px;">
         <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #8E8877;">04</div>
-        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: #4F6245;">Self-check</div>
+        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: #8A4425;">Adapt</div>
       </div>
-      <div style="height: 1px; background: #CBD6C0;"></div>
-      <div style="font-size: 16px; line-height: 1.6; color: #46423A;">Re-read the output against the source and answer two questions only: <strong style="font-weight: 700;">is anything missing</strong>, and <strong style="font-weight: 700;">is anything here the source never said</strong>.</div>
+      <div style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 12px; color: #5C574E; background: #F6E9E0; border-radius: 3px; padding: 5px 9px; align-self: flex-start;">POST /api/chat</div>
+      <div style="font-size: 15px; line-height: 1.55; color: #46423A;"><strong style="font-weight: 700;">This isn&rsquo;t working</strong> sends the complaint back through the same endpoint. It can switch the reading tab and re-remake from the same source.</div>
     </div>
 
   </div>
 
-  <svg width="1264" height="72" viewBox="0 0 1264 72" fill="none" style="display: block;">
-    <path d="M1168 0 V34 M1168 34 H474 M474 34 V60" stroke="#9C4F2E" stroke-width="2" stroke-linecap="round" stroke-dasharray="7 6"></path>
-    <path d="M468.5 53 L474 60 L479.5 53" stroke="#9C4F2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-    <text x="700" y="26" font-family="Lexend, 'Trebuchet MS', sans-serif" font-size="14" font-weight="600" letter-spacing="1.6" fill="#9C4F2E">RE-ENTER AT DECIDE</text>
+  <svg width="1264" height="54" viewBox="0 0 1264 54" fill="none" style="display: block;">
+    <path d="M1148 0 V26 M1148 26 H474 M474 26 V44" stroke="#9C4F2E" stroke-width="2" stroke-linecap="round" stroke-dasharray="7 6"></path>
+    <path d="M468.5 37 L474 44 L479.5 37" stroke="#9C4F2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    <text x="700" y="20" font-family="Lexend, 'Trebuchet MS', sans-serif" font-size="14" font-weight="600" letter-spacing="1.6" fill="#9C4F2E">RE-ENTER AT CLASSIFY</text>
   </svg>
 
-  <div style="background: #F6E9E0; border: 1px solid #E6CDBA; border-radius: 3px; padding: 26px 28px; display: flex; align-items: center; gap: 34px;">
-    <div style="display: flex; flex-direction: column; gap: 8px; width: 300px; flex-shrink: 0;">
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #C4A08A;">05</div>
-        <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; color: #8A4425;">Adapt</div>
-      </div>
-      <div style="font-size: 16px; line-height: 1.6; color: #8A4425;">The student is the only judge that counts.</div>
+  <div style="display: flex; gap: 20px; align-items: stretch;">
+    <div style="flex-grow: 1; background: #FBF8F1; border: 1px solid #E3DACA; border-radius: 4px; padding: 20px 24px; display: flex; flex-direction: column; gap: 9px;">
+      <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #5C574E;">The line that proves it is agentic</div>
+      <div style="font-size: 18px; line-height: 1.6; color: #46423A; text-wrap: pretty;">Every remake opens by naming its own format and its reason &mdash; <em style="font-style: normal;">&ldquo;I chose a flowchart because&hellip;&rdquo;</em>. A template cannot write that sentence, because a template never made a choice.</div>
     </div>
-    <div style="width: 1px; align-self: stretch; background: #E6CDBA;"></div>
-    <div style="font-size: 18px; line-height: 1.65; color: #46423A; text-wrap: pretty;">When Mara taps <em style="font-style: normal; font-weight: 700;">This isn&rsquo;t working</em> and says why, that is not a support ticket &mdash; it is a new input to <strong style="font-weight: 700;">Decide</strong>. The agent re-runs the choice with her complaint added to her profile, rebuilds, and re-checks against the same source. The passage never changes. The shape does.</div>
+    <div style="width: 400px; flex-shrink: 0; background: #F1E9D7; border: 1px solid #E3DACA; border-radius: 4px; padding: 20px 24px; display: flex; flex-direction: column; gap: 9px;">
+      <div style="font-family: 'Lexend', 'Trebuchet MS', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #5C574E;">One constraint worth knowing</div>
+      <div style="font-size: 16px; line-height: 1.6; color: #46423A; text-wrap: pretty;">Vercel functions are stateless, so the client holds the parsed document and resends it on every call. A <span style="font-family: ui-monospace, Menlo, monospace; font-size: 14px;">documentId</span> alone will not survive a new instance.</div>
+    </div>
   </div>
 
 </div>
