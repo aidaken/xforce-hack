@@ -2,7 +2,7 @@
 
 **This is the live product record.** Agents and humans update it **after every finished task**, before they stop. Do not wait for someone to ask. If the code, API, deploy, limits, or a locked decision changed, this file must match reality.
 
-Last updated: 2026-09-18 (merged React + Vite SPA from `dev`; 7 screens)
+Last updated: 2026-09-18 (dashboard ingest drop box → reading workspace)
 
 Companion files (conventions only, not the product record): [`CLAUDE.md`](CLAUDE.md), [`CURSOR.md`](CURSOR.md), [`.cursor/rules/`](.cursor/rules/). Frontend map: [`docs/frontend.md`](docs/frontend.md). Pitch/MVP draft: [`README.md`](README.md).
 
@@ -95,7 +95,7 @@ After ingest the client **must keep `document` in memory** and send it back on e
 | --- | --- | --- |
 | Login | `app/src/screens/Login.jsx` | Demo form only — no Supabase auth |
 | Onboarding | `Onboarding.jsx` | ~9 steps: name, ADHD/dyslexia reason, struggles, prefs, focus, sound, buddy |
-| Dashboard | `Dashboard.jsx` | Folders, plant, streak, add-a-reading |
+| Dashboard | `Dashboard.jsx` | Quick settings (left) · **ingest drop box** · continue-reading card · folders |
 | Folder | `Folder.jsx` | Readings in a class folder |
 | Reading | `Reading.jsx` | Split source / remake: Flowchart, Checklist, Quest. **This isn’t working** POSTs `/api/chat` |
 | Profile | `Profile.jsx` | Theme, font, size, reduce-motion |
@@ -103,7 +103,12 @@ After ingest the client **must keep `document` in memory** and send it back on e
 
 Themes: paper / sage / dusk. Fonts include Lexend and OpenDyslexic. Deep-link: `/app?screen=reading&theme=dusk`.
 
-Add-a-reading (`AddReading.jsx`) POSTs `/api/ingest` for paste, file (PDF / Word / `.gdoc` / txt), or URL (including public Google Docs). `ingestTypeForFile` in `app/src/lib/api.js`. Concept types map to UI formats in `FORMAT_BY_CONCEPT` (one place). Seed readings live in `app/src/data/readings.js`. Ingested passages have no generated quiz; Quest uses read-through beats.
+Add-a-reading lives in two places and shares [`app/src/lib/ingestReading.js`](app/src/lib/ingestReading.js):
+
+- Dashboard **Drop a file or content** card (`IngestDrop.jsx`) — between Quick settings and Cellular respiration. Drop auto-ingests; paste/URL uses **Restructure this**. Success opens the Reading screen with that document.
+- Folders **Add a reading** (`AddReading.jsx`) — same ingest path, then opens Reading.
+
+`ingestTypeForFile` in `app/src/lib/api.js`. Concept types map to UI formats in `FORMAT_BY_CONCEPT`. Seed readings in `app/src/data/readings.js`. Ingested passages have no generated quiz; Quest uses read-through beats.
 
 The old `public/app.html` chat stub is **gone** (replaced by this SPA).
 
@@ -174,6 +179,7 @@ Frontend: edit [`app/src/`](app/src/). Keep calling `/api/ingest` and `/api/chat
 
 | Date | What landed |
 | --- | --- |
+| 2026-09-18 | Dashboard ingest box between Quick settings and continue-reading; drop/paste/URL ingest opens Reading |
 | 2026-09-18 | Merged React + Vite SPA from `dev` (`3bd65dd` created screens; `9d3e357` merged ingest). Stub `app.html` retired |
 | 2026-09-18 | `product_info.md` added; agents must update it after every finished task |
 | 2026-09-18 | Ingest: `.docx`, public Google Docs / `.gdoc`, scanned PDF vision OCR; prod deploy |

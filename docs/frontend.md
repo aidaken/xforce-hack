@@ -29,7 +29,7 @@ app/src/App.jsx           screen router + app shell
 app/src/state/store.jsx   all app state, theme/font effects, timers
 app/src/styles.css        design tokens (paper/sage/dusk) + component classes
 app/src/screens/          Login, Onboarding, Dashboard, Folder, Reading, Profile, Focus
-app/src/components/       header, quick settings, add-a-reading, formats, plant, calendar
+app/src/components/       header, quick settings, ingest drop, add-a-reading, formats, plant, calendar
 app/src/lib/api.js        /api wrappers + concept→format mapping
 app/src/lib/adapt.js      turns an ingested document into a reading
 ```
