@@ -40,4 +40,4 @@ npm run dev
 # http://localhost:3000/app
 ```
 
-OpenRouter is server-side only (`OPENROUTER_API_KEY` in `.env` and Vercel env). Never put the key in frontend code.
+OpenRouter is server-side only (`OPENROUTER_API_KEY` in `.env` and Vercel env). Model: `OPENROUTER_MODEL=deepseek/deepseek-v4.1-flash`. Never put the key in frontend code.

@@ -28,7 +28,7 @@ for (const [key, value] of Object.entries(loaded)) {
 export const env = {
   port: Number(process.env.PORT || 3000),
   openrouterKey: process.env.OPENROUTER_API_KEY || "",
-  openrouterModel: process.env.OPENROUTER_MODEL || "openai/gpt-4o-mini",
+  openrouterModel: process.env.OPENROUTER_MODEL || "deepseek/deepseek-v4.1-flash",
   openrouterUrl:
     process.env.OPENROUTER_BASE_URL || "https://openrouter.ai/api/v1",
   siteUrl: process.env.SITE_URL || "https://xforce-hack.vercel.app",

@@ -45,7 +45,7 @@ One hosted project. GitHub `aidaken/xforce-hack` is already linked. Do **not** c
 - Pinned: `config/vercel.json`
 - Guide: `docs/vercel.md`
 - Config: `vercel.json` (static `public/` + serverless `api/`)
-- Backend: `server/` ingest + OpenRouter chat. Set `OPENROUTER_API_KEY` in **local `.env` (gitignored)** and on the Vercel project env. Never commit the key. Never put it in CLAUDE.md / CURSOR.md / frontend code.
+- Backend: `server/` ingest + OpenRouter chat. Model: `OPENROUTER_MODEL` (currently `deepseek/deepseek-v4.1-flash`). Set `OPENROUTER_API_KEY` in **local `.env` (gitignored)** and on the Vercel project env. Never commit the key. Never put it in CLAUDE.md / CURSOR.md / frontend code.
 - Local: `npm run dev` → http://localhost:3000/app
 - Frontend map: `docs/frontend.md`
 - After clone: `npx vercel link --yes --project xforce-hack --scope aidars-projects-c6143ce8`

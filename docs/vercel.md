@@ -36,7 +36,8 @@ The GitHub integration already synced Supabase vars onto this Vercel project (an
 | `SUPABASE_URL` | Production + Preview + Development |
 | `SUPABASE_ANON_KEY` | Production + Preview + Development |
 | `NEXT_PUBLIC_SUPABASE_URL` | same (for Next.js later) |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | same |
+| `OPENROUTER_API_KEY` | Production + Preview + Development (server only, never frontend) |
+| `OPENROUTER_MODEL` | `deepseek/deepseek-v4.1-flash` |
 
 Dashboard: Project → Settings → Environment Variables.
 

@@ -16,7 +16,7 @@ Working MVP: `README.md`. Product name: **ADDY**.
 
 **Backend:** `server/` (ingest + OpenRouter). Wrappers: `api/`. Prompts: `server/llm/prompts.js`.
 
-Learner toggle is ADHD / Dyslexia. `OPENROUTER_API_KEY` is in local `.env` and Vercel env — never in git, never in this file.
+Learner toggle is ADHD / Dyslexia. `OPENROUTER_API_KEY` is in local `.env` and Vercel env — never in git, never in this file. Model slug: `OPENROUTER_MODEL=deepseek/deepseek-v4.1-flash`.
 
 ## Git
 
